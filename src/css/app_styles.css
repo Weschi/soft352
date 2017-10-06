@@ -1,0 +1,383 @@
+/* selectors */
+body {
+	margin: 0px;
+	padding: 0px;
+    /*background: red; 
+    background: -webkit-linear-gradient(red, yellow);
+    background: -o-linear-gradient(red, yellow);
+    background: -moz-linear-gradient(red, yellow);
+    background: linear-gradient(#5A5E64, #343a40);*/
+}
+
+#map {
+height: 400px;
+width: 100%;
+}
+
+button {
+	color: white;
+}
+
+a {
+	color: white;
+}
+
+a:hover {
+	color:white;
+	text-decoration:none;
+}
+
+span {
+	color: white;
+}
+
+p {
+	color: white;
+}
+
+h1,h2,h3,h4,h5,h6 {
+  	color: white;
+  	margin:0px;
+  	padding:0px;
+}
+
+img {
+	color: white;
+}
+
+/* end selectors */
+/* classes */
+
+.muster-footer {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    padding: 30px;
+    width: inherit;
+    right: 0;
+}
+
+.btn-container {
+	position: absolute; 
+	left: 0; 
+	bottom: 0; 
+	right: 0;
+	width: 100%; 
+	padding:30px;
+}
+
+.dropdown-menu {
+	background-color:#343a40;
+	position:absolute;
+	width:100%;
+}
+
+/* style the dropdown items */
+.dropdown-menu a {
+  font-size: 110%;
+  color:black;
+  background-color:#343a40;
+}
+
+/* styling matched text */
+.dropdown-menu a strong {
+  color: black;
+  background-color: red;
+}
+
+/* style the dropdown items */
+.dropdown-menu li {
+  font-family : 'courier new';
+  font-size: 110%;
+  color:black;
+  background-color:black;
+}
+
+/* styling matched text */
+.dropdown-menu a strong {
+  color: black;
+  background-color: red;
+}
+
+.parent-line-partial {
+	width:85%;
+	float:left;
+}
+
+.child-line-partial {
+	width:15%;
+	float:right;
+}
+
+/* muster line in myReports */
+.muster-line-partial {
+	width:75%;
+	float:left;
+}
+
+.resume-line-partial {
+	width:25%;
+	float:right;
+}
+
+.caret {
+	text-align:right;
+}
+
+.btn-line-height {
+	line-height: 1.2;
+}
+
+.btn-circle-lg {
+  width: 79px;
+  height: 79px;
+  text-align: center;
+  padding: 13px 0;
+  font-size: 30px;
+  line-height: 2.00;
+  border-radius: 70px;
+}
+
+.berth-container {
+    position:absolute;
+    left:0;
+    right:0;
+    top:0;
+    width: 300px;
+    bottom:150px;
+    margin:auto;
+    height: 300px;
+    color: white;
+}
+
+.berth-info-wrapper {
+	background-color:orange;
+    width: 300px;
+    height: 300px;
+    border-radius: 200px;
+}
+
+.berth-info {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: auto;
+    width: 100%;
+    height: 65px;
+    text-align: center;
+}
+
+.berth-info-pontoon {
+	position:relative;
+	bottom:50px;
+}
+
+.berth-holder-info {
+	margin-top:30px;
+	height: 50px;
+	width: 100%;
+	margin: auto;
+	padding-top: 25px;
+}
+
+.line-height-thirty {
+	line-height: 30px;
+}
+
+.navigation {
+	position: absolute;
+	height: 100%;
+	z-index:420;
+}
+
+.navigation-item-container {
+	width:60%;
+	border-right:1px solid white;
+	z-index: 9999 !important;
+}
+
+.navigation-veil {
+	width: 100%;
+	right: 0;
+	opacity: 0.7;
+	background: red; /* For browsers that do not support gradients */    
+    background: linear-gradient(to right, rgba(66,69,70,1), rgba(255,0,0,0)); /* Standard syntax (must be last) */
+}
+
+.margin-bottom {
+	margin-bottom:15px;
+}
+
+.half-width {
+	width: 50%;
+}
+
+.myReports-header-width {
+	width:60%;
+}
+
+.title {
+	margin:0px;
+	padding:0px;
+}
+
+.locations-header {
+    height: auto;
+    display: inline-block;
+    width: 100%;
+    border: none;
+}
+
+.text-center {
+	text-align:center;
+}
+
+.text-left {
+	text-align:left;
+}
+
+.text-right {
+	text-align:right;
+}
+
+.left {
+	float: left;
+}
+
+.right {
+	float: right;
+}
+
+.dark {
+	background-color:#343a40 !important;
+}
+
+.grey {
+	background-color:#5C6166 !important;
+}
+
+.title {
+	color: white;
+}
+
+.fa-lg {
+	font-size: 40px;
+}
+
+.fa-md {
+	font-size: 30px;
+}
+
+.fa-sm {
+	font-size: 15px;
+}
+
+.white {
+	color: white !important;
+}
+
+.fa-bar-position {
+	top: 10px;
+	left: 10px;
+}
+
+.site-position {
+	top: 15px;
+	right: 10px;
+}
+
+.border-none {
+	border: none;
+	border-radius: initial !important;
+}
+/* bootstrap overrides */
+.navbar {
+	margin-bottom:0px;
+}
+
+.alert {
+	margin:0px;
+	color:white;
+}
+
+/* blue bootstrap colour */
+.bta {
+	background-color:#007bff;
+	border-color:#007bff;
+}
+
+::-webkit-input-placeholder { /* Chrome/Opera/Safari */
+  color: #CCCCCC;
+}
+
+/* green bootstrap colour  */
+.gta {
+	background-color:#5cb85c;
+	border-color:#5cb85c;
+}
+
+.gta-color {
+	color: #5cb85c;
+}
+
+/* red bootstrap colour  */
+.rta {
+	background-color:#d9534f;
+	border-color:#d9534f;
+}
+
+/* orange bootstrap colour */
+.ota {
+	background-color:#f0ad4e;
+	border-color:#f0ad4e;
+}
+
+.full-width {
+	width: 100%;
+}
+
+.full-height {
+	height:100%;
+}
+
+.input-padding {
+	padding:10px 0px 10px 0px;
+}
+
+.dropdown {
+	background-position: 100 100 !important;
+	width: 100% !important;
+	text-align: left !important;
+}
+
+.form-control {
+	border-radius:0px !important;
+}
+
+.header-border {
+	border: 1px solid #ddd;
+}
+
+.breadcrumb-child {
+	width:33.33%;
+	height: 100%;
+	padding: 7px;
+	text-align: center;
+}
+
+.breadcrumb-child-left {
+	border-top-left-radius: 4px;
+	border-bottom-left-radius: 4px;
+}
+
+.breadcrumb-child-right {
+	border-top-right-radius: 4px;
+	border-bottom-right-radius: 4px;
+}
+
+/* end bootstrap overrides */
+/* end classes */
+
+/* ng-animate */

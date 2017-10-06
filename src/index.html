@@ -1,0 +1,47 @@
+<html lang="en" ng-app="homiefinder" ng-controller="appCtrl">
+<head>
+  <title>homiefinder</title>
+  <!-- Libraries and dependencies -->
+  <!-- bower:js -->
+  <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAR92etlrzuqt8JMimINcB0Ls85VecGmMc&callback=initMap">
+  </script>
+  <script src="dependencies/angular/angular.js"></script>
+  <script src="dependencies/moment/moment.js"></script>
+  <script src="dependencies/angular-strap/dist/angular-strap.js"></script>
+  <script src="dependencies/angular-strap/dist/angular-strap.tpl.js"></script>
+  <script src="dependencies/angular-bootstrap/ui-bootstrap-tpls.js"></script>
+  <script src="dependencies/localforage/dist/localforage.js"></script>
+  <script src="dependencies/angular-localForage/dist/angular-localForage.js"></script>
+  <script src="dependencies/angular-ui-router/release/angular-ui-router.js"></script>
+  <script src="dependencies/lodash/lodash.js"></script>
+  <script src="dependencies/jquery/dist/jquery.js"></script>
+  <script src="dependencies/materialize/dist/js/materialize.js"></script>
+  <!-- endbower -->
+  <script type="text/javascript" src="app/app.js"></script>
+  <script type="text/javascript" src="app/home/home.js"></script>
+  <script src="https://use.fontawesome.com/e5a9084b3b.js"></script>
+  <!-- CSS -->
+  <link rel="stylesheet" type="text/css" href="css/app_styles.css">
+  <link rel="stylesheet" type="text/css" href="css/materialize.min.css">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+</head>
+<body>
+<!-- application header -->
+<nav>
+    <div class="nav-wrapper">
+      <a href="#" class="brand-logo">Homiefinder</a>
+      <ul id="nav-mobile" class="right hide-on-med-and-down">
+        <li><a href="sass.html">My Location</a></li>
+        <li><a href="badges.html"></a></li>
+        <li><a href="collapsible.html">JavaScript</a></li>
+      </ul>
+    </div>
+  </nav>
+  <!-- google maps should go into the home state -->
+<!-- Content - dynamically pull our states -->
+<div ui-view></div>
+
+</body>
+</html>
