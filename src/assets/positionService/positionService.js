@@ -1,5 +1,5 @@
-angular.module('homiefinder.positionService', [])
-.service('positionService', function($q) {
+angular.module('homiefinder.positionService', ['homiefinder.settings', 'homiefinder.ajaxResource'])
+.service('positionService', ['settings', 'ajaxResource', function($q, settings, ajaxResource) {
 
 	var options = {
 	  enableHighAccuracy: true,
@@ -27,4 +27,4 @@ angular.module('homiefinder.positionService', [])
 	}
 
 	return this;
-});
+}]);

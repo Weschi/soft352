@@ -13,6 +13,7 @@ var app = express();
 app.use("/css", express.static(__dirname + '/css'));
 app.use("/dependencies", express.static(__dirname + '/dependencies'));
 app.use("/app", express.static(__dirname + '/app'));
+app.use("/assets", express.static(__dirname + '/assets'));
 
 io.on('connection', function(socket){
   	socket.on('event', function(data){
