@@ -1,4 +1,4 @@
-angular.module('homiefinder.home', ['ui.router', 'positionService'])
+angular.module('homiefinder.home', ['ui.router', 'homiefinder.positionService'])
 .config(function($stateProvider){
   $stateProvider
   .state('homiefinder.home', {
@@ -8,7 +8,9 @@ angular.module('homiefinder.home', ['ui.router', 'positionService'])
     controller: 'homeCtrl',
     resolve: {
       position: function(positionService) {
-
+        return positionService.getPosition().then(function(pos){
+          return pos;
+        });
       }
     }
   })
@@ -18,29 +20,34 @@ angular.module('homiefinder.home', ['ui.router', 'positionService'])
     controller: 'homeCtrl',
     resolve: {
       position: function(positionService) {
-
+        return null;
       }
     }
   })
 })
 .controller('homeCtrl', ['$scope', 'position', 'positionService', function($scope, position, positionService){
 
-function initMap(position) {
+  function initMap(position) {
   //{lat: -25.363, lng: 131.044};
-        var uluru = position;
-        var map = new google.maps.Map(document.getElementById('map'), {
-          zoom: 4,
-          center: uluru
-        });
-        var marker = new google.maps.Marker({
-          position: uluru,
-          map: map
-        });
-      }
+    var uluru = position;
+    var map = new google.maps.Map(document.getElementById('map'), {
+      zoom: 14,
+      center: uluru
+    });
+    $scope.marker = new google.maps.Marker({
+      position: uluru,
+      map: map
+    });
+  }
 
-positionService.getPosition();
+  if(!!navigator.geolocation)
+  {   
+    navigator.geolocation.getCurrentPosition(function(position)
+    {
+      initMap({lat : position.coords.latitude, lng : position.coords.longitude });
+    });
+  }
 
-initMap(position);
 
 }])
 

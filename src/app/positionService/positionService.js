@@ -1,25 +1,29 @@
 angular.module('homiefinder.positionService', [])
-.service('positionService', function() {
+.service('positionService', function($q) {
 
+	var options = {
+	  enableHighAccuracy: true,
+	  timeout: 5000,
+	  maximumAge: 0
+	};
 
-	//Deselects any object in a collection whose top level value of "selected" is true
-	this.deselect = function(collection) {
-		_.each(_.filter(collection, function(item){return !!item.selected;}), function(selectedItem){
-			selectedItem.selected = false;
-		});
-
-		return collection;
+	function success(position) {
+		return position;
 	}
 
-	this.toggle = function(collection, line) {
-		var preserveSelect = line.selected;
-		this.deselect(collection);
-		line.selected = !preserveSelect;
+	function error(error) {
+		console.log(error);
 	}
 
-	this.parentToggle = function(collection, line, deselectCollection) {
-		this.toggle(collection, line);
-		this.deselect(deselectCollection);
+	this.getPosition = function() {
+		//Chec if the browser supports geolocation
+		if(navigator.geolocation)
+		{
+			return navigator.geolocation.getCurrentPosition(function(position)
+			{
+				return position;
+			}, error, options);
+		}
 	}
 
 	return this;

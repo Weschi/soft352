@@ -10,8 +10,34 @@ body {
 }
 
 #map {
-height: 400px;
-width: 100%;
+	height: 400px;
+	width: 100%;
+}
+
+/*@media only screen and (min-width: 992px) {
+    nav.burger {
+        display:visible !important;
+		width: 50px; 
+		float: left; 
+		padding: 8px;
+		height: 100%;
+    }
+}*/
+
+nav {
+	background-color: #448aff !important;
+}
+
+nav .brand-logo {
+	font-size: 1.8rem !important;
+}
+
+.page-footer {
+	background-color: #005ecb !important;
+}
+
+.burger {
+	display:none;
 }
 
 button {

@@ -1,10 +1,8 @@
 <html lang="en" ng-app="homiefinder" ng-controller="appCtrl">
 <head>
-  <title>homiefinder</title>
+  <title>Homiefinder</title>
   <!-- Libraries and dependencies -->
   <!-- bower:js -->
-  <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAR92etlrzuqt8JMimINcB0Ls85VecGmMc&callback=initMap">
-  </script>
   <script src="dependencies/angular/angular.js"></script>
   <script src="dependencies/moment/moment.js"></script>
   <script src="dependencies/angular-strap/dist/angular-strap.js"></script>
@@ -19,29 +17,56 @@
   <!-- endbower -->
   <script type="text/javascript" src="app/app.js"></script>
   <script type="text/javascript" src="app/home/home.js"></script>
+  <script type="text/javascript" src="app/navigation/navigation.js"></script>
+  <script type="text/javascript" src="app/positionService/positionService.js"></script>
   <script src="https://use.fontawesome.com/e5a9084b3b.js"></script>
   <!-- CSS -->
   <link rel="stylesheet" type="text/css" href="css/app_styles.css">
   <link rel="stylesheet" type="text/css" href="css/materialize.min.css">
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-
 </head>
 <body>
 <!-- application header -->
-<nav>
+ <nav>
     <div class="nav-wrapper">
-      <a href="#" class="brand-logo">Homiefinder</a>
-      <ul id="nav-mobile" class="right hide-on-med-and-down">
-        <li><a href="sass.html">My Location</a></li>
-        <li><a href="badges.html"></a></li>
-        <li><a href="collapsible.html">JavaScript</a></li>
+      <a href="#!" class="brand-logo">Find my homies</a>
+      <a href="#" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
+      <ul class="right hide-on-med-and-down">
+        <li><a ui-sref="#">Profile</a></li>
+        <li><a ui-sref="#">Friends</a></li>
+        <li><a ui-sref="#">Places</a></li>
+      </ul>
+      <ul class="side-nav" id="mobile-demo">
+        <li>
+          <div style="height: 100px;background-color: #448aff;position: relative;">
+            <div style="
+    height: auto;
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    padding-left: 10px;"><h5>Nick Cox</h5></div>
+          </div>
+        </li>
+        <li><a ui-sref="#">Profile</a></li>
+        <li><a ui-sref="#">Homies</a></li>
+        <li><a ui-sref="#">Places</a></li>
       </ul>
     </div>
   </nav>
+
+  <script>
+    $(document).ready(function(){
+      $(".button-collapse").sideNav();
+        
+    });
+  </script>
   <!-- google maps should go into the home state -->
 <!-- Content - dynamically pull our states -->
-<div ui-view></div>
 
+<div ui-view></div>
+<script async defer
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyASUxeqNdgg8guQoIdNEwY9xFWQJU9ebCs&callback=initMap">
+    </script>
 </body>
 </html>
