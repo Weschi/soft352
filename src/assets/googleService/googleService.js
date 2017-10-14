@@ -84,12 +84,13 @@ var service = angular.module('homiefinder.googleService', ['homiefinder.settings
 		return this.places;
 	}
 
-	this.placesNearbySearch = function(location, type, radius) {
+	this.placesNearbySearch = function(location, query, type, radius) {
 		var defer = $q.defer();
 		this.places.nearbySearch({
           location: location,
           radius: !!radius ? radius : 500,
-          type: !!type ? type : null
+          type: !!type ? type : null,
+          name : query ? query : null
         }, function(places, status){
         	if(status === google.maps.places.PlacesServiceStatus.OK)
         	{
