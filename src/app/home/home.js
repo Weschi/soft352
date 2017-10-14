@@ -1,4 +1,4 @@
-angular.module('homiefinder.home', ['ui.router', 'homiefinder.positionService'])
+angular.module('homiefinder.home', ['ui.router', 'homiefinder.googleService'])
 .config(function($stateProvider){
   $stateProvider
   .state('homiefinder.home', {
@@ -7,10 +7,8 @@ angular.module('homiefinder.home', ['ui.router', 'homiefinder.positionService'])
     templateUrl: 'app/home/home.tpl.html',
     controller: 'homeCtrl',
     resolve: {
-      position: function(positionService) {
-        return positionService.getPosition().then(function(pos){
-          return pos;
-        });
+      position: function(googleService) {
+        return googleService.getLocation();
       }
     }
   })
@@ -19,13 +17,13 @@ angular.module('homiefinder.home', ['ui.router', 'homiefinder.positionService'])
     templateUrl: 'app/home/home.tpl.html',
     controller: 'homeCtrl',
     resolve: {
-      position: function(positionService) {
-        return null;
+      position: function(googleService) {
+        return googleService.getLocation();
       }
     }
   })
 })
-.controller('homeCtrl', ['$scope', 'position', 'positionService', function($scope, position, positionService){
+.controller('homeCtrl', ['$scope', 'position', 'googleService', function($scope, position, googleService){
 
   function initMap(position) {
   //{lat: -25.363, lng: 131.044};
@@ -38,6 +36,8 @@ angular.module('homiefinder.home', ['ui.router', 'homiefinder.positionService'])
       position: uluru,
       map: map
     });
+    googleService.setMap(map);
+    googleService.setGoogle(google);
   }
 
   if(!!navigator.geolocation)

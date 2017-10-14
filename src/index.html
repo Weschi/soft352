@@ -1,6 +1,6 @@
 <html lang="en" ng-app="homiefinder" ng-controller="appCtrl">
 <head>
-  <title>Homiefinder</title>
+  <title>FindN</title>
   <!-- Libraries and dependencies -->
   <!-- bower:js -->
   <script src="dependencies/angular/angular.js"></script>
@@ -22,7 +22,7 @@
   <script type="text/javascript" src="app/profile/profile.js"></script>
   <script type="text/javascript" src="app/register/register.js"></script>
   <!-- Asset links -->
-  <script type="text/javascript" src="assets/positionService/positionService.js"></script>
+  <script type="text/javascript" src="assets/googleService/googleService.js"></script>
   <script type="text/javascript" src="assets/messageService/messageService.js"></script>
   <script type="text/javascript" src="assets/friendService/friendService.js"></script>
   <script type="text/javascript" src="assets/ajaxResource.js"></script>
@@ -40,12 +40,12 @@
 <!-- application header -->
  <nav>
     <div class="nav-wrapper">
-      <a href="#!" class="brand-logo">Find my homies</a>
+      <a href="#!" class="brand-logo">FindN</a>
       <a href="#" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
       <ul class="right hide-on-med-and-down">
-        <li><a ui-sref="#">Profile</a></li>
-        <li><a ui-sref="#">Friends</a></li>
-        <li><a ui-sref="#">Places</a></li>
+        <li><a ui-sref="homiefinder.profile">Profile</a></li>
+        <li><a ui-sref="homiefinder.friends">Friends</a></li>
+        <li><a ui-sref="homiefinder.places">Places</a></li>
       </ul>
       <ul class="side-nav" id="mobile-demo">
         <li>
@@ -58,13 +58,12 @@
     padding-left: 10px;"><h5>Nick Cox</h5></div>
           </div>
         </li>
-        <li><a ui-sref="#">Profile</a></li>
-        <li><a ui-sref="#">Homies</a></li>
-        <li><a ui-sref="#">Places</a></li>
+        <li><a ui-sref="homiefinder.profile">Profile</a></li>
+        <li><a ui-sref="homiefinder.friends">Friends</a></li>
+        <li><a ui-sref="homiefinder.places">Places</a></li>
       </ul>
     </div>
   </nav>
-
   <script>
     $(document).ready(function(){
       $(".button-collapse").sideNav();
@@ -75,6 +74,7 @@
 <!-- Content - dynamically pull our states -->
 
 <div ui-view></div>
+
 <footer class="page-footer">
   <div class="container">
     <div class="row">
@@ -102,7 +102,7 @@
 </footer>
 </div>
 <script async defer
-    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyASUxeqNdgg8guQoIdNEwY9xFWQJU9ebCs&callback=initMap">
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyASUxeqNdgg8guQoIdNEwY9xFWQJU9ebCs&libraries=geometry,places">
     </script>
 </body>
 </html>

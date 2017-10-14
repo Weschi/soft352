@@ -1,4 +1,4 @@
-angular.module('homiefinder.friends', ['ui.router', 'homiefinder.positionService'])
+angular.module('homiefinder.friends', ['ui.router', 'homiefinder.googleService'])
 .config(function($stateProvider){
   $stateProvider
   .state('homiefinder.friends', {
@@ -8,7 +8,7 @@ angular.module('homiefinder.friends', ['ui.router', 'homiefinder.positionService
     controller: 'friendsCtrl',
     resolve: {
       friends: function() {
-        return positionService.getPosition().then(function(pos){
+        return googleService.getLocation().then(function(pos){
           return pos;
         });
       }

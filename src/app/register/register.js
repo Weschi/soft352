@@ -7,8 +7,8 @@ angular.module('homiefinder.register', ['ui.router'])
     templateUrl: 'app/register/register.tpl.html',
     controller: 'registerCtrl',
     resolve: {
-      position: function(positionService) {
-        return positionService.getPosition().then(function(pos){
+      position: function(googleService) {
+        return googleService.getLocation().then(function(pos){
           return pos;
         });
       }

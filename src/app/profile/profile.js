@@ -1,4 +1,4 @@
-angular.module('homiefinder.profile', ['ui.router', 'homiefinder.positionService'])
+angular.module('homiefinder.profile', ['ui.router', 'homiefinder.googleService'])
 .config(function($stateProvider){
   $stateProvider
   .state('homiefinder.profile', {
@@ -7,15 +7,15 @@ angular.module('homiefinder.profile', ['ui.router', 'homiefinder.positionService
     templateUrl: 'app/profile/profile.tpl.html',
     controller: 'profileCtrl',
     resolve: {
-      position: function(positionService) {
-        return positionService.getPosition().then(function(pos){
+      position: function(googleService) {
+        return googleService.getLocation().then(function(pos){
           return pos;
         });
       }
     }
   })
 })
-.controller('profileCtrl', ['$scope', 'position', 'positionService', function($scope, position, positionService){
+.controller('profileCtrl', ['$scope', 'position', 'googleService', function($scope, position, googleService){
 
 }])
 
