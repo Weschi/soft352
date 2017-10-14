@@ -8,7 +8,7 @@ angular.module('homiefinder.places', ['ui.router', 'homiefinder.googleService'])
     controller: 'placesCtrl',
     resolve: {
       position: function(googleService) {
-        return googleService.getLocation();
+        return googleService.getLocation(true);
       },
       google: function(googleService) {
         return googleService.getGoogle();
@@ -55,14 +55,17 @@ angular.module('homiefinder.places', ['ui.router', 'homiefinder.googleService'])
     placeTypes : placeTypes,
     google : google,
     map : map,
-    places : !!places ? places : googleService.initialisePlaces(google, map)
+    position : position,
+    places : !!places ? places : googleService.initialisePlaces(google, map),
+    venues : {}
   }
 
   googleService.setPlaces($scope.controls.places);
 
   $scope.nearbySearch = function(query) {
-    $scope.controls.venues = googleService.placesNearbySearch(query);
-
+    googleService.placesNearbySearch($scope.controls.position, query).then(function(places){
+      $scope.controls.venues = places;
+    });
   }
 
 

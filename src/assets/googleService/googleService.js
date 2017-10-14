@@ -35,7 +35,7 @@ var service = angular.module('homiefinder.googleService', ['homiefinder.settings
 		return this.map;
 	}
 
-	this.getLocation = function() {
+	this.getLocation = function(extractCoords) {
 		var defer = $q.defer();
 
 		//Check if the browser supports geolocation
@@ -43,7 +43,14 @@ var service = angular.module('homiefinder.googleService', ['homiefinder.settings
 		{
 			navigator.geolocation.getCurrentPosition(function(position)
 			{
-				return defer.resolve(position);
+				if(!!extractCoords)
+				{
+					return defer.resolve({lat : position.coords.latitude, lng : position.coords.longitude });
+				}
+				else
+				{
+					return defer.resolve(position);
+				}
 			}, function(){}, options);
 		}
 		return defer.promise;
@@ -74,16 +81,26 @@ var service = angular.module('homiefinder.googleService', ['homiefinder.settings
 		{
 			this.places = new google.maps.places.PlacesService(map);
 		}
+		return this.places;
 	}
 
 	this.placesNearbySearch = function(location, type, radius) {
+		var defer = $q.defer();
 		this.places.nearbySearch({
           location: location,
           radius: !!radius ? radius : 500,
           type: !!type ? type : null
         }, function(places, status){
-        	return !!status === places.PlacesServiceStatus.Ok && places;
+        	if(status === google.maps.places.PlacesServiceStatus.OK)
+        	{
+        		defer.resolve(places);
+        	}
+        	else
+        	{
+        		defer.resolve(null);
+        	}
         });
+        return defer.promise;
 	}
 
 	return this;
