@@ -1,0 +1,32 @@
+<div class="container">
+	<h4 style="color:#448aff !important;">My friends</h4></br>
+	<div class="row">
+		<div class="input-field col s12">
+		  <input placeholder="Search for a place by name" ng-change="nearbySearch(controls.query)" ng-model="controls.query" id="search_for_a_place" type="text" class="validate">
+		  <label for="search_for_a_place"></label>
+		</div>
+    </div>
+    <div class="row">
+    	<div class="input-field col s6">
+			<a class='dropdown-button btn' data-activates='dropdown1'>{{!!controls.selectedType ? controls.selectedType : 'Select type' }}</a>
+			<ul id='dropdown1' class='dropdown-content'>
+				<div ng-repeat="placeType in controls.placeTypes" ng-click="controls.selectedType = placeType">
+					<li><a>{{placeType}}</a></li>
+					<li class="divider"></li>
+				</div>
+			</ul>
+		</div>
+    </div>
+    <ul class="collapsible" data-collapsible="accordion">
+	    <li ng-repeat="venue in controls.venues">
+	      <div class="collapsible-header"><i class="material-icons">filter_drama</i>{{venue.name}}</div>
+	      <div class="collapsible-body"><span>Lorem ipsum dolor sit amet.</span></div>
+	    </li>
+  	</ul>
+  	<script>
+  		$(document).ready(function(){
+	    	$('.collapsible').collapsible();
+		});
+  	</script>
+</div>
+    

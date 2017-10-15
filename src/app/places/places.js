@@ -17,12 +17,17 @@ angular.module('homiefinder.places', ['ui.router', 'homiefinder.googleService'])
         return googleService.getMap();
       },
       places: function(googleService) {
-        return googleService.getPlaces();
-      }
+        return googleService.getPlaces() ? googleService.getPlaces() : googleService.initialisePlaces(google, map);
+      },
+      venues: function(googleService, position) {
+        return googleService.placesNearbySearch(position).then(function(places){
+          return places;
+        });
+      }      
     }
   })
 })
-.controller('placesCtrl', ['$scope', 'position', 'googleService', 'google', 'map', 'places', function($scope, position, googleService, google, map, places){
+.controller('placesCtrl', ['$scope', 'position', 'googleService', 'google', 'map', 'places', 'venues', function($scope, position, googleService, google, map, places, venues){
 
   var placeTypes = [
     'default',
@@ -56,8 +61,23 @@ angular.module('homiefinder.places', ['ui.router', 'homiefinder.googleService'])
     google : google,
     map : map,
     position : position,
-    places : !!places ? places : googleService.initialisePlaces(google, map),
-    venues : {}
+    places : places,
+    venues : venues
+  }
+
+  $scope.$watch('controls.venues', function(newVal, oldVal) {
+    if(!!$scope.controls.venues.length)
+    {
+        $('.collapsible').collapsible();
+    }
+  })
+
+  $scope.initArr = function(rating) {
+    var arr = [];
+    for(var i = 0; i < rating; i++) {
+      arr.push(i);
+    }
+    return arr;
   }
 
   googleService.setPlaces($scope.controls.places);
