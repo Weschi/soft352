@@ -65,6 +65,10 @@ angular.module('homiefinder.places', ['ui.router', 'homiefinder.googleService'])
     venues : venues
   }
 
+  $scope.getDirections = function(venue) {
+    //should pass a venue to home.js to display it ? or make this entire page part of home
+  }
+
   $scope.$watch('controls.venues', function(newVal, oldVal) {
     if(!!$scope.controls.venues.length)
     {

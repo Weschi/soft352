@@ -14,6 +14,11 @@ body {
 	width: 100%;
 }
 
+p {
+	margin:0;
+	color:black;
+}
+
 /*@media only screen and (min-width: 992px) {
     nav.burger {
         display:visible !important;
@@ -54,21 +59,14 @@ a:hover {
 }
 
 span {
-	color: white;
+	color:white;
 }
 
-p {
-	color: white;
-}
 
 h1,h2,h3,h4,h5,h6 {
   	color: white;
   	margin:0px;
   	padding:0px;
-}
-
-img {
-	color: white;
 }
 
 /* end selectors */

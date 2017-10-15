@@ -8,27 +8,58 @@
     </div>
     <div class="row">
     	<div class="input-field col s6">
-			<a class='dropdown-button btn' data-activates='dropdown1'>{{!!controls.selectedType ? controls.selectedType : 'Select type' }}</a>
-			<ul id='dropdown1' class='dropdown-content'>
-				<div ng-repeat="placeType in controls.placeTypes" ng-click="controls.selectedType = placeType">
-					<li><a>{{placeType}}</a></li>
-					<li class="divider"></li>
-				</div>
-			</ul>
+			<div input-field>
+			    <select class="" ng-model="controls.selectedPlaceTypes" material-select multiple watch>
+			        <option ng-repeat="value in controls.placeTypes">{{value}}</option>
+			    </select>
+			</div>
 		</div>
     </div>
     <ul class="collapsible popout" data-collapsible="accordion" watch>
+
 	    <li ng-repeat="venue in controls.venues">
-	      <div class="collapsible-header"><i class="material-icons"><img src="{{venue.icon}}"></i>{{venue.name}}</div>
-	      <div class="collapsible-body"><span>Lorem ipsum dolor sit amet.</span>
-				<a class="waves-effect waves-light btn">Directions</a>
-				<div ng-if="venue.rating">
-					<div ng-repeat="star in initArr(venue.rating)">
-						<span><i class="material-icons left">star</i></span>
+	      <div class="collapsible-header">
+
+	      		<i class="material-icons"><img src="{{venue.icon}}" style="width:20px;"></i>
+		      	<div><p>{{venue.name}}</p></div>
+		      	<!--<div ng-if="venue.rating" style="position:relative; right:0;">
+					<div ng-repeat="star in initArr(venue.rating)" style="float:left;">
+						<i class="material-icons left" style="color:#ffc107; margin:0px;">star</i>
+					</div>
+				</div>-->
+	      </div>
+
+	      <div class="collapsible-body">
+	      	<div ng-if="venue.photos[0].raw_reference">
+	      		<img src="{{venue.photos[0].raw_reference.fife_url}}" style="width:20px;">
+	      	</div>
+	      	<div style="width:100%; display:inline-block;">
+		      	<div style="width:50%; display:inline-block;">
+		      		<div ng-if="venue.rating" style="position:relative; right:0;">
+		      			<p class="left">Rating:</p>
+		      			<div>
+			      			<div ng-repeat="star in initArr(venue.rating)" style="float:left;">
+								<i class="material-icons left" style="color:#ffc107; margin:0px;">star</i>
+							</div>
+						</div>
+						</br>
+					</div>
+			      	<p class="left">Availability: {{!!venue.opening_hours.open_now ? 'open' : 'closed'}}</p></br>
+		      		<p class="left">Vicinity: {{venue.vicinity}}</p></br>
+				</div>
+				<div style="width:50%; float:right;">
+					<div>
+						<a class="waves-effect waves-light btn" ng-click="getDirections(venue)">Get Directions</a>
+					</div>
+					<div>
+						<a class="waves-effect waves-light btn" ng-click="getDirections(venue)">Create a meeting</a>
 					</div>
 				</div>
+			</div>
 	      </div>
+
 	    </li>
+
   	</ul>
 </div>
     
