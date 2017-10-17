@@ -27,6 +27,8 @@
     "grunt-open": "~0.2.1",
     "grunt-wiredep": "^3.0.1",
     "mongodb": "^2.2.33",
+    "mongoose": "^4.12.2",
+    "passport": "^0.4.0",
     "socket.io": "^2.0.3"
   }
 }

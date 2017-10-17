@@ -34,7 +34,7 @@
 	      		<img src="{{venue.photos[0].raw_reference.fife_url}}" style="width:20px;">
 	      	</div>
 	      	<div style="width:100%; display:inline-block;">
-		      	<div style="width:50%; display:inline-block;">
+		      	<div class="full-width" style="display:inline-block;">
 		      		<div ng-if="venue.rating" style="position:relative; right:0;">
 		      			<p class="left">Rating:</p>
 		      			<div>
@@ -44,15 +44,15 @@
 						</div>
 						</br>
 					</div>
-			      	<p class="left">Availability: {{!!venue.opening_hours.open_now ? 'open' : 'closed'}}</p></br>
+			      	<p class="left" style="position:absolute;">Availability: {{!!venue.opening_hours.open_now ? 'open' : 'closed'}}</p></br>
 		      		<p class="left">Vicinity: {{venue.vicinity}}</p></br>
 				</div>
-				<div style="width:50%; float:right;">
+				<div style="float:right;" class="full-width">
 					<div>
-						<a class="waves-effect waves-light btn" ng-click="getDirections(venue)">Get Directions</a>
+						<a class="waves-effect waves-light btn full-width bgc-blue" style="margin:10px 0px 10px 0px;"ng-click="getDirections(venue)">Get Directions</a>
 					</div>
 					<div>
-						<a class="waves-effect waves-light btn" ng-click="getDirections(venue)">Create a meeting</a>
+						<a class="waves-effect waves-light btn full-width bgc-dark-red" ng-click="getDirections(venue)">Create a meeting</a>
 					</div>
 				</div>
 			</div>

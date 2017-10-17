@@ -1,0 +1,73 @@
+<html lang="en" ng-app="homiefinder" ng-controller="appCtrl">
+<head>
+  <title>FindN</title>
+  <!-- Libraries and dependencies -->
+
+  <!-- bower:js -->
+  <script src="dependencies/angular/angular.js"></script>
+  <script src="dependencies/moment/moment.js"></script>
+  <script src="dependencies/angular-strap/dist/angular-strap.js"></script>
+  <script src="dependencies/angular-strap/dist/angular-strap.tpl.js"></script>
+  <script src="dependencies/angular-bootstrap/ui-bootstrap-tpls.js"></script>
+  <script src="dependencies/localforage/dist/localforage.js"></script>
+  <script src="dependencies/angular-localForage/dist/angular-localForage.js"></script>
+  <script src="dependencies/angular-ui-router/release/angular-ui-router.js"></script>
+  <script src="dependencies/lodash/lodash.js"></script>
+  <script src="dependencies/jquery/dist/jquery.js"></script>
+  <script src="dependencies/materialize/dist/js/materialize.js"></script>
+  <!-- endbower -->
+  <script type="text/javascript" src="app/app.js"></script>
+  <script type="text/javascript" src="app/home/home.js"></script>
+  <script type="text/javascript" src="app/friends/friends.js"></script>
+  <script type="text/javascript" src="app/places/places.js"></script>
+  <script type="text/javascript" src="app/profile/profile.js"></script>
+  <script type="text/javascript" src="app/register/register.js"></script>
+  <!-- Asset links -->
+  <script type="text/javascript" src="assets/googleService/googleService.js"></script>
+  <script type="text/javascript" src="assets/messageService/messageService.js"></script>
+  <script type="text/javascript" src="assets/friendService/friendService.js"></script>
+  <script type="text/javascript" src="assets/ajaxResource.js"></script>
+  <script type="text/javascript" src="assets/settings.js"></script>
+
+  <script src="https://use.fontawesome.com/e5a9084b3b.js"></script>
+  <!-- CSS -->
+  <link rel="stylesheet" type="text/css" href="css/app_styles.css">
+  <link rel="stylesheet" type="text/css" href="css/materialize.min.css">
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/angular-materialize/0.2.2/angular-materialize.min.js"></script>
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+</head>
+<body>
+  <div>
+ <nav style="margin-bottom:50px;">
+    <div class="nav-wrapper">
+      <a ui-sref="homiefinder.home" class="brand-logo" style="left:50%;">FindN</a>
+    </div>
+  </nav>
+<!-- Register -->
+
+<div class="row" style="width:55%;">
+    <form class="col s12">
+      <div class="row">
+        <div class="input-field col s12">
+          <input id="user_name" ng-model="username" type="text">
+          <label for="user_name">Username</label>
+        </div>
+      </div>
+      <div class="row">
+        <div class="input-field col s12">
+          <input id="password" ng-model="password" type="password">
+          <label for="password">Password</label>
+        </div>
+      </div>
+      <div class="row">
+        <a href="login()" class="waves-effect waves-light btn bgc-blue" style="margin:auto; display:block; width:60%;"><i class="material-icons"></i>Login</a>
+      </div>
+      <div class="row">
+        <p style="text-align:center;">Don't have an account? <a href="." ng-click="register()">Sign up</a></p>
+      </div>
+    </form>
+  </div>
+</div>
+</body>
+</html>
