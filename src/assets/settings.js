@@ -15,14 +15,30 @@ angular.module('homiefinder.settings', [])
 		root = "http://localhost:8080/";
 	}
 
-		var register = root + 'register';
 
-		var authenticate = root + 'auth';
+	//when adding a new endpoint, a developer should amend these sections
+	var userRoute = {
+		login : root + 'login',
+		register : root + 'register'
+	}
 
-		var friends = root + 'friends';
-
-		var position = root + 'position';
-
-		var places = root + 'places';
+	var friendRoute = {
+		friends : root + 'friends'
+	}
 	
+	var placeRoute = {
+		places : root + 'places'		
+	}
+
+	//misc endpoint addresses that dont necessarily belong to any route
+	var misc = {
+		position : root + 'position'
+	}
+
+	return {
+		userRoute,
+		friendRoute,
+		placeRoute,
+		misc
+	};
 });

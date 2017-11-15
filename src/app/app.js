@@ -5,13 +5,13 @@ var app = angular.module('homiefinder',
 	'homiefinder.friends',
 	'homiefinder.profile',
 	'homiefinder.places',
-	'homiefinder.register',
+	'homiefinder.users',
 	'homiefinder.googleService',
 	'homiefinder.settings',
 	'homiefinder.ajaxResource',
 	'homiefinder.friendService',
 	'homiefinder.messageService',
-	'homiefinder.friendService'
+	'homiefinder.userService'
 ])
 .config(function($stateProvider){
 $stateProvider.state('homiefinder', {

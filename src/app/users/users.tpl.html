@@ -1,0 +1,61 @@
+<!-- login -->
+<div style="width: 55%; padding:30px; margin:auto;">
+  <div class="row" ng-if="controls.nTab !== 2">
+    <form class="col s12">
+      <div class="row">
+        <div class="input-field col s12">
+          <input id="email" type="email" ng-model="controls.user.email" class="validate">
+          <label for="email">Email</label>
+        </div>
+      </div>
+      <div class="row">
+        <div class="input-field col s12">
+          <input id="password" type="password" ng-model="controls.user.password" class="validate">
+          <label for="password">Password</label>
+        </div>
+      </div>
+      <div class="row">
+        <a href ng-click="login()" ng-disabled="loginValidation()" class="waves-effect waves-light btn bgc-blue" style="margin:auto; display:block;"><i class="material-icons"></i>Login</a>
+      </div>
+      <div class="row">
+        <p style="text-align:center;">Don't have an account? <a href ng-click="tabRegister()">Sign up</a></p>
+      </div>
+    </form>
+  </div>
+  <!-- Register -->
+    <div class="row" ng-if="controls.nTab === 2">
+      <form class="col s12">
+        <div class="row">
+          <div class="input-field col s12">
+            <input id="email" type="email" class="validate" ng-model="controls.user.email">
+            <label for="email">Email</label>
+          </div>
+        </div>
+        <div class="row">
+          <div class="input-field col s12">
+            <input id="first_name" type="text" class="validate" ng-model="controls.user.fullName">
+            <label for="first_name">Full name</label>
+          </div>
+        </div>
+        <div class="row">
+          <div class="input-field col s12">
+            <input id="password" type="password" class="validate" ng-model="controls.user.password">
+            <label for="password">Password</label>
+          </div>
+        </div>
+        <div class="row">
+          <div class="input-field col s12">
+            <input id="password" type="password" class="validate" ng-model="controls.user.confirmPassword">
+            <label for="password">Confirm Password</label>
+          </div>
+        </div>
+        <div class="row">
+          <a href ng-click="register()" ng-disabled="registerValidation()" class="waves-effect waves-light btn bgc-blue" style="margin:auto; display:block;"><i class="material-icons"></i>Register</a>
+        </div>
+        <div class="row">
+          <p style="text-align:center;">Have an account? <a href ng-click="tabLogin()">Login</a></p>
+        </div>
+      </form>
+    </div>
+</div>
+        

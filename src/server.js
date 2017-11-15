@@ -9,7 +9,7 @@ var io = require('socket.io')(server);
 var fs = require("fs");
 var path = require("path");
 var app = express();
-
+app.use(express.bodyParser());
 app.use("/css", express.static(__dirname + '/css'));
 app.use("/dependencies", express.static(__dirname + '/dependencies'));
 app.use("/app", express.static(__dirname + '/app'));
