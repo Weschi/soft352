@@ -4,48 +4,56 @@ var express = require('express');
 var bodyParser = require('body-parser');
 //used to auth requests
 var passport = require('passport');
-var server = require('http').createServer(function(request, response){
-	response.end("test");
-});
 var mongodb = require('mongodb');
 var mongoose = require('mongoose');
-
+var _ = require("lodash");
 mongoose.Promise = require('bluebird');
 
 mongoose.connect('mongodb://localhost/FindN');
 require('./models/user');
-var io = require('socket.io')(server);
+require('./models/friendRequest');
+//init socket io with our server
 var fs = require("fs");
 var path = require("path");
 var app = express();
-
+var server = app.listen(port, function(){
+  console.log("Something good! Listening on 8080.");
+});
+var io = require('socket.io').listen(server);
 app.use(passport.initialize());
 require('./config/passport');
 //uses
 app.use(passport.session({ secret: 'ibehappyibehappyibehappyibehappy'})); //sesh secret
-
 app.use(passport.session());
 app.use(bodyParser.json()); //Allow our request body to come through yo
-//app.use('/', index);
-//app.use('/users', login);
+
+// error handlers
+// Catch unauthorised errors
+app.use(function (err, req, res, next) {
+  if (err.name === 'UnauthorizedError') {
+    res.status(401);
+    res.json({"message" : err.name + ": " + err.message});
+  }
+});
+
 app.use("/css", express.static(__dirname + '/css'));
 app.use("/dependencies", express.static(__dirname + '/dependencies'));
 app.use("/app", express.static(__dirname + '/app'));
 app.use("/assets", express.static(__dirname + '/assets'));
+app.get('/', function(request, response) {
+  response.sendFile(__dirname + "/index.html");
+});
 
 //routes here
-require('./routes/index')(app, passport);
-require('./routes/users')(app, passport);
+require('./routes/users')(app, passport, _);
 
 //socketio listener
 io.on('connection', function(socket){
-  	socket.on('event', function(data){
-
+  console.log('user connected');
+  socket.on('chat message', function(msg){
+    io.emit('chat message', msg);
   });
-  	socket.on('disconnect', function(){
+  socket.on('disconnect', function(){
+    console.log('user disconnected');
   });
-});
-
-app.listen(port, function(){
-	console.log("something good");
 });

@@ -2,31 +2,46 @@
 	<h4 style="color:#448aff !important;">My friends</h4></br>
 	<div class="row">
 		<div class="input-field col s12">
-		  <input placeholder="Search for a place by name" ng-change="nearbySearch(controls.query)" ng-model="controls.query" id="search_for_a_place" type="text" class="validate">
-		  <label for="search_for_a_place"></label>
+		  <input placeholder="Search for people" ng-change="query(controls.query)" ng-model="controls.query" id="search_for_people" type="text" class="validate">
+		  <label for="search_for_people"></label>
 		</div>
     </div>
     <div class="row">
     	<div class="input-field col s6">
 			<a class='dropdown-button btn' data-activates='dropdown1'>{{!!controls.selectedType ? controls.selectedType : 'Select type' }}</a>
 			<ul id='dropdown1' class='dropdown-content'>
-				<div ng-repeat="placeType in controls.placeTypes" ng-click="controls.selectedType = placeType">
+				<div ng-repeat="user in controls.users" ng-click="controls.selectedType = placeType">
 					<li><a>{{placeType}}</a></li>
 					<li class="divider"></li>
 				</div>
 			</ul>
 		</div>
     </div>
-    <ul class="collapsible" data-collapsible="accordion">
-	    <li ng-repeat="venue in controls.venues">
-	      <div class="collapsible-header"><i class="material-icons">filter_drama</i>{{venue.name}}</div>
-	      <div class="collapsible-body"><span>Lorem ipsum dolor sit amet.</span></div>
+    <ul class="collapsible popout" data-collapsible="accordion" watch>
+
+	    <li ng-repeat="user in controls.users">
+	      <div class="collapsible-header">
+	      	<i class="material-icons">person</i>
+			<div class="full-width">
+				{{user.email}}
+			</div>
+	      </div>
+	      <div class="collapsible-body">
+	      	<div style="width:100%; display:inline-block;">
+				<div>
+					Name: {{user.name}}
+				</div>
+		      	<div style="float:right;" class="full-width">
+					<div>
+						<a class="waves-effect waves-light btn full-width bgc-blue" style="margin:10px 0px 10px 0px;" ng-click="friendRequest(user)">Add friend</a>
+					</div>
+					<div>
+						<a class="waves-effect waves-light btn full-width bgc-dark-red" ng-click="removeFriend(user)" ng-if="isFriend">Unfriend</a>
+					</div>
+				</div>
+			</div>
+	      </div>
 	    </li>
   	</ul>
-  	<script>
-  		$(document).ready(function(){
-	    	$('.collapsible').collapsible();
-		});
-  	</script>
 </div>
     

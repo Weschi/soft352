@@ -16,7 +16,7 @@
     "bower_components"
   ],
   "devDependencies": {
-    "angular": "^1.2",
+    "angular": "1.6.6",
     "moment": "^2.7.0",
     "angular-strap": "^2.2.0",
     "angular-bootstrap": "^0.11.0",
@@ -24,9 +24,12 @@
     "font-awesome": "^4.7.0",
     "angular-ui-router": "^1.0.6",
     "lodash": "^4.17.4",
-    "materialize": "^0.100.2"
+    "materialize": "^0.100.2",
+    "angular-cookies": "1.6.6",
+    "socket.io": "^2.0.4",
+    "socket.io-client": "^2.0.4"
   },
   "resolutions": {
-    "angular": "^1.2"
+    "angular": "1.6.6"
   }
 }

@@ -13,7 +13,17 @@ var userSchema = new mongoose.Schema({
     required: true
   },
   hash: String,
-  salt: String
+  salt: String,
+  friends: [
+    {
+      name: String,
+      type: {
+        type: { type: String }
+      },
+      registrationEnabled: Boolean,
+      checkinEnabled: Boolean
+    }
+  ]
 });
 this.salt = 'test';
 userSchema.methods.setPassword = function(password){

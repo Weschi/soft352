@@ -2,7 +2,6 @@
 <head>
   <title>FindN</title>
   <!-- Libraries and dependencies -->
-
   <!-- bower:js -->
   <script src="dependencies/angular/angular.js"></script>
   <script src="dependencies/moment/moment.js"></script>
@@ -15,7 +14,10 @@
   <script src="dependencies/lodash/lodash.js"></script>
   <script src="dependencies/jquery/dist/jquery.js"></script>
   <script src="dependencies/materialize/dist/js/materialize.js"></script>
+  <script src="dependencies/angular-cookies/angular-cookies.js"></script>
   <!-- endbower -->
+  <script src="dependencies/socket.io-client/dist/socket.io.js"></script>
+  
   <script type="text/javascript" src="app/app.js"></script>
   <script type="text/javascript" src="app/home/home.js"></script>
   <script type="text/javascript" src="app/friends/friends.js"></script>
@@ -29,7 +31,6 @@
   <script type="text/javascript" src="assets/friendService/friendService.js"></script>
   <script type="text/javascript" src="assets/ajaxResource.js"></script>
   <script type="text/javascript" src="assets/settings.js"></script>
-
   <script src="https://use.fontawesome.com/e5a9084b3b.js"></script>
   <!-- CSS -->
   <link rel="stylesheet" type="text/css" href="css/app_styles.css">
@@ -46,10 +47,11 @@
       <a ui-sref="homiefinder.home" class="brand-logo">FindN</a>
       <a href="#" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
       <ul class="right hide-on-med-and-down">
-        <li><a ui-sref="homiefinder.profile">Profile</a></li>
+        <li ng-if="token"><a ui-sref="homiefinder.profile">Profile</a></li>
         <li><a ui-sref="homiefinder.friends">Friends</a></li>
         <li><a ui-sref="homiefinder.places">Places</a></li>
-        <li><a ui-sref="homiefinder.users">Login</a></li>
+        <li ng-if="!token"><a ui-sref="homiefinder.users">Login</a></li>
+        <li ng-if="token"><a ng-click="logout()">Logout</a></li>
       </ul>
       <ul class="side-nav" id="mobile-demo">
         <li>
@@ -62,17 +64,17 @@
     padding-left: 10px;"><h5>Nick Cox</h5></div>
           </div>
         </li>
-        <li><a ui-sref="homiefinder.profile">Profile</a></li>
+        <li ng-if="token"><a ui-sref="homiefinder.profile">Profile</a></li>
         <li><a ui-sref="homiefinder.friends">Friends</a></li>
         <li><a ui-sref="homiefinder.places">Places</a></li>
-        <li><a ui-sref="homiefinder.users">Login</a></li>
+        <li ng-if="!token"><a ui-sref="homiefinder.users">Login</a></li>
+        <li ng-if="token"><a ng-click="logout()">Logout</a></li>
       </ul>
     </div>
   </nav>
   <script>
     $(document).ready(function(){
       $(".button-collapse").sideNav();
-        
     });
   </script>
   <!-- google maps should go into the home state -->

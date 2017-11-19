@@ -20,6 +20,9 @@
       <div class="row">
         <p style="text-align:center;">Don't have an account? <a href ng-click="tabRegister()">Sign up</a></p>
       </div>
+      <div class="row" ng-if="error">
+        <p style="text-align:center; color:red;">{{error}}</p>
+      </div>
     </form>
   </div>
   <!-- Register -->
