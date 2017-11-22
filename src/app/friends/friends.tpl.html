@@ -18,7 +18,6 @@
 		</div>
     </div>
     <ul class="collapsible popout" data-collapsible="accordion" watch>
-
 	    <li ng-repeat="user in controls.users">
 	      <div class="collapsible-header">
 	      	<i class="material-icons">person</i>
@@ -33,7 +32,7 @@
 				</div>
 		      	<div style="float:right;" class="full-width">
 					<div>
-						<a class="waves-effect waves-light btn full-width bgc-blue" style="margin:10px 0px 10px 0px;" ng-click="friendRequest(user)">Add friend</a>
+						<a class="waves-effect waves-light btn full-width bgc-blue" style="margin:10px 0px 10px 0px;" ng-click="friendRequest(user._id)">Add friend</a>
 					</div>
 					<div>
 						<a class="waves-effect waves-light btn full-width bgc-dark-red" ng-click="removeFriend(user)" ng-if="isFriend">Unfriend</a>

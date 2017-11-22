@@ -7,7 +7,7 @@ angular.module('homiefinder.settings', [])
 	if(!!environment)
 	{
 		//server domain
-		root = "127.0.0.1"; 
+		root = "http://192.168.43.3:8080/"; 
 	}
 	else
 	{
@@ -23,10 +23,21 @@ angular.module('homiefinder.settings', [])
 		users : root + 'users'
 	}
 
-	var friendRoute = {
-		friends : root + 'friends'
+	var notifications = {
+		get : root + 'notifications/{{userId}}'
+	}
+
+	var friends = {
+		get : root + 'user/{{userId}}/friends'
 	}
 	
+	var friendRequestRoute = {
+		create : root + 'friendRequest/{{userId}}/create',
+		decline : root + 'users/{{userId}}/friendRequest/{{friendRequestId}}/decline',
+		accept : root + 'users/{{userId}}/friendRequest/{{friendRequestId}}/accept',
+		get : root + 'friendRequest/{{userId}}'
+	}
+
 	var placeRoute = {
 		places : root + 'places'		
 	}
@@ -38,8 +49,10 @@ angular.module('homiefinder.settings', [])
 
 	return {
 		userRoute,
-		friendRoute,
+		friends,
 		placeRoute,
-		misc
+		misc,
+		friendRequestRoute,
+		notifications
 	};
 });

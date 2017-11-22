@@ -7,40 +7,38 @@ angular.module('homiefinder.friends', ['ui.router', 'homiefinder.googleService',
     templateUrl: 'app/friends/friends.tpl.html',
     controller: 'friendsCtrl',
     resolve: {
-      users: function(userService) {
-        return userService.getUsers().then(function(users){
-          return users.data;
+      user: function(userService) {
+        return userService.getUser().then(function(user){
+          return user;
+        });
+      },
+      friends: function(userService, user) {
+        return userService.getFriends({userId: user._id.toString()}).then(function(friends){
+          return friends;
         });
       }
     }
   })
 })
-.controller('friendsCtrl', ['$scope', 'userService', 'users', function($scope, userService, users){
+.controller('friendsCtrl', ['$scope', 'userService', 'user', 'friends', function($scope, userService, user, friends){
 
-$scope.controls = {
-  users : users,
-  usersCopy : users
-};
+  $scope.controls = {
+    friends: friends
+  };
 
-$scope.query = function(query) {
-    $scope.controls.users = _.map($scope.controls.usersCopy, function(user){
-      return _.includes(user.name, query);
+  $scope.query = function(query) {
+      
+      userService.queryUsers({userId : user._id, query : query}).then(function(users){
+        $scope.controls.users = users;
+      }); 
+  };
+
+  $scope.friendRequest = function(toId) {
+    var params = { userId : $scope.controls.user._id, toId : toId};
+    userService.createFriendRequest(params).then(function(response){
+
     });
-};
-
-$scope.$watch('controls.search', function(newVal, oldVal){
-  if(newVal !== oldVal)
-  {
-
-  }
-});
-
-  $scope.$watch('controls.users', function(newVal, oldVal) {
-    if(!!$scope.controls.users.length)
-    {
-        $('.collapsible').collapsible();
-    }
-  })
+  };
 
 
 }]);

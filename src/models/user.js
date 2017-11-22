@@ -1,7 +1,7 @@
-// load the things we need
 var mongoose = require('mongoose');
 var crypto = require('crypto');
 var jwt = require('jsonwebtoken');
+var Schema = mongoose.Schema;
 var userSchema = new mongoose.Schema({
   email: {
     type: String,
@@ -14,16 +14,8 @@ var userSchema = new mongoose.Schema({
   },
   hash: String,
   salt: String,
-  friends: [
-    {
-      name: String,
-      type: {
-        type: { type: String }
-      },
-      registrationEnabled: Boolean,
-      checkinEnabled: Boolean
-    }
-  ]
+  friends: [{type: Schema.Types.ObjectId, ref: 'FriendRequest' }],
+  friendRequests: [{type: Schema.Types.ObjectId, ref: 'FriendRequest' }]
 });
 this.salt = 'test';
 userSchema.methods.setPassword = function(password){

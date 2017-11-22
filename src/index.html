@@ -1,8 +1,14 @@
-<html lang="en" ng-app="homiefinder" ng-controller="appCtrl">
+<html lang="en" ng-app="homiefinder">
 <head>
   <title>FindN</title>
   <!-- Libraries and dependencies -->
+
+
+  <!-- CSS -->
+  <link rel="stylesheet" type="text/css" href="css/app_styles.css">
+  <link rel="stylesheet" type="text/css" href="css/materialize.min.css">
   <!-- bower:js -->
+   <script src="dependencies/jquery/dist/jquery.js"></script>
   <script src="dependencies/angular/angular.js"></script>
   <script src="dependencies/moment/moment.js"></script>
   <script src="dependencies/angular-strap/dist/angular-strap.js"></script>
@@ -12,9 +18,9 @@
   <script src="dependencies/angular-localForage/dist/angular-localForage.js"></script>
   <script src="dependencies/angular-ui-router/release/angular-ui-router.js"></script>
   <script src="dependencies/lodash/lodash.js"></script>
-  <script src="dependencies/jquery/dist/jquery.js"></script>
-  <script src="dependencies/materialize/dist/js/materialize.js"></script>
   <script src="dependencies/angular-cookies/angular-cookies.js"></script>
+  <script src="dependencies/materialize/bin/materialize.js"></script>
+  <script src="dependencies/angular-materialize/src/angular-materialize.js"></script>
   <!-- endbower -->
   <script src="dependencies/socket.io-client/dist/socket.io.js"></script>
   
@@ -32,24 +38,75 @@
   <script type="text/javascript" src="assets/ajaxResource.js"></script>
   <script type="text/javascript" src="assets/settings.js"></script>
   <script src="https://use.fontawesome.com/e5a9084b3b.js"></script>
-  <!-- CSS -->
-  <link rel="stylesheet" type="text/css" href="css/app_styles.css">
-  <link rel="stylesheet" type="text/css" href="css/materialize.min.css">
+  <!-- test -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.1/css/materialize.min.css">
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.1/js/materialize.min.js"></script>
   <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/angular-materialize/0.2.2/angular-materialize.min.js"></script>
+
+
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 </head>
 <body>
 <div>
+<!-- Modal Structure -->
+<div id="demoModal" class="modal">
+    <div class="modal-content">
+        <div ng-if="!!notifications.length">
+          <ul class="collapsible popout" data-collapsible="accordion" watch>
+
+            <li ng-repeat="notification in notifications">
+              <div class="collapsible-header">
+                <p style="color:black;">{{notification.description}}</p>
+              </div>
+
+              <div class="collapsible-body">
+                <div style="width:100%; display:inline-block;">
+                  <div style="float:right;" class="full-width" style="display:inline-block;">
+                      <a class="waves-effect waves-light btn half-width bgc-blue left border-right-none" ng-click="acceptRequest(notification)">Accept</a>
+                      <a class="waves-effect waves-light btn half-width bgc-dark-red left border-left-none" ng-click="declineRequest(notification)">Decline</a>
+                  </div>
+                </div>
+              </div>
+
+            </li>
+
+          </ul>
+        </div>
+        <div ng-if="!notifications.length">
+          <p style="text-align:center;">Oops! Nothing to show here.</p>
+        </div>
+        
+    </div>
+    <div class="modal-footer">
+        <a href="#!" class="modal-action modal-close btn-flat white" style="
+    background-color: #448aff !important;
+    height: auto;
+    position: relative;
+    width: 100%;
+    text-align: center;
+    margin-top: 10px;
+">Close</a>
+    </div>
+</div>
+
 <!-- application header -->
  <nav>
     <div class="nav-wrapper">
-      <a ui-sref="homiefinder.home" class="brand-logo">FindN</a>
-      <a href="#" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
+      <a ui-sref="homiefinder.home" class="brand-logo center">FindN<i class="material-icons">track_changes</i></a>
       <ul class="right hide-on-med-and-down">
+        
+
+        <li ng-if="token" style="height:100%; margin-right:15px;">
+          <a class="dropdown-button full-height" data-target='demoModal' modal>
+            <i class="material-icons left" style="color:#ffc107;position: absolute;margin:0px;color: white;">face</i>
+            <span class="badge" ng-class="notifications.length ? 'red' : 'green'" style="color:white;border-radius: 15px;border: 1px;margin-top: 10px;padding: 0px;min-width: 23px;position: relative;left: 10px;bottom: 4px;">{{ notifications.length ? notifications.length : '0' }}</span>
+          </a>
+        </li><!-- Friend Requests -->
+
         <li ng-if="token"><a ui-sref="homiefinder.profile">Profile</a></li>
-        <li><a ui-sref="homiefinder.friends">Friends</a></li>
-        <li><a ui-sref="homiefinder.places">Places</a></li>
+        <li ng-if="token"><a ui-sref="homiefinder.friends">Friends</a></li>
+        <li ng-if="token"><a ui-sref="homiefinder.places">Places</a></li>
         <li ng-if="!token"><a ui-sref="homiefinder.users">Login</a></li>
         <li ng-if="token"><a ng-click="logout()">Logout</a></li>
       </ul>
@@ -65,21 +122,26 @@
           </div>
         </li>
         <li ng-if="token"><a ui-sref="homiefinder.profile">Profile</a></li>
-        <li><a ui-sref="homiefinder.friends">Friends</a></li>
-        <li><a ui-sref="homiefinder.places">Places</a></li>
+        <li ng-if="token"><a ui-sref="homiefinder.friends">Friends</a></li>
+        <li ng-if="token"><a ui-sref="homiefinder.places">Places</a></li>
         <li ng-if="!token"><a ui-sref="homiefinder.users">Login</a></li>
         <li ng-if="token"><a ng-click="logout()">Logout</a></li>
       </ul>
     </div>
   </nav>
-  <script>
+  <div class="input-field col s4">
+        <a class="waves-effect waves-light btn" message="{{dummyInputs.message}}" duration="{{dummyInputs.duration}}" toast='click'>Toast!</a>
+  </div>
+  <!-- Dropdown Trigger -->
+<!--  <script>
     $(document).ready(function(){
       $(".button-collapse").sideNav();
     });
-  </script>
+  </script> -->
   <!-- google maps should go into the home state -->
 <!-- Content - dynamically pull our states -->
 <div ui-view></div>
+
 </div>
 <script async defer
     src="https://maps.googleapis.com/maps/api/js?key=AIzaSyASUxeqNdgg8guQoIdNEwY9xFWQJU9ebCs&libraries=geometry,places">

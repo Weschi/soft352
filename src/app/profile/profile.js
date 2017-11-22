@@ -27,7 +27,7 @@ angular.module('homiefinder.profile', ['ui.router', 'homiefinder.googleService',
 
   $scope.controls = {
     position: position,
-    user: user.data.user
+    user: user
   };
 
   function initMap(position) {

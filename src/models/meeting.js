@@ -1,13 +1,17 @@
 var mongoose = require('mongoose');
 var FriendRequest = new mongoose.Schema({
-	fromId: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
-	toId: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
+	fromId: {
+		type: String,
+		required: true
+	},
+	toId: {
+		type: String,
+		required: true
+	},
 	status: {
 		type: Number,
 		required: true 
-	},
-	date: {type: Date, default: Date.now},
-	description: {type: String, required: false}
+	}
 });
 
 /*  

@@ -13,31 +13,81 @@ var app = angular.module('homiefinder',
 	'homiefinder.messageService',
 	'homiefinder.userService',
 	'LocalForageModule',
-	'ngCookies'
+	'ngCookies',
+	'ui.materialize'
 ])
 .config(function($stateProvider){
 $stateProvider.state('homiefinder', {
-	url: '',
-	controller: 'appCtrl'
+		url: '',
+		abstract: true,
+		controller: 'appCtrl',
+		resolve: {
+			user : function(userService) {
+				return userService.getUser().then(function(user){
+					return user;
+				});
+			},
+			notifications : function(userService, user) {
+				if(!!user)
+				{		
+					return userService.getNotifications({userId: user._id}).then(function(notifications){
+						return notifications.data;
+					});
+				}
+				else
+				{
+					return [];
+				}
+			}
+		}
 	})
 })
-.controller('appCtrl', ['$scope', '$timeout', '$rootScope', '$state', 'googleService', '$cookies', 'userService', function($scope, $timeout, $rootScope, $state, googleService, $cookies, userService){
+.controller('appCtrl', ['$scope', '$timeout', '$rootScope', '$state', 'googleService', '$cookies', 'userService', 'user', 'notifications', function($scope, $timeout, $rootScope, $state, googleService, $cookies, userService, user, notifications){
+	
 	$rootScope.token = !!$cookies.get('globals');
+	$rootScope.notifications = notifications;
 
-	$scope.logout = function() {
+	$rootScope.logout = function() {
 		userService.logout();
 	};
 
-	 var socket = io.connect();
- $scope.send = function(){
-  socket.emit('chat message', $scope.message);
-  $scope.message="";
- }
- socket.on('chat message', function(msg){
-  var li=document.createElement("li");
-  li.appendChild(document.createTextNode(msg));
-  //document.getElementById("messages").appendChild(li);
-  });
+
+	if($rootScope.token)
+	{
+		var socket = io.connect();
+	
+		if(!!user._id)
+		{
+			socket.emit('join', {id : user._id});
+		}
+
+		$rootScope.acceptRequest = function(notification){
+			var params = {
+				userId : user._id,
+				friendRequestId : notification._id
+			};
+			userService.acceptFriendRequest(params).then(function(data){
+				$state.reload();
+			});
+		};
+
+		$rootScope.declineRequest = function(notification){
+			var params = {
+				userId : user._id,
+				friendRequestId : notification._id
+			};
+			userService.declineFriendRequest(params).then(function(data){
+				$state.reload();
+			});
+		};
+
+		socket.on('friendRequest', function(friendRequest){
+			console.log("friendRequest retrieved");
+			$rootScope.notifications.push(friendRequest);
+		});
+
+
+	}
 }])
 .config(['$localForageProvider',  '$locationProvider', function($localForageProvider, $locationProvider){
 	$locationProvider.hashPrefix('');

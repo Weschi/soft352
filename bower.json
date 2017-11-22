@@ -24,10 +24,10 @@
     "font-awesome": "^4.7.0",
     "angular-ui-router": "^1.0.6",
     "lodash": "^4.17.4",
-    "materialize": "^0.100.2",
     "angular-cookies": "1.6.6",
     "socket.io": "^2.0.4",
-    "socket.io-client": "^2.0.4"
+    "socket.io-client": "^2.0.4",
+    "angular-materialize": "^0.2.2"
   },
   "resolutions": {
     "angular": "1.6.6"

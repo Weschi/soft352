@@ -37,14 +37,63 @@ angular.module('homiefinder.userService', ['homiefinder.settings', 'homiefinder.
 		});
 	};
 
+	this.getFriends = function(params) {
+		return ajaxResource.get(settings.friends.get, params).then(function(friends){
+			return friends;
+		});
+	};
+	
+	//friend request related
+	this.createFriendRequest = function(params) {
+		return ajaxResource.post(settings.friendRequestRoute.create, params).then(function(data){
+			return data;
+		});
+	};
+
+	this.acceptFriendRequest = function(params) {
+		return ajaxResource.put(settings.friendRequestRoute.accept, params).then(function(data){
+			return data;
+		});		
+	};
+
+	this.declineFriendRequest = function(params) {
+		return ajaxResource.put(settings.friendRequestRoute.decline, params).then(function(data){
+			return data;
+		});		
+	};
+
+	this.getFriendRequests = function(params) {
+		return ajaxResource.post(settings.friendRequestRoute.get, params).then(function(data){
+			return data;
+		});		
+	};
+
+	//friend request related
+
 	this.getUser = function() {
 		var deferred = $q.defer();
-		userStore.getItem(key).then(function(user) {
-		  return deferred.resolve(user);
+		userStore.getItem(key).then(function(auth) {
+			if(!!auth)
+			{
+				return deferred.resolve(auth.user);
+			}
+			else
+			{
+				return deferred.resolve(auth);	
+			}
+		  
 		});
 		return deferred.promise;
 	};
 
+	//gets notifications for a user given an id.
+	this.getNotifications = function(params) {
+	return ajaxResource.get(settings.notifications.get, params).then(function(data){
+			return data
+		});
+	};
+
+	//called after login or register to create a cookie under the "global" key value pair with dur of 7 days.
 	this.setCredentials = function(email, token) {
  
         $rootScope.globals = {
@@ -63,6 +112,7 @@ angular.module('homiefinder.userService', ['homiefinder.settings', 'homiefinder.
         $cookies.putObject('globals', $rootScope.globals, { expires: cookieExp });
 	};
 
+	//called after logout, gets rid of localforage data and clears the cookie
 	this.logout = function() {
 		$cookies.remove("globals");
 		this.removeUser();

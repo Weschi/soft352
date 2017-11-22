@@ -10,6 +10,8 @@ var _ = require("lodash");
 mongoose.Promise = require('bluebird');
 
 mongoose.connect('mongodb://localhost/FindN');
+
+//models
 require('./models/user');
 require('./models/friendRequest');
 //init socket io with our server
@@ -45,13 +47,14 @@ app.get('/', function(request, response) {
 });
 
 //routes here
-require('./routes/users')(app, passport, _);
+require('./routes/users')(app, passport, _, io);
 
 //socketio listener
 io.on('connection', function(socket){
   console.log('user connected');
-  socket.on('chat message', function(msg){
-    io.emit('chat message', msg);
+  socket.on('join', function(data){
+    //join socket room based on loggin in user's id
+    socket.join(data.id);
   });
   socket.on('disconnect', function(){
     console.log('user disconnected');
