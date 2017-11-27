@@ -1,23 +1,44 @@
 <div class="container">
-	<h4 style="color:#448aff !important;">My friends</h4></br>
+	<div class="container" style="margin-top:1.14rem;">
+		<div class="row">
+		    <div class="col s12">
+		        <ul tabs reload="allTabContentLoaded">
+		            <li class="tab col s6"><a ng-click="controls.nTab = 1" href>Friends</a></li>
+		            <li class="tab col s6"><a ng-click="controls.nTab = 2" href>Find Friends</a></li>
+		        </ul>
+		    </div>
+		</div>
+	</div>
+
 	<div class="row">
 		<div class="input-field col s12">
 		  <input placeholder="Search for people" ng-change="query(controls.query)" ng-model="controls.query" id="search_for_people" type="text" class="validate">
 		  <label for="search_for_people"></label>
 		</div>
     </div>
-    <div class="row">
-    	<div class="input-field col s6">
-			<a class='dropdown-button btn' data-activates='dropdown1'>{{!!controls.selectedType ? controls.selectedType : 'Select type' }}</a>
-			<ul id='dropdown1' class='dropdown-content'>
-				<div ng-repeat="user in controls.users" ng-click="controls.selectedType = placeType">
-					<li><a>{{placeType}}</a></li>
-					<li class="divider"></li>
+    <ul ng-if="controls.nTab == 1" class="collapsible popout" data-collapsible="accordion" watch>
+	    <li ng-repeat="user in controls.friends">
+	      <div class="collapsible-header">
+	      	<i class="material-icons">person</i>
+			<div class="full-width">
+				{{user.email}}
+			</div>
+	      </div>
+	      <div class="collapsible-body">
+	      	<div style="width:100%; display:inline-block;">
+				<div>
+					Name: {{user.name}}
 				</div>
-			</ul>
-		</div>
-    </div>
-    <ul class="collapsible popout" data-collapsible="accordion" watch>
+		      	<div style="float:right;" class="full-width">
+					<div>
+						<a class="waves-effect waves-light btn full-width bgc-dark-red" ng-click="removeFriend(user)">Unfriend</a>
+					</div>
+				</div>
+			</div>
+	      </div>
+	    </li>
+  	</ul>
+  	<ul ng-if="controls.nTab == 2" class="collapsible popout" data-collapsible="accordion" watch>
 	    <li ng-repeat="user in controls.users">
 	      <div class="collapsible-header">
 	      	<i class="material-icons">person</i>

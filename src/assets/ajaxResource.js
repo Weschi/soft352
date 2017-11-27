@@ -11,11 +11,10 @@ angular.module('homiefinder.ajaxResource', [])
 	this.post = function(uri, params)
 	{
 		var deferred = $q.defer();
-		// Simple GET request example:
-		uri = $interpolate(uri)(params);
-		$http.post(uri, params, config).then(
-		function(params){
-			deferred.resolve(params);
+
+		$http.post($interpolate(uri)(params), params, config).then(
+		function(response){
+			deferred.resolve(response.data);
 		}, function(error){
 			deferred.reject(error);
 		});
@@ -27,10 +26,15 @@ angular.module('homiefinder.ajaxResource', [])
 	{
 		var deferred = $q.defer();
 		
-		uri = $interpolate(uri)(params);
+		var getConfig = {
+			headers : {
+				'Content-Type': 'application/json'
+			},
+			params : params
+		}
 
-		$http.get(uri, params, config).then(function(params){
-			deferred.resolve(params);
+		$http.get($interpolate(uri)(params), getConfig).then(function(response){
+			deferred.resolve(response.data);
 		}, function(error){
 			deferred.reject(error);
 		});
@@ -42,8 +46,8 @@ angular.module('homiefinder.ajaxResource', [])
 	{
 		var deferred = $q.defer();
 
-		$http.put($interpolate(uri)(params), params, config).then(function(params){
-			deferred.resolve(params);
+		$http.put($interpolate(uri)(params), params, config).then(function(response){
+			deferred.resolve(response.data);
 		}, function(error){
 			deferred.reject(error);
 		});
@@ -55,8 +59,8 @@ angular.module('homiefinder.ajaxResource', [])
 	{
 		var deferred = $q.defer();
 
-		$http.delete(uri, params, config).then(function(params){
-			deferred.resolve(params);
+		$http.delete($interpolate(uri)(params), params, config).then(function(response){
+			deferred.resolve(response.data);
 		}, function(error){
 			deferred.reject(error);
 		});

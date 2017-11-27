@@ -24,7 +24,6 @@ angular.module('homiefinder.home', ['ui.router', 'homiefinder.googleService'])
   })
 })
 .controller('homeCtrl', ['$scope', 'position', 'googleService', function($scope, position, googleService){
-
   function initMap(position) {
   //{lat: -25.363, lng: 131.044};
     var uluru = position;

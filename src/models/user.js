@@ -14,7 +14,7 @@ var userSchema = new mongoose.Schema({
   },
   hash: String,
   salt: String,
-  friends: [{type: Schema.Types.ObjectId, ref: 'FriendRequest' }],
+  friends: [{type: Schema.Types.ObjectId, ref: 'User' }],
   friendRequests: [{type: Schema.Types.ObjectId, ref: 'FriendRequest' }]
 });
 this.salt = 'test';

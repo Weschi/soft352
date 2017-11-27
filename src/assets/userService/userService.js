@@ -42,6 +42,12 @@ angular.module('homiefinder.userService', ['homiefinder.settings', 'homiefinder.
 			return friends;
 		});
 	};
+
+	this.removeFriend = function(params) {
+		return ajaxResource.remove(settings.friends.delete, params).then(function(friends){
+			return friends;
+		});
+	};
 	
 	//friend request related
 	this.createFriendRequest = function(params) {
@@ -66,6 +72,12 @@ angular.module('homiefinder.userService', ['homiefinder.settings', 'homiefinder.
 		return ajaxResource.post(settings.friendRequestRoute.get, params).then(function(data){
 			return data;
 		});		
+	};
+
+	this.queryUsers = function(params) {
+		return ajaxResource.get(settings.userRoute.query, params).then(function(data){
+			return data;
+		});
 	};
 
 	//friend request related

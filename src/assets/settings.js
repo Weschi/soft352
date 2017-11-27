@@ -20,7 +20,8 @@ angular.module('homiefinder.settings', [])
 	var userRoute = {
 		login : root + 'login',
 		register : root + 'register',
-		users : root + 'users'
+		users : root + 'users',
+		query : root + 'users/query'
 	}
 
 	var notifications = {
@@ -28,7 +29,8 @@ angular.module('homiefinder.settings', [])
 	}
 
 	var friends = {
-		get : root + 'user/{{userId}}/friends'
+		get : root + 'user/{{userId}}/friends',
+		delete : root + 'user/{{userId}}/friend/{{friendId}}/remove'	
 	}
 	
 	var friendRequestRoute = {

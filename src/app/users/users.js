@@ -10,7 +10,7 @@ angular.module('homiefinder.users', ['ui.router', 'homiefinder.userService'])
     }
   })
 })
-.controller('usersCtrl', ['$scope', 'userService', '$state', '$rootScope', function($scope, userService, $state, $rootScope){
+.controller('usersCtrl', ['$scope', 'userService', '$state', '$rootScope', '$window', function($scope, userService, $state, $rootScope, $window){
 
   $scope.controls = {
     nTab : 1,
@@ -39,10 +39,11 @@ angular.module('homiefinder.users', ['ui.router', 'homiefinder.userService'])
     //factory
     var params = { email: $scope.controls.user.email, fullName: $scope.controls.user.fullName, password: $scope.controls.user.password, confirmPassword: $scope.controls.user.confirmPassword };
     userService.postRegister(params).then(function(response){
-      userService.setUser(response.data).then(function(auth){
+      userService.setUser(response).then(function(auth){
         userService.setCredentials(auth.user.email, auth.token);
         $rootScope.token = auth.token;
-        $state.go('homiefinder.profile', {token : auth.token});
+        $window.location.href="#/profile";
+        $window.location.reload();
       });
     }, function(err) {
       //neh
@@ -61,10 +62,11 @@ angular.module('homiefinder.users', ['ui.router', 'homiefinder.userService'])
   $scope.login = function() {
     var params = { email: $scope.controls.user.email, password: $scope.controls.user.password};
     userService.postLogin(params).then(function(response){
-      userService.setUser(response.data).then(function(auth){
+      userService.setUser(response).then(function(auth){
         userService.setCredentials(auth.user.email, auth.token);
         $rootScope.token = auth.token;
-        $state.go('homiefinder.profile', {token : auth.token});
+        $window.location.href="#/profile";
+        $window.location.reload();
       });
     }, function(err) {
       $scope.error = 'Invalid email or password.';

@@ -145,7 +145,6 @@ module.exports = function(app, passport, _, io) {
 		});
 	});
 
-
 	//this will be expanded upon for meetings
 	//Endpoint for returning all the friend requests associated with a user as well as the user data
 	app.get('/notifications/:userId', function(request, response){
@@ -171,14 +170,13 @@ module.exports = function(app, passport, _, io) {
 
 	//get friends
 	app.get('/user/:userId/friends', function(request, response){
-		var userId = request.params.userId;
-		User.find({_id: userId}, function(error, user){
+		User.findById(request.params.userId, function(error, user){
 			response.status(200);
 			response.json(user.friends);
 		}).populate('friends');
 	});
 
-	app.get('/user/:userId/friends/:friendId/remove', function(request, response){
+	app.delete('/user/:userId/friend/:friendId/remove', function(request, response){
 		var userId = request.params.userId;
 		User.find({_id: userId}, function(error, user){
 			_.remove(user.friends, function(friend){ friend._id == request.params.friendId});
@@ -192,6 +190,13 @@ module.exports = function(app, passport, _, io) {
 		}).populate('friends');
 	});
 
+	app.get('/users/query', function(request, response){
+		var params = request.query;
 
+		User.find( {$or:[ {'name' : new RegExp('^'+params.query+'$', "i") }, {'email' : new RegExp('^'+params.query+'$', "i") }]}, function(err, users){
+			response.status(200);
+			response.json(users);
+		});
+	});
 
 };

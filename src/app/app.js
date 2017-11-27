@@ -31,7 +31,7 @@ $stateProvider.state('homiefinder', {
 				if(!!user)
 				{		
 					return userService.getNotifications({userId: user._id}).then(function(notifications){
-						return notifications.data;
+						return notifications;
 					});
 				}
 				else
@@ -67,6 +67,7 @@ $stateProvider.state('homiefinder', {
 				friendRequestId : notification._id
 			};
 			userService.acceptFriendRequest(params).then(function(data){
+				Materialize.toast(notification.toId.email + ' added as a friend.', 2000);
 				$state.reload();
 			});
 		};
@@ -77,6 +78,7 @@ $stateProvider.state('homiefinder', {
 				friendRequestId : notification._id
 			};
 			userService.declineFriendRequest(params).then(function(data){
+				Materialize.toast('Friend request from ' + notification.toId.email + ' declined.', 2000);
 				$state.reload();
 			});
 		};
