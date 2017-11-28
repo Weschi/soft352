@@ -3,6 +3,7 @@ var mongoose = require('mongoose');
 var User = mongoose.model('User');
 var FriendRequest = mongoose.model('FriendRequest');
 var jwt = require('express-jwt');
+var ObjectId = mongoose.Schema.Types.ObjectId;
 module.exports = function(app, passport, _, io) {
 
 	//login a user
@@ -177,17 +178,10 @@ module.exports = function(app, passport, _, io) {
 	});
 
 	app.delete('/user/:userId/friend/:friendId/remove', function(request, response){
-		var userId = request.params.userId;
-		User.find({_id: userId}, function(error, user){
-			_.remove(user.friends, function(friend){ friend._id == request.params.friendId});
-			user.save(function(error){
-				if(!error)
-				{
-					response.status(200);
-					response.json(user.friends);
-				}
-			});
-		}).populate('friends');
+		User.update({userId : request.params.userId}, {$pull:{"friends": { "id": ObjectId(request.params.friendId)}}}, function(error, data){
+			response.status(200);
+			response.json(data);
+		});
 	});
 
 	app.get('/users/query', function(request, response){

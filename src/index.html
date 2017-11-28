@@ -23,13 +23,14 @@
   <script src="dependencies/angular-materialize/src/angular-materialize.js"></script>
   <!-- endbower -->
   <script src="dependencies/socket.io-client/dist/socket.io.js"></script>
-  
+  <script src="https://m.boma.eu/materialize/js/materialize.js"></script>
   <script type="text/javascript" src="app/app.js"></script>
   <script type="text/javascript" src="app/home/home.js"></script>
   <script type="text/javascript" src="app/friends/friends.js"></script>
   <script type="text/javascript" src="app/places/places.js"></script>
   <script type="text/javascript" src="app/profile/profile.js"></script>
   <script type="text/javascript" src="app/users/users.js"></script>
+  <script type="text/javascript" src="app/meetings/meetings.js"></script>
   <!-- Asset links -->
   <script type="text/javascript" src="assets/googleService/googleService.js"></script>
   <script type="text/javascript" src="assets/userService/userService.js"></script>
@@ -93,20 +94,18 @@
 <!-- application header -->
  <nav>
     <div class="nav-wrapper">
-      <a ui-sref="homiefinder.home" class="brand-logo center">FindN<i class="material-icons">track_changes</i></a>
+      <a style="margin-left:15px;" ui-sref="homiefinder.home" class="brand-logo">FindN<i class="material-icons">track_changes</i></a>
       <ul class="right hide-on-med-and-down">
-        
-
-        <li ng-if="token" style="height:100%; margin-right:15px;">
+        <li ng-if="token"><a ui-sref="homiefinder.meetings">Meetings</a></li>
+        <li ng-if="token"><a ui-sref="homiefinder.friends">Friends</a></li>
+        <li ng-if="token"><a ui-sref="homiefinder.places">Places</a></li>
+        <li ng-if="token"><a ui-sref="homiefinder.profile">Profile</a></li>
+        <li ng-if="token" style="height:100%;">
           <a class="dropdown-button full-height" data-target='demoModal' modal>
             <i class="material-icons left" style="color:#ffc107;position: absolute;margin:0px;color: white;">face</i>
             <span class="badge" ng-class="notifications.length ? 'red' : 'green'" style="color:white;border-radius: 15px;border: 1px;margin-top: 10px;padding: 0px;min-width: 23px;position: relative;left: 10px;bottom: 4px;">{{ notifications.length ? notifications.length : '0' }}</span>
           </a>
         </li><!-- Friend Requests -->
-
-        <li ng-if="token"><a ui-sref="homiefinder.profile">Profile</a></li>
-        <li ng-if="token"><a ui-sref="homiefinder.friends">Friends</a></li>
-        <li ng-if="token"><a ui-sref="homiefinder.places">Places</a></li>
         <li ng-if="!token"><a ui-sref="homiefinder.users">Login</a></li>
         <li ng-if="token"><a ng-click="logout()">Logout</a></li>
       </ul>
@@ -121,6 +120,7 @@
     padding-left: 10px;"><h5>Nick Cox</h5></div>
           </div>
         </li>
+
         <li ng-if="token"><a ui-sref="homiefinder.profile">Profile</a></li>
         <li ng-if="token"><a ui-sref="homiefinder.friends">Friends</a></li>
         <li ng-if="token"><a ui-sref="homiefinder.places">Places</a></li>

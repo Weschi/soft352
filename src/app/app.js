@@ -12,6 +12,7 @@ var app = angular.module('homiefinder',
 	'homiefinder.friendService',
 	'homiefinder.messageService',
 	'homiefinder.userService',
+	'homiefinder.meetings',
 	'LocalForageModule',
 	'ngCookies',
 	'ui.materialize'
@@ -67,7 +68,7 @@ $stateProvider.state('homiefinder', {
 				friendRequestId : notification._id
 			};
 			userService.acceptFriendRequest(params).then(function(data){
-				Materialize.toast(notification.toId.email + ' added as a friend.', 2000);
+				Materialize.toast(notification.fromId.email + ' added as a friend.', 2000);
 				$state.reload();
 			});
 		};
@@ -78,7 +79,7 @@ $stateProvider.state('homiefinder', {
 				friendRequestId : notification._id
 			};
 			userService.declineFriendRequest(params).then(function(data){
-				Materialize.toast('Friend request from ' + notification.toId.email + ' declined.', 2000);
+				Materialize.toast('Friend request from ' + notification.fromId.email + ' declined.', 2000);
 				$state.reload();
 			});
 		};
@@ -87,8 +88,6 @@ $stateProvider.state('homiefinder', {
 			console.log("friendRequest retrieved");
 			$rootScope.notifications.push(friendRequest);
 		});
-
-
 	}
 }])
 .config(['$localForageProvider',  '$locationProvider', function($localForageProvider, $locationProvider){
