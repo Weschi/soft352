@@ -6,8 +6,24 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-express');
   grunt.loadNpmTasks('grunt-open');
   grunt.loadNpmTasks('grunt-wiredep');
+  grunt.loadNpmTasks('grunt-eslint');
 
   var tasks = {
+    eslint: {
+      standard: {
+        options: {
+            configFile: 'conf/eslint.json',
+            rulePaths: ['conf/rules']
+        },
+        src: [
+            'src/app/**/*.js',
+            'src/app/*.js',
+            'src/server1.js',
+            'src/routes/*.js',
+            'src/models/*.js'
+        ]
+      }
+    },
     watch: {
       configFiles: {
         files: [ 'Gruntfile.js', 'config/*.js' ],
@@ -70,7 +86,7 @@ module.exports = function(grunt) {
    */
   //Initialise task configuration
   grunt.initConfig(tasks);
-  //Task registration
+
   grunt.registerTask('default', ['jshint']);
-  grunt.registerTask('serve', ['wiredep', 'express','open', 'watch']);
+  grunt.registerTask('serve', ['eslint','wiredep', 'express','open', 'watch']);
 };

@@ -32,6 +32,13 @@ angular.module('homiefinder.settings', [])
 		get : root + 'user/{{userId}}/friends',
 		delete : root + 'user/{{userId}}/friend/{{friendId}}/remove'	
 	}
+
+	var meetingRoute = {
+		post : root + 'users/:userId/meeting/create',
+		get : root + 'users/{{userId}}/meetings/get',
+		delete : root + 'users/{{userId}}/meetings/{{meetingId}}/delete',
+		put : root + 'users/{{userId}}/meetings/{{meetingId}}/put'
+	};
 	
 	var friendRequestRoute = {
 		create : root + 'friendRequest/{{userId}}/create',
@@ -55,6 +62,7 @@ angular.module('homiefinder.settings', [])
 		placeRoute,
 		misc,
 		friendRequestRoute,
-		notifications
+		notifications,
+		meetingRoute
 	};
 });

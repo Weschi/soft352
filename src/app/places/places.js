@@ -25,7 +25,7 @@ angular.module('homiefinder.places', ['ui.router', 'homiefinder.googleService'])
         });
       }      
     }
-  })
+  });
 })
 .controller('placesCtrl', ['$scope', 'position', 'googleService', 'google', 'map', 'places', 'venues', function($scope, position, googleService, google, map, places, venues){
 
@@ -63,18 +63,18 @@ angular.module('homiefinder.places', ['ui.router', 'homiefinder.googleService'])
     position : position,
     places : places,
     venues : venues
-  }
+  };
 
   $scope.getDirections = function(venue) {
     //should pass a venue to home.js to display it ? or make this entire page part of home
-  }
+  };
 
   $scope.$watch('controls.venues', function(newVal, oldVal) {
     if(!!$scope.controls.venues.length)
     {
         $('.collapsible').collapsible();
     }
-  })
+  });
 
   $scope.initArr = function(rating) {
     var arr = [];
@@ -82,7 +82,7 @@ angular.module('homiefinder.places', ['ui.router', 'homiefinder.googleService'])
       arr.push(i);
     }
     return arr;
-  }
+  };
 
   googleService.setPlaces($scope.controls.places);
 
@@ -90,8 +90,8 @@ angular.module('homiefinder.places', ['ui.router', 'homiefinder.googleService'])
     googleService.placesNearbySearch($scope.controls.position, query).then(function(places){
       $scope.controls.venues = places;
     });
-  }
+  };
 
 
-}])
+}]);
 

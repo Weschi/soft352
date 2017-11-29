@@ -22,7 +22,7 @@ angular.module('homiefinder.ajaxResource', [])
 		return deferred.promise;
 	}
 
-	this.get = function(uri, params)
+	this.get = function(uri, params, qSParams)
 	{
 		var deferred = $q.defer();
 		
@@ -30,7 +30,7 @@ angular.module('homiefinder.ajaxResource', [])
 			headers : {
 				'Content-Type': 'application/json'
 			},
-			params : params
+			params : !!qSParams ? params : undefined
 		}
 
 		$http.get($interpolate(uri)(params), getConfig).then(function(response){

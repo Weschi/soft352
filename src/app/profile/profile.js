@@ -21,7 +21,7 @@ angular.module('homiefinder.profile', ['ui.router', 'homiefinder.googleService',
         });
       }*/
     }
-  })
+  });
 })
 .controller('profileCtrl', ['$scope', 'position', 'googleService', 'userService', 'user', function($scope, position, googleService, userService, user){
 

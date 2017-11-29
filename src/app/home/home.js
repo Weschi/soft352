@@ -21,7 +21,7 @@ angular.module('homiefinder.home', ['ui.router', 'homiefinder.googleService'])
         return googleService.getLocation();
       }
     }
-  })
+  });
 })
 .controller('homeCtrl', ['$scope', 'position', 'googleService', function($scope, position, googleService){
   function initMap(position) {
@@ -48,5 +48,5 @@ angular.module('homiefinder.home', ['ui.router', 'homiefinder.googleService'])
   }
 
 
-}])
+}]);
 

@@ -9,28 +9,28 @@ module.exports = function(app, passport, _, io) {
 	//login a user
 	app.post('/login', function(request, response){
 		passport.authenticate('local', function(err, user, info){
-		    var token;
-		    // If Passport throws/catches an error
-		    if (err) 
-		    {
-		      response.status(500).json(err);
-		      return;
-		    }
-		    // If a user is found
-		    if(user)
-		    {
-		      token = user.generateJwt();
-		      response.status(200);
-		      response.json({
-		        "token" : token,
-		        user: user
-		      });
-		    } 
-		    else 
-		    {
-		      // If user is not found
-		      response.status(500).json(info);
-		    }
+			var token;
+			// If Passport throws/catches an error
+			if (err) 
+			{
+				response.status(500).json(err);
+				return;
+			}
+			// If a user is found
+			if(user)
+			{
+				token = user.generateJwt();
+				response.status(200);
+				response.json({
+				"token" : token,
+				user: user
+				});
+			} 
+			else 
+			{
+				// If user is not found
+				response.status(500).json(info);
+			}
 		})(request, response);
 	});
 
@@ -104,9 +104,7 @@ module.exports = function(app, passport, _, io) {
 
 			fromUser.friends.push(toUser._id);
 			toUser.friends.push(fromUser._id);
-
 			friendRequest.status = 2;
-
 			friendRequest.save(function(){
 				fromUser.save(function(){
 					toUser.save(function(){
@@ -132,7 +130,7 @@ module.exports = function(app, passport, _, io) {
 
 	//Endpoint for returning all the friend requests associated with a user as well as the user data
 	app.get('/friendRequest/:userId', function(request, response){
-		var fr = FriendRequest.find({toId : request.body.userId}, function(error, friendRequests){
+		var fr = FriendRequest.find({toId: request.body.userId}, function(error, friendRequests){
 			if(error)
 			{
 				response.send(error);
@@ -148,7 +146,7 @@ module.exports = function(app, passport, _, io) {
 
 	//this will be expanded upon for meetings
 	//Endpoint for returning all the friend requests associated with a user as well as the user data
-	app.get('/notifications/:userId', function(request, response){
+	app.get('/notifications/:userId', function( request, response) {
 		var userId = request.params.userId;
 
 		if(!userId)

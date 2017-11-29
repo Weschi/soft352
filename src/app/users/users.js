@@ -8,14 +8,14 @@ angular.module('homiefinder.users', ['ui.router', 'homiefinder.userService'])
     controller: 'usersCtrl',
     resolve: {
     }
-  })
+  });
 })
 .controller('usersCtrl', ['$scope', 'userService', '$state', '$rootScope', '$window', function($scope, userService, $state, $rootScope, $window){
 
   $scope.controls = {
     nTab : 1,
     user : {}
-  }
+  };
 
   function resetUser() {
     $scope.controls.user = {};
@@ -33,7 +33,7 @@ angular.module('homiefinder.users', ['ui.router', 'homiefinder.userService'])
   $scope.tabRegister = function() {
     resetUser();
     setTab(2);
-  }
+  };
 
   $scope.register = function() {
     //factory
@@ -73,5 +73,5 @@ angular.module('homiefinder.users', ['ui.router', 'homiefinder.userService'])
     });
   };
 
-}])
+}]);
 

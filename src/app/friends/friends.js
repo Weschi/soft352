@@ -21,7 +21,7 @@ angular.module('homiefinder.friends', ['ui.router', 'homiefinder.googleService',
         return !!$stateParams.nTab ? $stateParams.nTab : 1;
       }
     }
-  })
+  });
 })
 .controller('friendsCtrl', ['$scope', 'userService', 'user', 'friends', 'nTab', function($scope, userService, user, friends, nTab){
 

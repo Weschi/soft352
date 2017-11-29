@@ -1,4 +1,4 @@
-angular.module('homiefinder.meetings', ['ui.router', 'homiefinder.googleService', 'homiefinder.userService'])
+angular.module('homiefinder.meetings', ['ui.router', 'homiefinder.googleService', 'homiefinder.userService', 'homiefinder.meetingService'])
 .config(function($stateProvider){
   $stateProvider
   .state('homiefinder.meetings', {
@@ -7,6 +7,23 @@ angular.module('homiefinder.meetings', ['ui.router', 'homiefinder.googleService'
     templateUrl: 'app/meetings/meetings.tpl.html',
     controller: 'meetingsCtrl',
     resolve: {
+      position: function(googleService) {
+        return googleService.getLocation(true);
+      },
+      google: function(googleService) {
+        return googleService.getGoogle();
+      },
+      map: function(googleService) {
+        return googleService.getMap();
+      },
+      places: function(googleService) {
+        return googleService.getPlaces() ? googleService.getPlaces() : googleService.initialisePlaces(google, map);
+      },
+      venues: function(googleService, position) {
+        return googleService.placesNearbySearch(position).then(function(places){
+          return places;
+        });
+      },
       user: function(userService) {
         return userService.getUser().then(function(user){
           return user;
@@ -19,16 +36,23 @@ angular.module('homiefinder.meetings', ['ui.router', 'homiefinder.googleService'
       },
       nTab: function($stateParams) {
         return !!$stateParams.nTab ? $stateParams.nTab : 1;
+      },
+      meetings: function(meetingService, user) {
+        return meetingService.get({userId : user._id}).then(function(meetings){
+          return meetings;
+        });
       }
     }
-  })
+  });
 })
-.controller('meetingsCtrl', ['$scope', 'userService', 'user', 'friends', 'nTab', function($scope, userService, user, friends, nTab){
+.controller('meetingsCtrl', ['$scope', 'userService', 'meetingService', 'user', 'friends', 'nTab', 'venues', 'meetings', function($scope, userService, meetingService, user, friends, nTab, venues, meetings){
 
   $scope.controls = {
     friends: friends,
     nTab: nTab,
-    user : user
+    user : user,
+    places : venues,
+    meetings : meetings
   };
   //date input utils
 	var currentTime = new Date();
@@ -42,7 +66,7 @@ angular.module('homiefinder.meetings', ['ui.router', 'homiefinder.googleService'
 	$scope.clear = 'Clear';
 	$scope.close = 'Close';
 	var days = 15;
-	$scope.minDate = (new Date($scope.currentTime.getTime() - ( 1000 * 60 * 60 * 365 * days ))).toISOString();
+	$scope.minDate = (new Date()).toISOString();
 	$scope.maxDate = (new Date($scope.currentTime.getTime() + ( 1000 * 60 * 60 * 365* days ))).toISOString();
 	
 	$scope.onStart = function () {
@@ -83,5 +107,29 @@ angular.module('homiefinder.meetings', ['ui.router', 'homiefinder.googleService'
       Materialize.toast('Friend request sent', 2000);
     });
   };
+
+  $scope.selectPlace = function(place) {
+    $scope.controls.new = place;
+  };
+  $scope.createMeeting = function() {
+    var format = 'DD-MM-YYYYTHH:mm';
+    var meeting = angular.copy($scope.controls.new);
+    meeting.userId = $scope.controls.user._id;
+    meeting.date = moment(meeting.date + ' ' + meeting.time, format).format(format);
+
+    //TODO: refactor plz
+    var place = JSON.parse(meeting.place);
+    meeting.place = {
+      id : place.place_id,
+      name : place.name,
+      latitude : place.geometry.location.lat,
+      longitude : place.geometry.location.lng
+    };
+    meetingService.post(meeting).then(function(response){
+      Materialize.toast('Meeting ' + meeting.name + ' scheduled at ' + moment(response.date).format("MMMM Do YYYY HH:mm"), 4000);
+      $state.reload({nTab : 1});
+    });
+  };
+
 }]);
 

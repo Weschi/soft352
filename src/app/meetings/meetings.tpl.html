@@ -9,19 +9,12 @@
 		    </div>
 		</div>
 	</div>
-
-	<div class="row">
-		<div class="input-field col s12">
-		  <input placeholder="Search for people" ng-change="query(controls.query)" ng-model="controls.query" id="search_for_people" type="text" class="validate">
-		  <label for="search_for_people"></label>
-		</div>
-    </div>
     <ul ng-if="controls.nTab == 1" class="collapsible popout" data-collapsible="accordion" watch>
-	    <li ng-repeat="user in controls.friends">
+	    <li ng-repeat="meeting in controls.meetings">
 	      <div class="collapsible-header">
 	      	<i class="material-icons">person</i>
 			<div class="full-width">
-				{{user.email}}
+				{{meeting.name}}
 			</div>
 	      </div>
 	      <div class="collapsible-body">
@@ -42,43 +35,67 @@
   		<form class="col s12">
 			<div class="row">
 				<div class="input-field col s12">
-					<input id="email" type="email" ng-model="controls.user.email" class="validate">
-					<label for="email">Email</label>
+					<input id="name" type="text" ng-model="controls.new.name" class="validate">
+					<label for="name">Name</label>
 				</div>
 			</div>
-
-
-			<label for="date">Date</label>
-			<input input-date
-			type="text"
-			name="date"
-			id="date"
-			ng-model="controls.newMeeting.date"
-			container=""
-			format="dd/mm/yyyy"
-			months-full="{{ month }}"
-			months-short="{{ monthShort }}"
-			weekdays-full="{{ weekdaysFull }}"
-			weekdays-short="{{ weekdaysShort }}"
-			weekdays-letter="{{ weekdaysLetter }}"
-			disable="disable"
-			min="{{ minDate }}"
-			max="{{ maxDate }}"
-			today="today"
-			first-day="1"
-			clear="clear"
-			close="close"
-			select-years="15"
-			on-start="onStart()"
-			on-render="onRender()"
-			on-open="onOpen()"
-			on-close="onClose()"
-			on-set="onSet()"
-			on-stop="onStop()" />
-
-			<label for="input_starttime">Time</label>
-			<input id="input_starttime" input-clock data-twelvehour="false" type="text">
-
+			<div class="row">
+				<div class="col s6"><label for="date">Date</label>
+					<input input-date
+					type="text"
+					name="date"
+					id="date"
+					ng-model="controls.new.date"
+					container=""
+					format="dd/mm/yyyy"
+					months-full="{{ month }}"
+					months-short="{{ monthShort }}"
+					weekdays-full="{{ weekdaysFull }}"
+					weekdays-short="{{ weekdaysShort }}"
+					weekdays-letter="{{ weekdaysLetter }}"
+					disable="disable"
+					min="{{ minDate }}"
+					max="{{ maxDate }}"
+					today="today"
+					first-day="1"
+					clear="clear"
+					close="close"
+					select-years="15"
+					on-start="onStart()"
+					on-render="onRender()"
+					on-open="onOpen()"
+					on-close="onClose()"
+					on-set="onSet()"
+					on-stop="onStop()" required/>
+				</div>
+				<div class="col s6">
+					<label for="input_starttime">Time</label>
+					<input id="input_starttime" input-clock data-twelvehour="false" ng-model="controls.new.time" type="text" required>
+				</div>
+			</div>
+			<div class="row">
+				<div class="input-field col s12">
+					<input id="description" type="text" ng-model="controls.new.description" class="validate">
+					<label for="description">Description</label>
+				</div>
+			</div>
+			<label for="input_starttime">Where?</label>
+			<div class="input-field col s12">
+				<div input-field>
+					<select material-select watch ng-model="controls.new.place">
+						<option ng-repeat="place in controls.places" value="{{place}}">{{place.name}}</option>
+					</select>
+				</div>
+			</div>
+			<label for="input_starttime">Who's going?</label>
+			<div input-field>
+				<select ng-model="controls.new.people" material-select multiple watch>
+					<option ng-repeat="friend in controls.friends" value="{{friend._id}}">{{friend.email}}</option>
+				</select>
+			</div>
+			<div class="row">
+				<a href ng-click="createMeeting()" class="waves-effect waves-light btn bgc-blue" style="margin:auto; display:block;"><i class="material-icons"></i>Create meeting</a>
+			</div>
 		</form>
   	</div>
 </div>

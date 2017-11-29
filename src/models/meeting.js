@@ -1,13 +1,29 @@
 var mongoose = require('mongoose');
-var FriendRequest = new mongoose.Schema({
-	fromId: {
+var Meeting = new mongoose.Schema({
+	user: {type: mongoose.Schema.Types.ObjectId, ref:'User'},
+	name: {
 		type: String,
 		required: true
 	},
-	toId: {
-		type: String,
+	date: {
+		type: Date,
 		required: true
 	},
+	place: {
+		type:{
+	        id:{type: Number, required: true},
+	        name:{type: String},
+	        latitude:{type: Number},
+	        longitude:{type: Number}
+    	}
+	},
+	invited: [{
+        status: Number,
+        user: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'User'
+        }
+    }],
 	status: {
 		type: Number,
 		required: true 
@@ -16,9 +32,14 @@ var FriendRequest = new mongoose.Schema({
 
 /*  
 	status enum: 
-	1 = pending
-	2 = accepted
-	3 = deleted
+	1 = scheduled
+	2 = In progress
+	3 = Completed
+	4 = Cancelled
 */
-
-module.exports = mongoose.model('FriendRequest', FriendRequest);
+comment:{type:[{
+            date:{type: Date,default: Date.now},
+            userId:{type: String},
+            content:{type: String}
+          }]}
+module.exports = mongoose.model('Meeting', Meeting);

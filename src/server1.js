@@ -6,6 +6,7 @@ var bodyParser = require('body-parser');
 var passport = require('passport');
 var mongodb = require('mongodb');
 var mongoose = require('mongoose');
+var moment = require('moment');
 var _ = require("lodash");
 mongoose.Promise = require('bluebird');
 
@@ -14,6 +15,7 @@ mongoose.connect('mongodb://localhost/FindN');
 //models
 require('./models/user');
 require('./models/friendRequest');
+require('./models/meeting');
 //init socket io with our server
 var fs = require("fs");
 var path = require("path");
@@ -48,6 +50,7 @@ app.get('/', function(request, response) {
 
 //routes here
 require('./routes/users')(app, passport, _, io);
+require('./routes/meetings')(app, passport, _, io, moment);
 
 //socketio listener
 io.on('connection', function(socket){

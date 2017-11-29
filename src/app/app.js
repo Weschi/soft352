@@ -12,6 +12,7 @@ var app = angular.module('homiefinder',
 	'homiefinder.friendService',
 	'homiefinder.messageService',
 	'homiefinder.userService',
+	'homiefinder.meetingService',
 	'homiefinder.meetings',
 	'LocalForageModule',
 	'ngCookies',
@@ -41,7 +42,7 @@ $stateProvider.state('homiefinder', {
 				}
 			}
 		}
-	})
+	});
 })
 .controller('appCtrl', ['$scope', '$timeout', '$rootScope', '$state', 'googleService', '$cookies', 'userService', 'user', 'notifications', function($scope, $timeout, $rootScope, $state, googleService, $cookies, userService, user, notifications){
 	
