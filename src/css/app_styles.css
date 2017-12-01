@@ -67,6 +67,19 @@ span {
 }
 
 
+/* Traffic lights */
+.bgc-red {
+	background-color: #f44336 !important;
+}
+
+.bgc-green {
+	background-color: #f44336 !important;
+}
+
+.bgc-yellow {
+	background-color: #ff6f00 !important;
+}
+
 .bgc-dark-red {
 	background-color: #e64a19 !important;
 }

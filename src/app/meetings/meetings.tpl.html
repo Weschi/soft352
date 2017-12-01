@@ -12,19 +12,46 @@
     <ul ng-if="controls.nTab == 1" class="collapsible popout" data-collapsible="accordion" watch>
 	    <li ng-repeat="meeting in controls.meetings">
 	      <div class="collapsible-header">
-	      	<i class="material-icons">person</i>
+	      	<i class="material-icons">store_mall_directory</i>
 			<div class="full-width">
-				{{meeting.name}}
+				<div class="left">{{meeting.name}}</div>
+				<div class="right">{{meeting.date}}</div>
 			</div>
 	      </div>
 	      <div class="collapsible-body">
+	      	<div class="right">
+						<i class="material-icons">build</i>
+					</div>
 	      	<div style="width:100%; display:inline-block;">
-				<div>
-					Name: {{user.name}}
-				</div>
-		      	<div style="float:right;" class="full-width">
-					<div>
-						<a class="waves-effect waves-light btn full-width bgc-dark-red" ng-click="removeFriend(user)">Unfriend</a>
+				<div class="col s12 m5">
+					<div class="card-panel bgc-blue">
+						<span class="white-text">
+							Name: <div class="right">{{meeting.name}}</div></br>
+							Description: <div class="right">{{meeting.description}}</div></br>
+							Place: <div class="right">{{meeting.place.name}}</div></br>
+							Status: <div class="right">
+										<div class="chip white-text" style="display:inline-block;" ng-class="meeting.status == 1 ? 'bgc-yellow' : meeting.status == 2 ? 'bgc-green' : 'bgc-red'">{{meeting.status == 1 ? 'Pending' : meeting.status == 2 ? 'Accept' : 'Declined'}}</div>
+									</div>
+							<table class="white-text centered" style="font-size:14.5px;">
+								<thead>
+									<tr>
+										<th>Name</th>
+										<th>Email</th>
+										<th>Status</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr ng-repeat="invite in meeting.invited">
+										<td>{{invite.user.name}}</td>
+										<td>{{invite.user.email}}</td>
+										<td>
+											<div class="chip white-text" style="display:inline-block;" ng-class="invite.status == 1 ? 'bgc-yellow' : invite.status == 2 ? 'bgc-green' : 'bgc-red'">{{invite.status == 1 ? 'Pending' : invite.status == 2 ? 'Accept' : 'Declined'}}</div>
+
+										</td>
+									</tr>
+								</tbody>
+							</table>
+						</span>
 					</div>
 				</div>
 			</div>

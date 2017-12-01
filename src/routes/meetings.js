@@ -16,6 +16,7 @@ module.exports = function(app, passport, _, io) {
 		meeting.date = moment(reqMeeting.date, dateFormat).toDate(); //sort this, should be sent ready from the client side
 		meeting.place = reqMeeting.place;
 		meeting.name = reqMeeting.name;
+		meeting.description = reqMeeting.description;
 		_.each(reqMeeting.people, function(person){
 			meeting.invited.push({
 				user: person,

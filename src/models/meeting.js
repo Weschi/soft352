@@ -9,9 +9,13 @@ var Meeting = new mongoose.Schema({
 		type: Date,
 		required: true
 	},
+	description: {
+		type: String,
+		required: false
+	},
 	place: {
 		type:{
-	        id:{type: Number, required: true},
+	        id:{type: Number, required: true}, //ID stored directly from google's api
 	        name:{type: String},
 	        latitude:{type: Number},
 	        longitude:{type: Number}
@@ -31,12 +35,20 @@ var Meeting = new mongoose.Schema({
 });
 
 /*  
-	status enum: 
+	meeting status: 
 	1 = scheduled
 	2 = In progress
 	3 = Completed
 	4 = Cancelled
 */
+
+/*  
+	invited status: 
+	1 = Sent
+	2 = Accepted
+	3 = Declined
+*/
+
 comment:{type:[{
             date:{type: Date,default: Date.now},
             userId:{type: String},
