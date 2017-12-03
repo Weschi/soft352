@@ -1,7 +1,7 @@
 angular.module('homiefinder.meetingService', ['homiefinder.settings', 'homiefinder.ajaxResource', 'LocalForageModule', 'ngCookies'])
 .service('meetingService', ['settings', 'ajaxResource', '$localForage', '$q', '$cookies', '$rootScope', '$http', '$state', function(settings, ajaxResource, $localForage, $q, $cookies, $rootScope, $http, $state) {
 
-	var key = 'meetings';
+	var key = 'meetingStore';
 	var meetingStore = $localForage.createInstance({
 		name: "meetingStore",
 		storeName: "meetingStore"
@@ -26,8 +26,27 @@ angular.module('homiefinder.meetingService', ['homiefinder.settings', 'homiefind
 	}
 
 	this.get = function(params) {
-		return ajaxResource.get(settings.meetingRoute.get, params).then(function(data){
-			return data;
+		if(!!navigator.onLine){
+			return ajaxResource.get(settings.meetingRoute.get, params).then(function(data){
+				setMeetings(data);
+				return data;
+			});
+		}
+		else
+		{
+			return getMeetings();
+		}
+	}
+
+	function setMeetings(meetings){
+		return meetingStore.setItem(key, meetings).then(function(meetings) {
+			return meetings;
+		});
+	}
+
+	function getMeetings(){
+		return meetingStore.getItem(key).then(function(meetings) {
+			return meetings;
 		});
 	}
 

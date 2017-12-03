@@ -66,21 +66,20 @@ $stateProvider.state('homiefinder', {
 		$rootScope.acceptRequest = function(notification){
 			var params = {
 				userId : user._id,
-				friendRequestId : notification._id
+				notificationId : notification._id
 			};
-			userService.acceptFriendRequest(params).then(function(data){
-				Materialize.toast(notification.fromId.email + ' added as a friend.', 2000);
+			userService.acceptRequest(params).then(function(data){
+				if(notification.type == 'FRIENDREQUEST')
+				{
+					Materialize.toast(notification.fromId.email + ' added as a friend.', 2000);
+				}
 				$state.reload();
-			});
+			});	
 		};
 
 		$rootScope.declineRequest = function(notification){
-			var params = {
-				userId : user._id,
-				friendRequestId : notification._id
-			};
-			userService.declineFriendRequest(params).then(function(data){
-				Materialize.toast('Friend request from ' + notification.fromId.email + ' declined.', 2000);
+			userService.declineRequest({notificationId : notification._id}).then(function(data){
+				Materialize.toast('Notification removed.', 2000);
 				$state.reload();
 			});
 		};

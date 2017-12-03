@@ -30,7 +30,7 @@ angular.module('homiefinder.ajaxResource', [])
 			headers : {
 				'Content-Type': 'application/json'
 			},
-			params : !!qSParams ? params : undefined
+			params : !!qSParams ? qSParams : undefined
 		}
 
 		$http.get($interpolate(uri)(params), getConfig).then(function(response){

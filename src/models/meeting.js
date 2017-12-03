@@ -22,11 +22,8 @@ var Meeting = new mongoose.Schema({
     	}
 	},
 	invited: [{
-        status: Number,
-        user: {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: 'User'
-        }
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Notification'
     }],
 	status: {
 		type: Number,

@@ -14,7 +14,7 @@ mongoose.connect('mongodb://localhost/FindN');
 
 //models
 require('./models/user');
-require('./models/friendRequest');
+require('./models/notification');
 require('./models/meeting');
 //init socket io with our server
 var fs = require("fs");
@@ -48,9 +48,10 @@ app.get('/', function(request, response) {
   response.sendFile(__dirname + "/index.html");
 });
 
-//routes here
+//routes or controllers, here
 require('./routes/users')(app, passport, _, io);
 require('./routes/meetings')(app, passport, _, io, moment);
+require('./routes/notifications')(app, passport, _, io, moment);
 
 //socketio listener
 io.on('connection', function(socket){

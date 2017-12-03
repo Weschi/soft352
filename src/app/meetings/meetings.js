@@ -7,22 +7,8 @@ angular.module('homiefinder.meetings', ['ui.router', 'homiefinder.googleService'
     templateUrl: 'app/meetings/meetings.tpl.html',
     controller: 'meetingsCtrl',
     resolve: {
-      position: function(googleService) {
-        return googleService.getLocation(true);
-      },
-      google: function(googleService) {
-        return googleService.getGoogle();
-      },
-      map: function(googleService) {
-        return googleService.getMap();
-      },
       places: function(googleService) {
         return googleService.getPlaces() ? googleService.getPlaces() : googleService.initialisePlaces(google, map);
-      },
-      venues: function(googleService, position) {
-        return googleService.placesNearbySearch(position).then(function(places){
-          return places;
-        });
       },
       user: function(userService) {
         return userService.getUser().then(function(user){
@@ -45,13 +31,13 @@ angular.module('homiefinder.meetings', ['ui.router', 'homiefinder.googleService'
     }
   });
 })
-.controller('meetingsCtrl', ['$scope', 'userService', 'meetingService', 'user', 'friends', 'nTab', 'venues', 'meetings', function($scope, userService, meetingService, user, friends, nTab, venues, meetings){
+.controller('meetingsCtrl', ['$scope', 'userService', 'meetingService', 'user', 'friends', 'nTab', 'meetings', 'places', function($scope, userService, meetingService, user, friends, nTab, meetings, places){
 
   $scope.controls = {
     friends: friends,
     nTab: nTab,
     user : user,
-    places : venues,
+    places : places,
     meetings : meetings
   };
   //date input utils
@@ -87,7 +73,6 @@ angular.module('homiefinder.meetings', ['ui.router', 'homiefinder.googleService'
 	$scope.onStop = function () {
 		console.log('onStop');
 	};
-
 
   //query friends
   $scope.query = function(query) {
@@ -127,7 +112,7 @@ angular.module('homiefinder.meetings', ['ui.router', 'homiefinder.googleService'
     };
     meetingService.post(meeting).then(function(response){
       Materialize.toast('Meeting ' + meeting.name + ' scheduled at ' + moment(response.date).format("MMMM Do YYYY HH:mm"), 4000);
-      $state.reload({nTab : 1});
+      //$state.reload({nTab : 1});
     });
   };
 

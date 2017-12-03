@@ -36,7 +36,7 @@ angular.module('homiefinder.friends', ['ui.router', 'homiefinder.googleService',
       
       if($scope.controls.nTab == 2)
       {
-        userService.queryUsers({userId : user._id, query : query}).then(function(users){
+        userService.queryUsers({userId : user._id}, {query : query}).then(function(users){
           $scope.controls.users = users;
         });
       }
@@ -49,6 +49,10 @@ angular.module('homiefinder.friends', ['ui.router', 'homiefinder.googleService',
       }
   };
 
+  $scope.isFriend = function(id) {
+    return !!_.find($scope.controls.friends, {_id : id});
+  };
+
   $scope.removeFriend = function(friend) {
     userService.removeFriend({userId : $scope.controls.user._id, friendId : friend._id}).then(function(response){
       $scope.controls.friends = response;
@@ -57,8 +61,8 @@ angular.module('homiefinder.friends', ['ui.router', 'homiefinder.googleService',
   };
 
   $scope.friendRequest = function(toId) {
-    var params = { userId : $scope.controls.user._id, toId : toId};
-    userService.createFriendRequest(params).then(function(response){
+    var params = { userId : $scope.controls.user._id, toId : toId, type: 'FRIENDREQUEST'};
+    userService.createRequest(params).then(function(response){
       Materialize.toast('Friend request sent', 2000);
     });
   };

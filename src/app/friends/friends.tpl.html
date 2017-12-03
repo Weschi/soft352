@@ -52,10 +52,10 @@
 					Name: {{user.name}}
 				</div>
 		      	<div style="float:right;" class="full-width">
-					<div>
+					<div ng-if="!isFriend(user._id)">
 						<a class="waves-effect waves-light btn full-width bgc-blue" style="margin:10px 0px 10px 0px;" ng-click="friendRequest(user._id)">Add friend</a>
 					</div>
-					<div>
+					<div ng-if="!!isFriend(user._id)">
 						<a class="waves-effect waves-light btn full-width bgc-dark-red" ng-click="removeFriend(user)" ng-if="isFriend">Unfriend</a>
 					</div>
 				</div>

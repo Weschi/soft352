@@ -24,8 +24,11 @@ angular.module('homiefinder.settings', [])
 		query : root + 'users/query'
 	}
 
-	var notifications = {
-		get : root + 'notifications/{{userId}}'
+	var notificationRoute = {
+		get : root + 'notifications/{{userId}}',
+		create : root + 'notification/{{userId}}/create',
+		decline : root + 'users/{{notification}}/notification/{{notificationId}}/decline',
+		accept : root + 'users/{{userId}}/notification/{{notificationId}}/accept'
 	}
 
 	var friends = {
@@ -40,13 +43,6 @@ angular.module('homiefinder.settings', [])
 		put : root + 'users/{{userId}}/meetings/{{meetingId}}/put'
 	};
 	
-	var friendRequestRoute = {
-		create : root + 'friendRequest/{{userId}}/create',
-		decline : root + 'users/{{userId}}/friendRequest/{{friendRequestId}}/decline',
-		accept : root + 'users/{{userId}}/friendRequest/{{friendRequestId}}/accept',
-		get : root + 'friendRequest/{{userId}}'
-	}
-
 	var placeRoute = {
 		places : root + 'places'		
 	}
@@ -61,8 +57,7 @@ angular.module('homiefinder.settings', [])
 		friends,
 		placeRoute,
 		misc,
-		friendRequestRoute,
-		notifications,
+		notificationRoute,
 		meetingRoute
 	};
 });

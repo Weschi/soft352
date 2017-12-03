@@ -50,32 +50,32 @@ angular.module('homiefinder.userService', ['homiefinder.settings', 'homiefinder.
 	};
 	
 	//friend request related
-	this.createFriendRequest = function(params) {
-		return ajaxResource.post(settings.friendRequestRoute.create, params).then(function(data){
+	this.createRequest = function(params) {
+		return ajaxResource.post(settings.notificationRoute.create, params).then(function(data){
 			return data;
 		});
 	};
 
-	this.acceptFriendRequest = function(params) {
-		return ajaxResource.put(settings.friendRequestRoute.accept, params).then(function(data){
+	this.acceptRequest = function(params) {
+		return ajaxResource.put(settings.notificationRoute.accept, params).then(function(data){
 			return data;
 		});		
 	};
 
-	this.declineFriendRequest = function(params) {
-		return ajaxResource.put(settings.friendRequestRoute.decline, params).then(function(data){
+	this.declineRequest = function(params) {
+		return ajaxResource.put(settings.notificationRoute.decline, params).then(function(data){
 			return data;
 		});		
 	};
 
 	this.getFriendRequests = function(params) {
-		return ajaxResource.post(settings.friendRequestRoute.get, params).then(function(data){
+		return ajaxResource.post(settings.notificationRoute.get, params).then(function(data){
 			return data;
 		});		
 	};
 
-	this.queryUsers = function(params) {
-		return ajaxResource.get(settings.userRoute.query, params).then(function(data){
+	this.queryUsers = function(params, qsParams) {
+		return ajaxResource.get(settings.userRoute.query, params, qsParams).then(function(data){
 			return data;
 		});
 	};
@@ -100,7 +100,7 @@ angular.module('homiefinder.userService', ['homiefinder.settings', 'homiefinder.
 
 	//gets notifications for a user given an id.
 	this.getNotifications = function(params) {
-	return ajaxResource.get(settings.notifications.get, params).then(function(data){
+	return ajaxResource.get(settings.notificationRoute.get, params).then(function(data){
 			return data
 		});
 	};

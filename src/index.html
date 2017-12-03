@@ -53,34 +53,66 @@
 </head>
 <body>
 <div>
-<!-- Modal Structure -->
+<!-- Notifications -->
 <div id="demoModal" class="modal">
     <div class="modal-content">
         <div ng-if="!!notifications.length">
           <ul class="collapsible popout" data-collapsible="accordion" watch>
-
             <li ng-repeat="notification in notifications">
-              <div class="collapsible-header">
-                <p style="color:black;">{{notification.description}}</p>
+              <div class="collapsible-header" ng-if="notification.type == 'FRIENDREQUEST' || notification.type == 'MEETINGREQUEST'">
+                <p style="color:black;" class="left">{{notification.description}}</p>
+                <p class="right">{{notification.date | date: format: 'mediumDate'}}</p>
               </div>
-
-              <div class="collapsible-body">
+              <div class="collapsible-header" ng-if="notification.type == 'MISC'">
+                <p style="color:black;" class="left">{{notification.fromId.email}}</p>
+                <p class="right">{{notification.date | date: format: 'mediumDate'}}</p>
+              </div>
+              <div class="collapsible-body" ng-if="notification.type == 'FRIENDREQUEST' || notification.type == 'MEETINGREQUEST'">
+                <div style="width:100%; display:inline-block;" ng-if="notification.type == 'MEETINGREQUEST'">
+                  <div style="width:100%; display:inline-block;">
+                    <div class="col s12 m5">
+                      <div class="card-panel bgc-blue">
+                        <span class="white-text">
+                        <div class="left">Created by: {{notification.meeting.user.email}}</div></br>
+                        <div class="left">Name: {{notification.meeting.name}}</div></br>
+                        <div class="left">Description: {{notification.meeting.description}}</div></br>
+                        <div class="left">Place: {{notification.meeting.place.name}}</div></br>
+                        <div class="left">Date: {{notification.meeting.date | date: format: 'mediumDate' }}</div></br>
+                          <div>Status: 
+                            <div class="chip white-text" style="display:inline-block;" ng-class="notification.meeting.status == 1 ? 'bgc-yellow' : notification.meeting.status == 2 ? 'bgc-green' : 'bgc-red'">{{notification.meeting.status == 1 ? 'Scheduled' : notification.meeting.status == 2 ? 'Accept' : 'Declined'}}</div>
+                          </div>
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
                 <div style="width:100%; display:inline-block;">
                   <div style="float:right;" class="full-width" style="display:inline-block;">
-                      <a class="waves-effect waves-light btn half-width bgc-blue left border-right-none" ng-click="acceptRequest(notification)">Accept</a>
+                      <a class="waves-effect waves-light btn half-width bgc-green left border-right-none" ng-click="acceptRequest(notification)">Accept</a>
                       <a class="waves-effect waves-light btn half-width bgc-dark-red left border-left-none" ng-click="declineRequest(notification)">Decline</a>
                   </div>
                 </div>
               </div>
-
+              <div class="collapsible-body" ng-if="notification.type == 'MISC'">
+                <div style="width:100%; display:inline-block; margin-bottom:15px;">
+                  <div style="width:100%; display:inline-block;">
+                    <div class="col s12 m5">
+                        <div class="left">Description: {{notification.description}}</div></br>
+                    </div>
+                  </div>
+                </div>
+                <div style="width:100%; display:inline-block;">
+                  <div style="float:right;" class="full-width" style="display:inline-block;">
+                      <a class="waves-effect waves-light btn half-width bgc-green left border-right-none" style="left:25%;" ng-click="acceptRequest(notification)">Ok</a>
+                  </div>
+                </div>
+              </div>
             </li>
-
           </ul>
         </div>
         <div ng-if="!notifications.length">
           <p style="text-align:center;">Oops! Nothing to show here.</p>
         </div>
-        
     </div>
     <div class="modal-footer">
         <a href="#!" class="modal-action modal-close btn-flat white" style="
@@ -93,7 +125,7 @@
 ">Close</a>
     </div>
 </div>
-
+<!-- /notifications -->
 <!-- application header -->
  <nav>
     <div class="nav-wrapper">
@@ -132,7 +164,6 @@
       </ul>
     </div>
   </nav>
-  
   <!-- Dropdown Trigger -->
 <!--  <script>
     $(document).ready(function(){
@@ -140,12 +171,10 @@
     });
   </script> -->
   <!-- google maps should go into the home state -->
-<!-- Content - dynamically pull our states -->
+<!-- Content - dynamically pull our states &sensor=false&callback=initialize&-->
 <div ui-view></div>
 
 </div>
-<script async defer
-    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyASUxeqNdgg8guQoIdNEwY9xFWQJU9ebCs&libraries=geometry,places">
-    </script>
+<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyASUxeqNdgg8guQoIdNEwY9xFWQJU9ebCs&libraries=geometry,places"></script>
 </body>
 </html>

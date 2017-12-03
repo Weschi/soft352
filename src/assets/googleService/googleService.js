@@ -1,5 +1,5 @@
-var service = angular.module('homiefinder.googleService', ['homiefinder.settings', 'homiefinder.ajaxResource'])
-.service('googleService', ['$q', 'settings', 'ajaxResource', function($q, settings, ajaxResource) {
+var service = angular.module('homiefinder.googleService', ['homiefinder.settings', 'homiefinder.ajaxResource', 'LocalForageModule'])
+.service('googleService', ['$q', 'settings', 'ajaxResource', '$rootScope', '$localForage', function($q, settings, ajaxResource, $rootScope, $localForage) {
 
 	var options = {
 	  enableHighAccuracy: true,
@@ -10,6 +10,25 @@ var service = angular.module('homiefinder.googleService', ['homiefinder.settings
 	this.map = undefined;
 	this.google = undefined;
 	this.places = undefined;
+	this.isOnline = $rootScope.online = navigator.onLine;
+
+	var key = 'googlePlaces';
+
+	var googlePlaces = $localForage.createInstance({
+		name: "googlePlaces" 
+	});
+
+	function setPlaces(places) {
+		return googlePlaces.setItem(key, places).then(function(places) {
+			return places;
+		});
+	};
+
+	function getPlaces() {
+		return googlePlaces.getItem(key).then(function(places) {
+		  return places;
+		});
+	};
 
 	this.setGoogle = function(google) {
 		this.google = google;
@@ -27,8 +46,30 @@ var service = angular.module('homiefinder.googleService', ['homiefinder.settings
 		return this.google;
 	}
 
-	this.getPlaces = function() {
-		return this.places;
+	//map independent call
+	this.getPlaces = function(location, query, type, radius) {
+		if(!!navigator.onLine)
+		{
+			var defer = $q.defer();
+			this.getLocation(true).then(function(location){
+				var params = {
+					location: location,
+					radius: !!radius ? radius : 500,
+					type: !!type ? type : null,
+					name : !!query ? query : null
+				}
+				var service = new google.maps.places.PlacesService(document.createElement('gplaces'));
+				service.nearbySearch(params, function(places, status){
+					defer.resolve(places);
+					setPlaces(places);
+				});
+			});
+			return defer.promise;
+		}
+		else
+		{
+			return getPlaces();
+		}
 	}
 
 	this.getMap = function() {
@@ -103,6 +144,5 @@ var service = angular.module('homiefinder.googleService', ['homiefinder.settings
         });
         return defer.promise;
 	}
-
 	return this;
 }]);

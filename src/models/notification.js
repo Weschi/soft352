@@ -1,17 +1,20 @@
 var mongoose = require('mongoose');
 var Notification = new mongoose.Schema({
-	userId: {
-		type: String,
-		required: true
-	},
 	type: {
 		type: String,
+		enum : ['NONE', 'FRIENDREQUEST', 'MEETINGREQUEST', 'MISC'],
+		default: 'NONE',
 		required: true
 	},
+	fromId: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
+	toId: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
+	meeting: {type: mongoose.Schema.Types.ObjectId, ref: 'Meeting'},
 	status: {
 		type: Number,
 		required: true 
-	}
+	},
+	date: {type: Date, default: Date.now},
+	description: {type: String, required: false}
 });
 
 /*  
@@ -21,11 +24,4 @@ var Notification = new mongoose.Schema({
 	3 = deleted
 */
 
-
-/*  
-	type enum: 
-	1 = meeting
-	2 = friend
-*/
-
-module.exports = mongoose.model('FriendRequest', FriendRequest);
+module.exports = mongoose.model('Notification', Notification);
