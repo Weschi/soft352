@@ -47,7 +47,6 @@ angular.module('homiefinder.meetings', ['ui.router', 'homiefinder.googleService'
 	$scope.monthShort = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 	$scope.weekdaysFull = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
 	$scope.weekdaysLetter = ['S', 'M', 'T', 'W', 'T', 'F', 'S'];
-	$scope.disable = [false, 1, 7];
 	$scope.today = 'Today';
 	$scope.clear = 'Clear';
 	$scope.close = 'Close';
@@ -55,25 +54,6 @@ angular.module('homiefinder.meetings', ['ui.router', 'homiefinder.googleService'
 	$scope.minDate = (new Date()).toISOString();
 	$scope.maxDate = (new Date($scope.currentTime.getTime() + ( 1000 * 60 * 60 * 365* days ))).toISOString();
 	
-	$scope.onStart = function () {
-		console.log('onStart');
-	};
-	$scope.onRender = function () {
-		console.log('onRender');
-	};
-	$scope.onOpen = function () {
-		console.log('onOpen');
-	};
-	$scope.onClose = function () {
-		console.log('onClose');
-	};
-	$scope.onSet = function () {
-		console.log('onSet');
-	};
-	$scope.onStop = function () {
-		console.log('onStop');
-	};
-
   //query friends
   $scope.query = function(query) {
       
@@ -101,7 +81,6 @@ angular.module('homiefinder.meetings', ['ui.router', 'homiefinder.googleService'
     var meeting = angular.copy($scope.controls.new);
     meeting.userId = $scope.controls.user._id;
     meeting.date = moment(meeting.date + ' ' + meeting.time, format).format(format);
-
     //TODO: refactor plz
     var place = JSON.parse(meeting.place);
     meeting.place = {

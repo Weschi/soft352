@@ -7,6 +7,7 @@ var passport = require('passport');
 var mongodb = require('mongodb');
 var mongoose = require('mongoose');
 var moment = require('moment');
+var schedule = require('node-schedule');
 var _ = require("lodash");
 mongoose.Promise = require('bluebird');
 
@@ -48,10 +49,13 @@ app.get('/', function(request, response) {
   response.sendFile(__dirname + "/index.html");
 });
 
+//helpers
+var scheduler = require('./routes/helpers/scheduler');
+
 //routes or controllers, here
-require('./routes/users')(app, passport, _, io);
-require('./routes/meetings')(app, passport, _, io, moment);
-require('./routes/notifications')(app, passport, _, io, moment);
+require('./routes/users')(app, passport, _, io, scheduler);
+require('./routes/meetings')(app, passport, _, io, scheduler);
+require('./routes/notifications')(app, passport, _, io, scheduler);
 
 //socketio listener
 io.on('connection', function(socket){

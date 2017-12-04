@@ -32,7 +32,7 @@
 							<div class="left">Description: {{meeting.description}}</div></br>
 							<div class="left">Place: {{meeting.place.name}}</div></br>
 							<div>Status: 
-								<div class="chip white-text" style="display:inline-block;" ng-class="meeting.status == 1 ? 'bgc-yellow' : meeting.status == 2 ? 'bgc-green' : 'bgc-red'">{{meeting.status == 1 ? 'Scheduled' : meeting.status == 2 ? 'Accept' : 'Declined'}}</div>
+								<div class="chip white-text" style="display:inline-block;" ng-class="meeting.status == 1 ? 'bgc-yellow' : meeting.status == 2 ? 'bgc-green' : 'bgc-red'">{{meeting.status == 1 ? 'Scheduled' : meeting.status == 2 ? 'Completed' : 'Declined'}}</div>
 								</div>
 							<table class="white-text centered" ng-if="!!meeting.invited.length" style="font-size:14.5px;">
 								<thead>

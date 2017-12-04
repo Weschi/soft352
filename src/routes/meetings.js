@@ -5,7 +5,7 @@ var Notification = mongoose.model('Notification');
 var Meeting = mongoose.model('Meeting');
 var moment = require('moment');
 var dateFormat = "DD-MM-YYYYTHH:mm";
-module.exports = function(app, passport, _, io) {
+module.exports = function(app, passport, _, io, scheduler) {
 
 	//create a meeting
 	app.post('/users/:userId/meeting/create', function(request, response){
@@ -38,6 +38,7 @@ module.exports = function(app, passport, _, io) {
 		meeting.save(function(error){
 			if(!error)
 			{
+				scheduler.scheduleStartMeeting(meeting, meeting.date);
 				response.status(200);
 				response.json(meeting);
 			}

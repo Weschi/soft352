@@ -7,27 +7,13 @@ angular.module('homiefinder.places', ['ui.router', 'homiefinder.googleService'])
     templateUrl: 'app/places/places.tpl.html',
     controller: 'placesCtrl',
     resolve: {
-      position: function(googleService) {
-        return googleService.getLocation(true);
-      },
-      google: function(googleService) {
-        return googleService.getGoogle();
-      },
-      map: function(googleService) {
-        return googleService.getMap();
-      },
       places: function(googleService) {
         return googleService.getPlaces() ? googleService.getPlaces() : googleService.initialisePlaces(google, map);
-      },
-      venues: function(googleService, position) {
-        return googleService.placesNearbySearch(position).then(function(places){
-          return places;
-        });
-      }      
+      }     
     }
   });
 })
-.controller('placesCtrl', ['$scope', 'position', 'googleService', 'google', 'map', 'places', 'venues', function($scope, position, googleService, google, map, places, venues){
+.controller('placesCtrl', ['$scope', 'googleService', 'places', function($scope, googleService, places){
 
   var placeTypes = [
     'default',
@@ -55,26 +41,15 @@ angular.module('homiefinder.places', ['ui.router', 'homiefinder.googleService'])
     'cemetery',
     'church'
   ];
-
+  //note - check out venues call
   $scope.controls = {
     placeTypes : placeTypes,
-    google : google,
-    map : map,
-    position : position,
-    places : places,
-    venues : venues
+    places : places
   };
 
   $scope.getDirections = function(venue) {
     //should pass a venue to home.js to display it ? or make this entire page part of home
   };
-
-  $scope.$watch('controls.venues', function(newVal, oldVal) {
-    if(!!$scope.controls.venues.length)
-    {
-        $('.collapsible').collapsible();
-    }
-  });
 
   $scope.initArr = function(rating) {
     var arr = [];
