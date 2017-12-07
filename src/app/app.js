@@ -14,6 +14,7 @@ var app = angular.module('homiefinder',
 	'homiefinder.userService',
 	'homiefinder.meetingService',
 	'homiefinder.meetings',
+	'homiefinder.map',
 	'LocalForageModule',
 	'ngCookies',
 	'ui.materialize'
@@ -97,11 +98,18 @@ $stateProvider.state('homiefinder', {
 			});	
 		};
 
+
+
 		$interval(function() {
 			if(navigator.onLine)
 			{
 				navigator.geolocation.getCurrentPosition(function(response){
-					socket.emit('location', {coords : {latitude: response.coords.latitude, longitude: response.coords.longitude}, userId: user._id});
+
+					_.each(friends, function(friend){
+						socket.emit('location', {coords : {latitude: response.coords.latitude, longitude: response.coords.longitude}, userId: user._id})
+					});
+
+					//socket.emit('location', {coords : {latitude: response.coords.latitude, longitude: response.coords.longitude}, userId: user._id});
 				}, function(){
 
 				});
@@ -119,6 +127,7 @@ $stateProvider.state('homiefinder', {
 			//someone in my room has their location updated, could be mine, but if not, update the google shit
 			if(data.userId != user._id)
 			{
+				//coordinate has been recieved from a client we're listening to - update coords in google maps somehow
 				console.log(data);
 			}
 		});
