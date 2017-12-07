@@ -38,7 +38,6 @@ module.exports = function(app, passport, _, io, scheduler) {
 		meeting.save(function(error){
 			if(!error)
 			{
-				scheduler.scheduleStartMeeting(meeting, meeting.date);
 				response.status(200);
 				response.json(meeting);
 			}
@@ -70,20 +69,16 @@ module.exports = function(app, passport, _, io, scheduler) {
 		}).sort('-date').populate('people').sort();
 	});
 
-	//create a meeting
+	//update - should auth this later
 	app.put('/users/:userId/meetings/:meetingId/put', function(request, response){
-		var reqMeeting = request.body;
+		var reqMeeting = request.body.meeting;
 		var meetingId = request.params.meetingId;
 		Meeting.findById(meetingId, function(error, meeting){
 			//you cant change the ownership of a meeting, but you can change date, name, place and people
 			meeting.name = reqMeeting.name;
-			meeting.date = reqMeeting.date;
+			meeting.date = moment(reqMeeting.date).toDate();
 			meeting.place = reqMeeting.place;
-			meeting.people = [];
-			_.each(reqMeeting.people, function(person){
-				meeting.people.push(person);
-			});
-
+			meeting.status = reqMeeting.status;
 			meeting.save(function(error){
 				response.status(200);
 				response.json(meeting);

@@ -13,6 +13,7 @@ angular.module('homiefinder.meetingService', ['homiefinder.settings', 'homiefind
 		});
 	}
 
+	//status, etc. should be handled in 1 endpoint, reduce code 
 	this.put = function(params) {
 		return ajaxResource.put(settings.meetingRoute.put, params).then(function(data){
 			return data;
@@ -37,6 +38,7 @@ angular.module('homiefinder.meetingService', ['homiefinder.settings', 'homiefind
 			return getMeetings();
 		}
 	}
+
 
 	function setMeetings(meetings){
 		return meetingStore.setItem(key, meetings).then(function(meetings) {

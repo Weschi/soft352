@@ -40,11 +40,23 @@ $stateProvider.state('homiefinder', {
 				{
 					return [];
 				}
+			},
+			friends : function(userService, user) {
+				if(!!user)
+				{		
+					return userService.getFriends({userId: user._id.toString()}).then(function(friends){
+						return friends;
+					});
+				}
+				else
+				{
+					return null;
+				}
 			}
 		}
 	});
 })
-.controller('appCtrl', ['$scope', '$timeout', '$rootScope', '$state', 'googleService', '$cookies', 'userService', 'user', 'notifications', function($scope, $timeout, $rootScope, $state, googleService, $cookies, userService, user, notifications){
+.controller('appCtrl', ['$scope', '$timeout', '$rootScope', '$state', 'googleService', '$cookies', 'userService', 'user', 'notifications', '$interval', 'friends', function($scope, $timeout, $rootScope, $state, googleService, $cookies, userService, user, notifications, $interval, friends){
 	
 	$rootScope.token = !!$cookies.get('globals');
 	$rootScope.notifications = notifications;
@@ -63,6 +75,14 @@ $stateProvider.state('homiefinder', {
 			socket.emit('join', {id : user._id});
 		}
 
+		if(!!friends)
+		{
+			_.each(friends, function(friend){
+				//listen to friend rooms
+				socket.emit('join', {id: friend._id});
+			});
+		}
+
 		$rootScope.acceptRequest = function(notification){
 			var params = {
 				userId : user._id,
@@ -77,12 +97,31 @@ $stateProvider.state('homiefinder', {
 			});	
 		};
 
+		$interval(function() {
+			if(navigator.onLine)
+			{
+				navigator.geolocation.getCurrentPosition(function(response){
+					socket.emit('location', {coords : {latitude: response.coords.latitude, longitude: response.coords.longitude}, userId: user._id});
+				}, function(){
+
+				});
+			}
+		}, 60000)
+
 		$rootScope.declineRequest = function(notification){
 			userService.declineRequest({notificationId : notification._id}).then(function(data){
 				Materialize.toast('Notification removed.', 2000);
 				$state.reload();
 			});
 		};
+
+		socket.on('coordChange', function(data){
+			//someone in my room has their location updated, could be mine, but if not, update the google shit
+			if(data.userId != user._id)
+			{
+				console.log(data);
+			}
+		});
 
 		socket.on('friendRequest', function(friendRequest){
 			console.log("friendRequest retrieved");

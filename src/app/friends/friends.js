@@ -7,12 +7,12 @@ angular.module('homiefinder.friends', ['ui.router', 'homiefinder.googleService',
     templateUrl: 'app/friends/friends.tpl.html',
     controller: 'friendsCtrl',
     resolve: {
-      user: function(userService) {
+      user: function(userService) { //remove this call, get from app.js
         return userService.getUser().then(function(user){
           return user;
         });
       },
-      friends: function(userService, user) {
+      friends: function(userService, user) { //remove this call, get from app.js
         return userService.getFriends({userId: user._id.toString()}).then(function(friends){
           return friends;
         });

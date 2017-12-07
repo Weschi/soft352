@@ -95,5 +95,29 @@ angular.module('homiefinder.meetings', ['ui.router', 'homiefinder.googleService'
     });
   };
 
+  function putMeeting(meeting){
+    var meetingLocal = meeting;
+
+    var params = {
+      meetingId: meetingLocal._id,
+      meeting: meetingLocal,
+      userId : $scope.controls.user._id
+    }
+
+    return meetingService.put(params).then(function(data){
+      return data;
+    });
+  };
+
+  $scope.completeMeeting = function(meeting){
+    meeting.status = 2; //for UI update
+    putMeeting(meeting);
+  };
+
+  $scope.cancelMeeting = function(meeting) {
+    meeting.status = 3;
+    putMeeting(meeting);
+  };
+
 }]);
 

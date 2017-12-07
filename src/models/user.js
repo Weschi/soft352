@@ -15,7 +15,13 @@ var userSchema = new mongoose.Schema({
   hash: String,
   salt: String,
   friends: [{type: Schema.Types.ObjectId, ref: 'User' }],
-  friendRequests: [{type: Schema.Types.ObjectId, ref: 'FriendRequest' }]
+  friendRequests: [{type: Schema.Types.ObjectId, ref: 'FriendRequest' }],
+  location: {
+    type:{
+      latitude:{type: Number},
+      longitude:{type: Number}
+    }
+  }
 });
 this.salt = 'test';
 userSchema.methods.setPassword = function(password){

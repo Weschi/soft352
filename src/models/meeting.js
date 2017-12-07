@@ -33,8 +33,7 @@ var Meeting = new mongoose.Schema({
 
 /*  
 	meeting status: 
-	1 = scheduled
-	2 = In progress
+	1 = Scheduled
 	3 = Completed
 	4 = Cancelled
 */

@@ -17,6 +17,7 @@ mongoose.connect('mongodb://localhost/FindN');
 require('./models/user');
 require('./models/notification');
 require('./models/meeting');
+var User = mongoose.model('User');
 //init socket io with our server
 var fs = require("fs");
 var path = require("path");
@@ -63,6 +64,16 @@ io.on('connection', function(socket){
   socket.on('join', function(data){
     //join socket room based on loggin in user's id
     socket.join(data.id);
+  });
+  socket.on('location', function(data){
+    //we have new coords and userId, so emit to our own channel and broadcast the coords!
+    io.sockets.in(data.userId).emit('coordChange', data);
+
+    //for offline support, update the user with new coords? 
+    User.findById(data.userId, function(error, user){
+      user.location = data.coords;
+      user.save(function(error){});
+    });
   });
   socket.on('disconnect', function(){
     console.log('user disconnected');
