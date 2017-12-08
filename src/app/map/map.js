@@ -27,30 +27,73 @@ angular.module('homiefinder.map', ['ui.router', 'homiefinder.googleService'])
   })
 })
 .controller('mapCtrl', ['$scope', 'position', 'googleService', 'friends', 'meetings', 'requested', function($scope, position, googleService, friends, meetings, requested){
+
+  $scope.controls = {
+    markers : []
+  }
+
   function initMap(position) {
   //{lat: -25.363, lng: 131.044};
     var uluru = position;
-    $scope.controls.map = new google.maps.Map(document.getElementById('map'), {
+    var map = new google.maps.Map(document.getElementById('map'), {
       zoom: 14,
       center: uluru
     });
-    $scope.marker = new google.maps.Marker({
+    var marker = new google.maps.Marker({
       position: uluru,
-      map: $scope.controls.map
+      map: map
     });
-    googleService.setMap($scope.controls.map);
+
+    $scope.controls.markers.push(marker);
+
+    var infowindow = new google.maps.InfoWindow({
+      content: 'Me!'
+    });
+
+    marker.addListener('click', function() {
+      infowindow.open(map, marker);
+    });
+
+    googleService.setMap(map);
     googleService.setGoogle(google);
+    _.each(friends, function(friend){
+      if(!!friend.location)
+      {
+        var marker = new google.maps.Marker({
+          position:{lat: friend.location.latitude, lng : friend.location.longitude},
+          map: map
+        });
+        $scope.controls.markers.push(marker);
+    
+        var infowindow = new google.maps.InfoWindow({
+          content: friend.email
+        });
+
+        marker.addListener('click', function() {
+          infowindow.open(map, marker);
+        });
+      }
+    });
+
+    _.each(meetings, function(meeting){
+      if(!!meeting.place)
+      {
+        var marker = new google.maps.Marker({
+          position:{lat: meeting.place.latitude, lng : meeting.place.longitude},
+          map: map
+        });
+        $scope.controls.markers.push(marker);
+    
+        var infowindow = new google.maps.InfoWindow({
+          content: meeting.name
+        });
+
+        marker.addListener('click', function() {
+          infowindow.open(map, marker);
+        });
+      }
+    });
   }
-
-  //the aim of this is to create a marker for each friend the user has, as they should have a location
-  function setFriendMarkers(friends) {
-
-  };
-
-  //the aim of this is to create a marker for each meeting the user has, as they should have a location
-  function setMeetingMarkers(meetings) {
-
-  };
 
   if(!!navigator.geolocation)
   {   
