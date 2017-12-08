@@ -67,6 +67,8 @@ io.on('connection', function(socket){
   });
   socket.on('location', function(data){
     //we have new coords and userId, so emit to our own channel and broadcast the coords!
+
+    //emit my own room, so anyone listening gets my coord change mon'
     io.sockets.in(data.userId).emit('coordChange', data);
 
     //for offline support, update the user with new coords? 

@@ -1,32 +1,63 @@
-<div id="map" style="height:400px;"></div>
+<div class="parallax-container">
+    <div parallax><img src="app/images/people.jpeg"></div>
+    <h1 ng-if="!controls.user" class="header-text"></h1>
 
+    <div ng-if="!!controls.user">
+      <h1 class="header-text">{{'Hi, ' + controls.user.email + '.'}}</h1>
+      </br>
+      <h4  class="header-text" style="bottom:25%; font-weight:100;">Anything planned for today?</h4>
+    </div>
+</div>
 <div class="row" style="background-color: #448aff; margin:0; 
     text-align: center;
-    padding-top: 20px; height:auto;">
-  <div class="col s12"> 
-    <div>
-      <h3>Welcome, {{ controls.user.name }}.</h3>
+    padding: 20px; height:auto;">
+
+      <div class="col s6">
+        <!-- Promo Content 1 goes here -->
+        <span class="fa fa-users" style="font-size:40px;"></span>
+        <h4>Arrange meetups</h4>
+        <p>See a friend's location and arrange meet ups.</p>
+      </div>
+      <div class="col s6">
+        <span class="fa fa-paper-plane-o" style="font-size:40px;"></span>
+        <!-- Promo Content 2 goes here -->
+        <h4>Contact friends</h4>
+        <p>Find & message friends</p>
+      </div>
+
     </div>
-    <div>
-      <p>{{ controls.user.email }}</p>
+
+
+<!--<div class="section white">
+    <div class="row container">
+      <h2 class="header">Parallax</h2>
+      <p class="grey-text text-darken-3 lighten-3">Parallax is an effect where the background content or image in this case, is moved at a different speed than the foreground content while scrolling.</p>
     </div>
-  </div>
-  <div class="col s6">
-  <!-- Promo Content 1 goes here -->
-    <span class="fa fa-users" style="font-size:40px;"></span>
-    <h4>Friends</h4>
-    <p>{{friends.length}}</p>
-  </div>
-  <div class="col s6">
-    <span class="fa fa-paper-plane-o" style="font-size:40px;"></span>
-    <!-- Promo Content 2 goes here -->
-    <h4>Meetings</h4>
-    <p>//meetings</p>
-  </div>
+  </div>-->
+<div class="parallax-container">
+    <div parallax><img src="app/images/building.jpeg"></div>
 </div>
-  <div class="row" style="background-color: #448aff; margin:0; 
-    text-align: center;
-    padding-top: 20px; height:auto;">
-        <!-- Page Content goes here -->
-        <h4>Here's your plan for today.</h4>
+<footer class="page-footer">
+  <div class="container">
+    <div class="row">
+      <div class="col l6 s12">
+        <h5 class="white-text">About FindN</h5>
+        <p class="grey-text text-lighten-4">FindN was created to provide a custom platform for arranging meetings. </br>Be it business related or just hanging around with friends, you are not constrained.</p>
+      </div>
+      <div class="col l4 offset-l2 s12">
+      <h5 class="white-text">Links</h5>
+        <ul>
+          <li><a class="grey-text text-lighten-3" ui-sref="homiefinder.meetings">Meetings</a></li>
+          <li><a class="grey-text text-lighten-3" ui-sref="homiefinder.friends">Friends</a></li>
+          <li><a class="grey-text text-lighten-3" ui-sref="homiefinder.places">Places</a></li>
+        </ul>
+      </div>
+    </div>
   </div>
+  <div class="footer-copyright">
+    <div class="container">
+    © 2017 Weschi
+    <a class="grey-text text-lighten-4 right">Nicholas Cox - 10500654 - Client Side Scripting</a>
+    </div>
+  </div>
+</footer>

@@ -15,6 +15,7 @@ var app = angular.module('homiefinder',
 	'homiefinder.meetingService',
 	'homiefinder.meetings',
 	'homiefinder.map',
+	'homiefinder.socket',
 	'LocalForageModule',
 	'ngCookies',
 	'ui.materialize'
@@ -73,11 +74,13 @@ $stateProvider.state('homiefinder', {
 	
 		if(!!user._id)
 		{
+			//join my own room
 			socket.emit('join', {id : user._id});
 		}
 
 		if(!!friends)
 		{
+			//join my friend's room
 			_.each(friends, function(friend){
 				//listen to friend rooms
 				socket.emit('join', {id: friend._id});
@@ -98,19 +101,18 @@ $stateProvider.state('homiefinder', {
 			});	
 		};
 
-
-
 		$interval(function() {
 			if(navigator.onLine)
 			{
 				navigator.geolocation.getCurrentPosition(function(response){
 
+					//broadcast to all the friend channels we've joined
 					_.each(friends, function(friend){
 						socket.emit('location', {coords : {latitude: response.coords.latitude, longitude: response.coords.longitude}, userId: user._id})
 					});
 
 					//socket.emit('location', {coords : {latitude: response.coords.latitude, longitude: response.coords.longitude}, userId: user._id});
-				}, function(){
+				}, function(error){
 
 				});
 			}
@@ -123,17 +125,7 @@ $stateProvider.state('homiefinder', {
 			});
 		};
 
-		socket.on('coordChange', function(data){
-			//someone in my room has their location updated, could be mine, but if not, update the google shit
-			if(data.userId != user._id)
-			{
-				//coordinate has been recieved from a client we're listening to - update coords in google maps somehow
-				console.log(data);
-			}
-		});
-
 		socket.on('friendRequest', function(friendRequest){
-			console.log("friendRequest retrieved");
 			$rootScope.notifications.push(friendRequest);
 		});
 	}

@@ -1,4 +1,4 @@
-angular.module('homiefinder.map', ['ui.router', 'homiefinder.googleService'])
+angular.module('homiefinder.map', ['ui.router', 'homiefinder.googleService', 'homiefinder.socket'])
 .config(function($stateProvider){
   $stateProvider
   .state('homiefinder.map', {
@@ -22,15 +22,46 @@ angular.module('homiefinder.map', ['ui.router', 'homiefinder.googleService'])
       },
       requested: function($stateParams) {
       	return $stateParams;
+      },
+      user : function(userService) {
+        return userService.getUser().then(function(user){
+          return user;
+        });
       }
     }
   })
 })
-.controller('mapCtrl', ['$scope', 'position', 'googleService', 'friends', 'meetings', 'requested', function($scope, position, googleService, friends, meetings, requested){
+.controller('mapCtrl', ['$scope', 'position', 'googleService', 'friends', 'meetings', 'requested', 'socket', 'user', function($scope, position, googleService, friends, meetings, requested, socket, user){
 
   $scope.controls = {
     markers : []
   }
+
+  var socket = io.connect();
+
+  if(!!user._id)
+  {
+    //join my own room
+    socket.emit('join', {id : user._id});
+  }
+
+  if(!!friends)
+  {
+    //join my friend's room
+    _.each(friends, function(friend){
+      //listen to friend rooms
+      socket.emit('join', {id: friend._id});
+    });
+  }
+
+  socket.on('coordChange', function(data){
+    //someone in my room has their location updated, could be mine, but if not, update the google shit
+    //we have recieved coords from a buddy, so update their marker on our map mon'
+      var marker = _.find($scope.controls.markers, {userId : data.userId});
+
+      marker.setPosition({lat: data.coords.latitude, lng : data.coords.longitude});
+    
+  });
 
   function initMap(position) {
   //{lat: -25.363, lng: 131.044};
@@ -41,7 +72,8 @@ angular.module('homiefinder.map', ['ui.router', 'homiefinder.googleService'])
     });
     var marker = new google.maps.Marker({
       position: uluru,
-      map: map
+      map: map,
+      userId : user._id
     });
 
     $scope.controls.markers.push(marker);
@@ -60,6 +92,7 @@ angular.module('homiefinder.map', ['ui.router', 'homiefinder.googleService'])
       if(!!friend.location)
       {
         var marker = new google.maps.Marker({
+          userId: friend._id,
           position:{lat: friend.location.latitude, lng : friend.location.longitude},
           map: map
         });

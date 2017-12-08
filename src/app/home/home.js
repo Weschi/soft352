@@ -1,4 +1,4 @@
-angular.module('homiefinder.home', ['ui.router', 'homiefinder.googleService'])
+angular.module('homiefinder.home', ['ui.router', 'homiefinder.googleService', 'homiefinder.userService'])
 .config(function($stateProvider){
   $stateProvider
   .state('homiefinder.home', {
@@ -7,8 +7,10 @@ angular.module('homiefinder.home', ['ui.router', 'homiefinder.googleService'])
     templateUrl: 'app/home/home.tpl.html',
     controller: 'homeCtrl',
     resolve: {
-      position: function(googleService) {
-        return googleService.getLocation();
+      user: function(userService) { //remove this call, get from app.js
+        return userService.getUser().then(function(user){
+          return user;
+        });
       }
     }
   })
@@ -17,13 +19,21 @@ angular.module('homiefinder.home', ['ui.router', 'homiefinder.googleService'])
     templateUrl: 'app/home/home.tpl.html',
     controller: 'homeCtrl',
     resolve: {
-      position: function(googleService) {
-        return googleService.getLocation();
+      user: function(userService) { //remove this call, get from app.js
+        return userService.getUser().then(function(user){
+          return user;
+        });
       }
     }
   });
 })
-.controller('homeCtrl', ['$scope', 'position', 'googleService', function($scope, position, googleService){
+.controller('homeCtrl', ['$scope', 'googleService', 'user', function($scope, googleService, user){
+
+  $scope.controls = {
+    user : user,
+    headerText : !!user ? 'Hi, ' + user.name + '. ' + ' anything planned for today?' : 'Welcome to FindN'
+  }
+
   function initMap(position) {
   //{lat: -25.363, lng: 131.044};
     var uluru = position;

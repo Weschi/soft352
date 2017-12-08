@@ -1,5 +1,12 @@
 <div class="parallax-container">
     <div parallax><img src="app/images/people.jpeg"></div>
+    <h1 ng-if="!controls.user" class="header-text"></h1>
+
+    <div ng-if="!!controls.user">
+      <h1 class="header-text">{{'Hi, ' + controls.user.name + '.'}}</h1>
+      </br>
+      <h4  class="header-text" style="bottom:25%; font-weight:100;">Anything planned for today?</h4>
+    </div>
 </div>
 <div class="row" style="background-color: #448aff; margin:0; 
     text-align: center;
@@ -34,24 +41,23 @@
   <div class="container">
     <div class="row">
       <div class="col l6 s12">
-        <h5 class="white-text">Footer Content</h5>
-        <p class="grey-text text-lighten-4">You can use rows and columns here to organize your footer content.</p>
+        <h5 class="white-text">About FindN</h5>
+        <p class="grey-text text-lighten-4">FindN was created to provide a custom platform for arranging meetings. </br>Be it business related or just hanging around with friends, you are not constrained.</p>
       </div>
       <div class="col l4 offset-l2 s12">
       <h5 class="white-text">Links</h5>
         <ul>
-          <li><a class="grey-text text-lighten-3" href="#!">Link 1</a></li>
-          <li><a class="grey-text text-lighten-3" href="#!">Link 2</a></li>
-          <li><a class="grey-text text-lighten-3" href="#!">Link 3</a></li>
-          <li><a class="grey-text text-lighten-3" href="#!">Link 4</a></li>
+          <li><a class="grey-text text-lighten-3" ui-sref="homiefinder.meetings">Meetings</a></li>
+          <li><a class="grey-text text-lighten-3" ui-sref="homiefinder.friends">Friends</a></li>
+          <li><a class="grey-text text-lighten-3" ui-sref="homiefinder.places">Places</a></li>
         </ul>
       </div>
     </div>
   </div>
   <div class="footer-copyright">
     <div class="container">
-    © 2014 Copyright Text
-    <a class="grey-text text-lighten-4 right" href="#!">More Links</a>
+    © 2017 Weschi
+    <a class="grey-text text-lighten-4 right">Nicholas Cox - 10500654 - Client Side Scripting</a>
     </div>
   </div>
 </footer>
