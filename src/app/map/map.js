@@ -23,10 +23,13 @@ angular.module('homiefinder.map', ['ui.router', 'homiefinder.googleService', 'ho
       requested: function($stateParams) {
       	return $stateParams;
       },
-      user : function(userService) {
+      user: function(userService) {
         return userService.getUser().then(function(user){
           return user;
         });
+      },
+      getDirections: function($stateParams) {
+        return !!$stateParams.getDirections ? { lat: $stateParams.lat, lng: $stateParams.longitude} : null
       }
     }
   })

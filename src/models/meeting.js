@@ -34,6 +34,7 @@ var Meeting = new mongoose.Schema({
 /*  
 	meeting status: 
 	1 = Scheduled
+	2 = Started
 	3 = Completed
 	4 = Cancelled
 */
@@ -45,9 +46,4 @@ var Meeting = new mongoose.Schema({
 	3 = Declined
 */
 
-comment:{type:[{
-            date:{type: Date,default: Date.now},
-            userId:{type: String},
-            content:{type: String}
-          }]}
 module.exports = mongoose.model('Meeting', Meeting);

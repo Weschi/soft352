@@ -38,7 +38,9 @@ angular.module('homiefinder.meetings', ['ui.router', 'homiefinder.googleService'
     nTab: nTab,
     user : user,
     places : places,
-    meetings : meetings
+    meetings : meetings,
+    meetingsCopy : meetings,
+    today : moment()
   };
   //date input utils
 	var currentTime = new Date();
@@ -59,11 +61,39 @@ angular.module('homiefinder.meetings', ['ui.router', 'homiefinder.googleService'
       
   };
 
+  $scope.startValidate = function(meetingDate) {
+    return !moment($scope.controls.today).isAfter(meetingDate);
+  };
+
   $scope.removeFriend = function(friend) {
     userService.removeFriend({userId : $scope.controls.user._id, friendId : friend._id}).then(function(response){
       $scope.controls.friends = response;
       Materialize.toast(friend.name + ' removed.', 2000);
     });
+  };
+
+  $scope.$watch('controls.showExternalMeetings', function(newVal, oldVal){
+    if(newVal != oldVal)
+    {
+      if(!!newVal)
+      {
+        $scope.controls.meetings = _.filter($scope.controls.meetingsCopy, function(meeting){
+          return meeting.user._id != $scope.controls.user._id;
+        });
+      }
+      else
+      {
+        $scope.controls.meetings = $scope.controls.meetingsCopy;
+      }
+    }
+  });
+
+  $scope.toggle = function() {
+    $scope.controls.showExternalMeetings = !$scope.controls.showExternalMeetings;
+  };
+
+  $scope.toggleExternalMeetings = function() {
+    var sem = $scope.showExternalMeetings;
   };
 
   $scope.friendRequest = function(toId) {
@@ -76,6 +106,7 @@ angular.module('homiefinder.meetings', ['ui.router', 'homiefinder.googleService'
   $scope.selectPlace = function(place) {
     $scope.controls.new = place;
   };
+
   $scope.createMeeting = function() {
     var format = 'DD-MM-YYYYTHH:mm';
     var meeting = angular.copy($scope.controls.new);
@@ -109,13 +140,18 @@ angular.module('homiefinder.meetings', ['ui.router', 'homiefinder.googleService'
     });
   };
 
-  $scope.completeMeeting = function(meeting){
+  $scope.startMeeting = function(meeting){
     meeting.status = 2; //for UI update
     putMeeting(meeting);
   };
 
+  $scope.completeMeeting = function(meeting){
+    meeting.status = 3; //for UI update
+    putMeeting(meeting);
+  };
+
   $scope.cancelMeeting = function(meeting) {
-    meeting.status = 3;
+    meeting.status = 4;
     putMeeting(meeting);
   };
 

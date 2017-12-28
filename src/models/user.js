@@ -2,6 +2,11 @@ var mongoose = require('mongoose');
 var crypto = require('crypto');
 var jwt = require('jsonwebtoken');
 var Schema = mongoose.Schema;
+
+var options = {
+  usePushEach: true
+};
+
 var userSchema = new mongoose.Schema({
   email: {
     type: String,
@@ -22,7 +27,7 @@ var userSchema = new mongoose.Schema({
       longitude:{type: Number}
     }
   }
-});
+}, options);
 this.salt = 'test';
 userSchema.methods.setPassword = function(password){
   this.salt = crypto.randomBytes(16).toString('hex');

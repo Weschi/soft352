@@ -5,7 +5,7 @@ var Notification = mongoose.model('Notification');
 var Meeting = mongoose.model('Meeting');
 var moment = require('moment');
 var dateFormat = "DD-MM-YYYYTHH:mm";
-module.exports = function(app, passport, _, io, scheduler) {
+module.exports = function(app, passport, _, io, scheduler, notificationFactory) {
 
 	//create a meeting
 	app.post('/users/:userId/meeting/create', function(request, response){
@@ -18,15 +18,8 @@ module.exports = function(app, passport, _, io, scheduler) {
 		meeting.description = reqMeeting.description;
 		meeting.status = 1; //scheduled
 		_.each(reqMeeting.people, function(person){
-			var notification = new Notification();
+			var notification = notificationFactory.create('MEETINGREQUEST', meeting, reqMeeting.userId, person)
 			meeting.invited.push(notification.id);
-			notification.meeting = meeting.id;
-			notification.type = 'MEETINGREQUEST';
-			notification.status = 1;
-			notification.fromId = reqMeeting.userId;
-			notification.toId = person;
-			notification.description = meeting.name + ' meeting request.';
-			notification.date = new Date();
 			notification.save(function(error){				
 			if(!!error)
 			{
@@ -44,14 +37,17 @@ module.exports = function(app, passport, _, io, scheduler) {
 		});
 	});
 
-	//create a meeting
+	//get all meetings for a user
 	app.get('/users/:userId/meetings/get', function(request, response){
 		var user = request.params.userId;
-		Meeting.find({user: user}, function(error, meeting){
+		Meeting.find({'user' : user }, function(error, meeting){
 			if(!!meeting)
 			{
-				response.status(200);
-				response.json(meeting);
+				Meeting.find({'invited.toId' : mongoose.Schema.Types.ObjectId(user)}, function(error, zing){
+					console.log(zing);
+					response.status(200);
+					response.json(meeting);
+				}).populate('invited');
 			}
 		}).sort('date').populate({path: 'invited', populate: {path: 'toId', model: 'User'}}).populate('user').sort();
 	});

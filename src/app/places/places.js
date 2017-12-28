@@ -47,8 +47,22 @@ angular.module('homiefinder.places', ['ui.router', 'homiefinder.googleService'])
     places : places
   };
 
-  $scope.getDirections = function(venue) {
-    //should pass a venue to home.js to display it ? or make this entire page part of home
+  $scope.getDirections = function(place) {
+    var params = {
+      lat: place.geometry.location.lat(),
+      lng: place.geometry.location.lng(),
+      getDirections : true
+    }
+
+    $state.go('homiefinder.map', params);
+  };
+
+  $scope.arrangeMeeting = function(place) {
+    var params = {
+      placeId : place.id
+    }
+
+    $state.go('homiefinder.meetings', params);
   };
 
   $scope.initArr = function(rating) {

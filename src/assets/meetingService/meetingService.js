@@ -39,7 +39,6 @@ angular.module('homiefinder.meetingService', ['homiefinder.settings', 'homiefind
 		}
 	}
 
-
 	function setMeetings(meetings){
 		return meetingStore.setItem(key, meetings).then(function(meetings) {
 			return meetings;

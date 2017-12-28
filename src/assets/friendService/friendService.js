@@ -16,7 +16,7 @@ angular.module('homiefinder.friendService', ['homiefinder.settings', 'homiefinde
 	}
 
 	this.getPosition = function() {
-		//Chec if the browser supports geolocation
+		//Check if the browser supports geolocation
 		if(navigator.geolocation)
 		{
 			return navigator.geolocation.getCurrentPosition(function(position)

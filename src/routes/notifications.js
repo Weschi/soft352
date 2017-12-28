@@ -5,36 +5,18 @@ var Notification = mongoose.model('Notification');
 var jwt = require('express-jwt');
 var Meeting = mongoose.model('Meeting');
 var ObjectId = mongoose.Schema.Types.ObjectId;
-module.exports = function(app, passport, _, io) {
+module.exports = function(app, passport, _, io, notificationFactory) {
 	//Endpoint for creating a friend request. Takes the recipient's id in query request and requster's in the uri
 	app.post('/notification/:userId/create', function(request, response){
-		var notification = new Notification();
-		 
 		var reqBody = request.body;
-		notification.type = reqBody.type;
-
 		//get from guy
 		User.findById(reqBody.userId, function(err, fromUser){
-			notification.fromId = fromUser._id;
-			//get to guy for joining later
 			User.findById(reqBody.toId, function(err, toUser){
-				notification.toId = toUser._id;
-
-				//creating so it is pending
-				notification.status = 1;
-
-				switch(notification.type)
-				{
-					case('FRIENDREQUEST'):
-						notification.description = 'Friend request from ' + fromUser.email;
-					break;
-					case('MEETINGREQUEST'):
-						//loop or something
-					break;
-					case('MISC'):
-						notification.description = reqBody.description;
-					break;
-				};
+				var data = {
+					description: reqBody.description,
+					email: fromUser.email
+				}
+				var notification = notificationFactory.create(reqBody.type, null, fromUser.id, toUser.id, data);
 
 				notification.save(function(error){
 					response.status(200);
@@ -56,13 +38,15 @@ module.exports = function(app, passport, _, io) {
 				case('FRIENDREQUEST'):
 					var fromUser = notification.fromId;
 					var toUser = notification.toId;
-					fromUser.friends.push(toUser._id);
-					toUser.friends.push(fromUser._id);
+					fromUser.friends.push(toUser._id.toString());
+					toUser.friends.push(fromUser._id.toString());
 					//accepted, so add as friends
-					fromUser.save(function(){
-						toUser.save(function(){
-							response.status(200);
-							response.json(notification);
+					fromUser.save(function(error){
+						toUser.save(function(error){
+							notification.save(function(error){
+								response.status(200); 
+								response.json(notification);
+							});
 						});
 					});
 				break;
@@ -82,16 +66,18 @@ module.exports = function(app, passport, _, io) {
 							response.json(error);
 						}
 					});
-
+					notification.save(function(){
+						response.status(200); 
+						response.json(notification);
+					});
 				break;
 				case('MISC'):
+					notification.save(function(){
+						response.status(200); 
+						response.json(notification);
+					});
 				break;
 			};
-
-			notification.save(function(){
-				response.status(200); 
-				response.json(notification);
-			});
 
 		}).populate('fromId').populate('toId').populate('meeting');
 	});

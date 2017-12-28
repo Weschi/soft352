@@ -20,8 +20,7 @@ angular.module('homiefinder.profile', ['ui.router', 'homiefinder.googleService',
   $scope.controls = {
     user: user
   };
-
-
+  
 }]);
 
 

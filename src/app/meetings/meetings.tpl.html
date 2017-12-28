@@ -10,61 +10,71 @@
 		</div>
 	</div>
 	<div id="gplaces"></div>
-    <ul ng-if="controls.nTab == 1" class="collapsible popout" data-collapsible="accordion" watch>
-	    <li ng-repeat="meeting in controls.meetings">
-	      <div class="collapsible-header">
-	      	<i class="material-icons">store_mall_directory</i>
-			<div class="full-width">
-				<div class="left">{{meeting.name}}</div>
-				<div class="right">{{meeting.date | date: format: 'mediumDate'}}</div>
-			</div>
-	      </div>
-	      <div class="collapsible-body">
-	      	<div class="right">
-						<i class="material-icons">build</i>
-					</div>
-	      	<div style="width:100%; display:inline-block;">
-				<div class="col s12 m5">
-					<div class="card-panel bgc-blue">
-						<span class="white-text">
-							<div class="left">Created by: {{meeting.user.email}}</div></br>
-							<div class="left">Name: {{meeting.name}}</div></br>
-							<div class="left">Description: {{meeting.description}}</div></br>
-							<div class="left">Place: {{meeting.place.name}}</div></br>
-							<div>Status: 
-								<div class="chip white-text" style="display:inline-block;" ng-class="meeting.status == 1 ? 'bgc-yellow' : meeting.status == 2 ? 'bgc-green' : 'bgc-red'">{{meeting.status == 1 ? 'Scheduled' : meeting.status == 2 ? 'Completed' : 'Declined'}}</div>
-								</div>
-							<table class="white-text centered" ng-if="!!meeting.invited.length" style="font-size:14.5px;">
-								<thead>
-									<tr>
-										<th>Name</th>
-										<th>Email</th>
-										<th>Status</th>
-									</tr>
-								</thead>
-								<tbody>
-									<tr ng-repeat="invite in meeting.invited">
-										<td>{{invite.toId.name}}</td>
-										<td>{{invite.toId.email}}</td>
-										<td>
-											<div class="chip white-text" style="display:inline-block;" ng-class="invite.status == 1 ? 'bgc-yellow' : invite.status == 2 ? 'bgc-green' : 'bgc-red'">{{invite.status == 1 ? 'Pending' : invite.status == 2 ? 'Accepted' : 'Declined'}}</div>
-										</td>
-									</tr>
-								</tbody>
-							</table>
-						</span>
-					</div>
-					<div>
-						<a class="waves-effect waves-light btn half-width bgc-green left meeting-btn border-right-none" ng-if="meeting.status == 1" ng-click="completeMeeting(meeting)">Complete</a>
-					</div>
-					<div>
-						<a class="waves-effect waves-light btn half-width bgc-dark-red left meeting-btn border-left-none" ng-if="meeting.status == 1" ng-click="cancelMeeting(meeting)">Cancel</a>
+	<div ng-if="controls.nTab == 1">
+		<div>
+			<!-- Switch -->
+			<a class="btn waves-effect waves-light" ng-model="control.showExternalMeetings" ng-click="toggle()" ng-change="toggleExternalMeetings()">
+			Show external meetings</a>
+		</div>
+	    <ul class="collapsible popout" data-collapsible="accordion" watch>
+		    <li ng-repeat="meeting in controls.meetings">
+		      <div class="collapsible-header">
+		      	<i class="material-icons">store_mall_directory</i>
+				<div class="full-width">
+					<div class="left">{{meeting.name}}</div>
+					<div class="right">{{meeting.date | date: format: 'mediumDate'}}</div>
+				</div>
+		      </div>
+		      <div class="collapsible-body">
+		      	<div class="right">
+							<i class="material-icons">build</i>
+						</div>
+		      	<div style="width:100%; display:inline-block;">
+					<div class="col s12 m5">
+						<div class="card-panel bgc-blue">
+							<span class="white-text">
+								<div class="left">Meeting date: {{meeting.date | date: 'MMM d, y h:mm:ss a'}}</div></br>
+								<div class="left">Created by: {{meeting.user.email}}</div></br>
+								<div class="left">Name: {{meeting.name}}</div></br>
+								<div class="left">Description: {{meeting.description}}</div></br>
+								<div class="left">Place: {{meeting.place.name}}</div></br>
+								<div>Status: 
+									<div class="chip white-text" style="display:inline-block;" ng-class="meeting.status == 1 ? 'bgc-yellow' : meeting.status == 2 || meeting.status == 3 ? 'bgc-green' : 'bgc-red'">{{meeting.status == 1 ? 'Scheduled' : meeting.status == 2 ? 'Started' : meeting.status == 3 ? 'Completed' : 'Cancelled'}}</div>
+									</div>
+								<table class="white-text centered" ng-if="!!meeting.invited.length" style="font-size:14.5px;">
+									<thead>
+										<tr>
+											<th>Name</th>
+											<th>Email</th>
+											<th>Status</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr ng-repeat="invite in meeting.invited">
+											<td>{{invite.toId.name}}</td>
+											<td>{{invite.toId.email}}</td>
+											<td>
+												<div class="chip white-text" style="display:inline-block;" ng-class="invite.status == 1 ? 'bgc-yellow' : invite.status == 2 ? 'bgc-green' : 'bgc-red'">{{invite.status == 1 ? 'Pending' : invite.status == 2 ? 'Accepted' : 'Declined'}}</div>
+											</td>
+										</tr>
+									</tbody>
+								</table>
+							</span>
+						</div>
+						<div>
+							<a class="waves-effect waves-light btn half-width bgc-green left meeting-btn border-right-none" ng-if="meeting.status == 1" ng-click="startMeeting(meeting)" ng-disabled="startValidate(meeting.date)">Start</a>
+
+							<a class="waves-effect waves-light btn half-width bgc-green left meeting-btn border-right-none" ng-if="meeting.status == 2" ng-click="completeMeeting(meeting)">Complete</a>
+						</div>
+						<div>
+							<a class="waves-effect waves-light btn half-width bgc-dark-red left meeting-btn border-left-none" ng-if="meeting.status == 1 || meeting.status == 2" ng-click="cancelMeeting(meeting)">Cancel</a>
+						</div>
 					</div>
 				</div>
-			</div>
-	      </div>
-	    </li>
-  	</ul>
+		      </div>
+		    </li>
+	  	</ul>
+	</div>
   	<div ng-if="controls.nTab == 2">
   		<form class="col s12">
 			<div class="row">

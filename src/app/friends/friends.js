@@ -66,7 +66,5 @@ angular.module('homiefinder.friends', ['ui.router', 'homiefinder.googleService',
       Materialize.toast('Friend request sent', 2000);
     });
   };
-
-
 }]);
 
