@@ -58,14 +58,29 @@ angular.module('homiefinder.map', ['ui.router', 'homiefinder.googleService', 'ho
   }
 
   socket.on('coordChange', function(data){
-    //someone in my room has their location updated, could be mine, but if not, update the google shit
-    //we have recieved coords from a buddy, so update their marker on our map mon'
       var marker = _.find($scope.controls.markers, {userId : data.userId});
 
       marker.setPosition({lat: data.coords.latitude, lng : data.coords.longitude});
     
   });
 
+  function calculateAndDisplayRoute(directionsService, directionsDisplay, currentLocation, meetingLocation) {
+    directionsService.route({
+        origin: currentLocation,
+        destination: meetingLocation,
+        travelMode: 'DRIVING'
+        }, function(response, status) {
+        if (status === 'OK') 
+        {
+          directionsDisplay.setDirections(response);
+        } 
+        else 
+        {
+          window.alert('Directions request failed due to ' + status);
+        }
+    });
+  }
+  //https://developers.google.com/maps/documentation/javascript/examples/directions-simple
   function initMap(position) {
   //{lat: -25.363, lng: 131.044};
     var uluru = position;
@@ -73,10 +88,17 @@ angular.module('homiefinder.map', ['ui.router', 'homiefinder.googleService', 'ho
       zoom: 14,
       center: uluru
     });
+
+    var directionsService = new google.maps.DirectionsService;
+    var directionsDisplay = new google.maps.DirectionsRenderer;
+
+    //directionsDisplay.setMap(new google.maps.Map(document.getElementById('map')));
+
     var marker = new google.maps.Marker({
       position: uluru,
       map: map,
-      userId : user._id
+      userId : user._id,
+      icon: 'app/images/user.png'
     });
 
     $scope.controls.markers.push(marker);
@@ -97,7 +119,8 @@ angular.module('homiefinder.map', ['ui.router', 'homiefinder.googleService', 'ho
         var marker = new google.maps.Marker({
           userId: friend._id,
           position:{lat: friend.location.latitude, lng : friend.location.longitude},
-          map: map
+          map: map,
+          icon: 'app/images/friend.png'
         });
         $scope.controls.markers.push(marker);
     
@@ -112,16 +135,19 @@ angular.module('homiefinder.map', ['ui.router', 'homiefinder.googleService', 'ho
     });
 
     _.each(meetings, function(meeting){
-      if(!!meeting.place)
+      if(!!meeting.place && meeting.status !== 4)
       {
         var marker = new google.maps.Marker({
           position:{lat: meeting.place.latitude, lng : meeting.place.longitude},
-          map: map
+          map: map,
+          icon: 'app/images/meeting.png'
         });
+
+        //calculateAndDisplayRoute(directionsService, directionsDisplay, uluru, {lat: meeting.place.latitude, lng : meeting.place.longitude});
         $scope.controls.markers.push(marker);
     
         var infowindow = new google.maps.InfoWindow({
-          content: meeting.name
+          content: "Name: " + meeting.name + ". Created By: " + meeting.user.email 
         });
 
         marker.addListener('click', function() {
