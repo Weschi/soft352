@@ -57,6 +57,7 @@ module.exports = function(app, passport, _, io, scheduler, notificationFactory) 
 					meeting = _.sortBy(meeting, function(m) {
 						return m.date;
 					});
+					
 					response.status(200);
 					response.json(meeting);
 				}).populate({path: 'invited', populate: {path: 'toId',  model: 'User'}}).populate('user');

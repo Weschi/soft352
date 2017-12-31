@@ -81,18 +81,41 @@ module.exports = function(app, passport, _, io) {
 	});
 
 	app.delete('/user/:userId/friend/:friendId/remove', function(request, response){
-		User.update({userId : request.params.userId}, {$pull:{"friends": { "id": ObjectId(request.params.friendId)}}}, function(error, data){
-			response.status(200);
-			response.json(data);
+		User.findById(request.params.userId, function(error, user){
+			User.findById(request.params.friendId, function(error, friend) {
+
+				user.friends = _.remove(user.friends, function(f){
+					return f.toString() !== request.params.friendId;
+				});
+
+				friend.friends = _.remove(friend.friends, function(f){
+					return f.toString() !== request.params.userId;
+				});
+
+				user.save(function(){
+					friend.save(function(){
+						response.status(200);
+						response.json(user);
+					});
+				});
+			});
 		});
 	});
 
-	app.get('/users/query', function(request, response){
+	app.get('/users/:userId/query', function(request, response){
 		var params = request.query;
-		//never ever return all the users at once
-		User.find( {$or:[ {'name' : new RegExp('^'+params.query+'$', "i") }, {'email' : new RegExp('^'+params.query+'$', "i") }]}, function(err, users){
+		if(!!params.query)
+		{
+			User.find({$and: [ { '_id' : { $ne: request.params.userId }}, 
+			 {'email' : { '$regex' : params.query, '$options' : 'i' }}]}, function(err, users){
+				response.status(200);
+				response.json(users);
+			});
+		}
+		else
+		{		
 			response.status(200);
-			response.json(users);
-		});
+			response.json([]);
+		}
 	});
 };

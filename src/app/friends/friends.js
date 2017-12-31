@@ -55,7 +55,7 @@ angular.module('homiefinder.friends', ['ui.router', 'homiefinder.googleService',
 
   $scope.removeFriend = function(friend) {
     userService.removeFriend({userId : $scope.controls.user._id, friendId : friend._id}).then(function(response){
-      $scope.controls.friends = response;
+      //$scope.controls.friends = response;
       Materialize.toast(friend.name + ' removed.', 2000);
     });
   };

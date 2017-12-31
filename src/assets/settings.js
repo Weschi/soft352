@@ -21,7 +21,7 @@ angular.module('homiefinder.settings', [])
 		login : root + 'login',
 		register : root + 'register',
 		users : root + 'users',
-		query : root + 'users/query'
+		query : root + 'users/{{userId}}/query'
 	}
 
 	var notificationRoute = {

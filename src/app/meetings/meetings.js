@@ -55,6 +55,7 @@ angular.module('homiefinder.meetings', ['ui.router', 'homiefinder.googleService'
     today : moment()
   };
 
+  //stateparams place
   if(!!place)
   {
     $scope.controls.nTab = 2;
