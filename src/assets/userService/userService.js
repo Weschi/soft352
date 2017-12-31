@@ -69,7 +69,7 @@ angular.module('homiefinder.userService', ['homiefinder.settings', 'homiefinder.
 	};
 
 	this.getFriendRequests = function(params) {
-		return ajaxResource.post(settings.notificationRoute.get, params).then(function(data){
+		return ajaxResource.get(settings.notificationRoute.get, params).then(function(data){
 			return data;
 		});		
 	};
@@ -81,7 +81,6 @@ angular.module('homiefinder.userService', ['homiefinder.settings', 'homiefinder.
 	};
 
 	//friend request related
-
 	this.getUser = function() {
 		var deferred = $q.defer();
 		userStore.getItem(key).then(function(auth) {

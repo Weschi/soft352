@@ -43,13 +43,25 @@ module.exports = function(app, passport, _, io, scheduler, notificationFactory) 
 		Meeting.find({'user' : user }, function(error, meeting){
 			if(!!meeting)
 			{
-				Meeting.find({'invited.toId' : mongoose.Schema.Types.ObjectId(user)}, function(error, zing){
-					console.log(zing);
+				//I HATE THIS SLOW AND DIRTY QUERY USE THE AGGREGATE FRAMEWORK! I MISS JOINS
+				Meeting.find({}, function(error, everyMeeting){
+					_.each(everyMeeting, function(m){
+						_.each(m.invited, function(n){
+							if(n.toId.id === user)
+							{
+								meeting.push(m);
+							}
+						});
+					});
+
+					meeting = _.sortBy(meeting, function(m) {
+						return m.date;
+					});
 					response.status(200);
 					response.json(meeting);
-				}).populate('invited');
+				}).populate({path: 'invited', populate: {path: 'toId',  model: 'User'}}).populate('user');
 			}
-		}).sort('date').populate({path: 'invited', populate: {path: 'toId', model: 'User'}}).populate('user').sort();
+		}).sort('date').populate({path: 'invited', populate: {path: 'toId',  model: 'User'}}).populate('user').sort();
 	});
 
 	//create a meeting

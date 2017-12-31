@@ -132,6 +132,7 @@
  <nav>
     <div class="nav-wrapper">
       <a style="margin-left:15px;" ui-sref="homiefinder.home" class="brand-logo">FindN<i class="material-icons">track_changes</i></a>
+      <a href="#" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
       <ul class="right hide-on-med-and-down">
         <li ng-if="token"><a ui-sref="homiefinder.meetings">Meetings</a></li>
         <li ng-if="token"><a ui-sref="homiefinder.friends">Friends</a></li>
@@ -169,11 +170,11 @@
     </div>
   </nav>
   <!-- Dropdown Trigger -->
-<!--  <script>
+ <script>
     $(document).ready(function(){
       $(".button-collapse").sideNav();
     });
-  </script> -->
+  </script>
   <!-- google maps should go into the home state -->
 <!-- Content - dynamically pull our states &sensor=false&callback=initialize&-->
 <div ui-view></div>

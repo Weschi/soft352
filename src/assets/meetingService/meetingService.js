@@ -21,7 +21,7 @@ angular.module('homiefinder.meetingService', ['homiefinder.settings', 'homiefind
 	}
 
 	this.delete = function(params) {
-		return ajaxResource.delete(settings.meetingRoute.delete, params).then(function(data){
+		return ajaxResource.remove(settings.meetingRoute.delete, params).then(function(data){
 			return data;
 		});
 	}

@@ -55,7 +55,7 @@ var scheduler = require('./routes/helpers/scheduler');
 var notificationFactory = require('./routes/helpers/notificationFactory');
 //routes or controllers, here
 require('./routes/users')(app, passport, _, io, notificationFactory);
-require('./routes/meetings')(app, passport, _, io, notificationFactory);
+require('./routes/meetings')(app, passport, _, io, null, notificationFactory);
 require('./routes/notifications')(app, passport, _, io, notificationFactory);
 
 //socketio listener

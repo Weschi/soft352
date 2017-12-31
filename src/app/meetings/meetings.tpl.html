@@ -62,12 +62,12 @@
 							</span>
 						</div>
 						<div>
-							<a class="waves-effect waves-light btn half-width bgc-green left meeting-btn border-right-none" ng-if="meeting.status == 1" ng-click="startMeeting(meeting)" ng-disabled="startValidate(meeting.date)">Start</a>
+							<a class="waves-effect waves-light btn half-width bgc-green left meeting-btn border-right-none" ng-if="meeting.status == 1 && meeting.user.id === controls.user.id" ng-click="startMeeting(meeting)" ng-disabled="startValidate(meeting.date)">Start</a>
 
-							<a class="waves-effect waves-light btn half-width bgc-green left meeting-btn border-right-none" ng-if="meeting.status == 2" ng-click="completeMeeting(meeting)">Complete</a>
+							<a class="waves-effect waves-light btn half-width bgc-green left meeting-btn border-right-none" ng-if="meeting.status == 2 && meeting.user.id === controls.user.id" ng-click="completeMeeting(meeting)">Complete</a>
 						</div>
 						<div>
-							<a class="waves-effect waves-light btn half-width bgc-dark-red left meeting-btn border-left-none" ng-if="meeting.status == 1 || meeting.status == 2" ng-click="cancelMeeting(meeting)">Cancel</a>
+							<a class="waves-effect waves-light btn half-width bgc-dark-red left meeting-btn border-left-none" ng-if="(meeting.status == 1 || meeting.status == 2) && meeting.user.id === controls.user.id" ng-click="cancelMeeting(meeting)">Cancel</a>
 						</div>
 					</div>
 				</div>
@@ -126,8 +126,7 @@
 			<label for="input_starttime">Where?</label>
 			<div class="input-field col s12">
 				<div input-field>
-					<select material-select watch ng-model="controls.new.place">
-						<option ng-repeat="place in controls.places" value="{{place}}">{{place.name}}</option>
+					<select material-select watch ng-model="controls.new.place" ng-options="place as place.name for place in controls.places">
 					</select>
 				</div>
 			</div>

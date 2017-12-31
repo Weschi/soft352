@@ -46,6 +46,20 @@ var service = angular.module('homiefinder.googleService', ['homiefinder.settings
 		return this.google;
 	}
 
+	//https://developers.google.com/maps/documentation/javascript/examples/place-details
+	this.getPlaceById = function(id) {
+		var defer = $q.defer();
+		var service = new google.maps.places.PlacesService(document.createElement('gplaces'));
+		service.getDetails({
+          placeId: id
+        }, function(place, status) {
+          if (status === google.maps.places.PlacesServiceStatus.OK) {
+          	defer.resolve(place);
+          }
+        });
+		return defer.promise;
+	}
+
 	//map independent call
 	this.getPlaces = function(location, query, type, radius) {
 		if(!!navigator.onLine)

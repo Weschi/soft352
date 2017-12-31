@@ -13,7 +13,7 @@ angular.module('homiefinder.places', ['ui.router', 'homiefinder.googleService'])
     }
   });
 })
-.controller('placesCtrl', ['$scope', 'googleService', 'places', function($scope, googleService, places){
+.controller('placesCtrl', ['$scope', '$state', 'googleService', 'places', function($scope, $state, googleService, places){
 
   var placeTypes = [
     'default',
@@ -59,7 +59,7 @@ angular.module('homiefinder.places', ['ui.router', 'homiefinder.googleService'])
 
   $scope.arrangeMeeting = function(place) {
     var params = {
-      placeId : place.id
+      placeId : place.place_id
     }
 
     $state.go('homiefinder.meetings', params);

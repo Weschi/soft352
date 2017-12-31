@@ -3,7 +3,7 @@ angular.module('homiefinder.meetings', ['ui.router', 'homiefinder.googleService'
   $stateProvider
   .state('homiefinder.meetings', {
   	name: 'meetings',
-    url: '/meetings',
+    url: '/meetings?placeId',
     templateUrl: 'app/meetings/meetings.tpl.html',
     controller: 'meetingsCtrl',
     resolve: {
@@ -27,11 +27,23 @@ angular.module('homiefinder.meetings', ['ui.router', 'homiefinder.googleService'
         return meetingService.get({userId : user._id}).then(function(meetings){
           return meetings;
         });
+      },
+      place: function($stateParams, googleService) {
+        if(!!$stateParams.placeId)
+        {
+          return googleService.getPlaceById($stateParams.placeId).then(function(place){
+            return place;
+          });
+        }
+        else
+        {
+          return null;
+        }
       }
     }
   });
 })
-.controller('meetingsCtrl', ['$scope', 'userService', 'meetingService', 'user', 'friends', 'nTab', 'meetings', 'places', function($scope, userService, meetingService, user, friends, nTab, meetings, places){
+.controller('meetingsCtrl', ['$scope', 'userService', 'meetingService', 'user', 'friends', 'nTab', 'meetings', 'places', 'place', function($scope, userService, meetingService, user, friends, nTab, meetings, places, place){
 
   $scope.controls = {
     friends: friends,
@@ -42,6 +54,19 @@ angular.module('homiefinder.meetings', ['ui.router', 'homiefinder.googleService'
     meetingsCopy : meetings,
     today : moment()
   };
+
+  if(!!place)
+  {
+    $scope.controls.nTab = 2;
+
+    //remove where the id is the same, weird placeholder bug resolve here
+    $scope.controls.new = {place: place};
+    $scope.controls.places =  _.remove($scope.controls.places, function(item){
+      return item.place_id !== place.place_id; 
+    });
+    $scope.controls.places.push(place);
+  }
+
   //date input utils
 	var currentTime = new Date();
 	$scope.currentTime = currentTime;
@@ -113,7 +138,7 @@ angular.module('homiefinder.meetings', ['ui.router', 'homiefinder.googleService'
     meeting.userId = $scope.controls.user._id;
     meeting.date = moment(meeting.date + ' ' + meeting.time, format).format(format);
     //TODO: refactor plz
-    var place = JSON.parse(meeting.place);
+    var place = meeting.place;
     meeting.place = {
       id : place.place_id,
       name : place.name,

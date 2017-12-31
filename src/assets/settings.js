@@ -27,7 +27,7 @@ angular.module('homiefinder.settings', [])
 	var notificationRoute = {
 		get : root + 'notifications/{{userId}}',
 		create : root + 'notification/{{userId}}/create',
-		decline : root + 'users/{{notification}}/notification/{{notificationId}}/decline',
+		decline : root + 'users/{{userId}}/notification/{{notificationId}}/decline',
 		accept : root + 'users/{{userId}}/notification/{{notificationId}}/accept'
 	}
 
@@ -37,7 +37,7 @@ angular.module('homiefinder.settings', [])
 	}
 
 	var meetingRoute = {
-		post : root + 'users/:userId/meeting/create',
+		post : root + 'users/{{userId}}/meeting/create',
 		get : root + 'users/{{userId}}/meetings/get',
 		delete : root + 'users/{{userId}}/meetings/{{meetingId}}/delete',
 		put : root + 'users/{{userId}}/meetings/{{meetingId}}/put'
