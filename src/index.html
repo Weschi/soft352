@@ -46,6 +46,8 @@
   <script type="text/javascript" src="assets/settings.js"></script>
   <script src="https://use.fontawesome.com/e5a9084b3b.js"></script>
   <!-- test -->
+  <!--<script type="text/javascript" src="./service-worker.js"></script>-->
+
   <!-- Materialize CSS -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.1/css/materialize.min.css">
 
@@ -181,5 +183,12 @@
 
 </div>
 <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyASUxeqNdgg8guQoIdNEwY9xFWQJU9ebCs&libraries=geometry,places,directions"></script>
+<script>
+if('serviceWorker' in navigator) {
+  navigator.serviceWorker
+           .register('/service-worker.js')
+           .then(function() { console.log("Service Worker Registered"); });
+}
+</script>
 </body>
 </html>

@@ -19,6 +19,18 @@ angular.module('homiefinder.userService', ['homiefinder.settings', 'homiefinder.
 		storeName: "userStore"
 	});
 
+	var friendsKey = 'friends';
+	var friendsStore = $localForage.createInstance({
+		name: "friendsStore",
+		storeName: "friendsStore"
+	});
+
+	var notificationKey = 'notifications';
+	var notificationStore = $localForage.createInstance({
+		name: "notificationStore",
+		storeName: "notificationStore"
+	});
+
 	this.removeUser = function() {
 		return userStore.removeItem(key);
 	};
@@ -38,13 +50,24 @@ angular.module('homiefinder.userService', ['homiefinder.settings', 'homiefinder.
 	};
 
 	this.getFriends = function(params) {
-		return ajaxResource.get(settings.friends.get, params).then(function(friends){
-			return friends;
-		});
+		if(!!navigator.onLine)
+		{
+			return ajaxResource.get(settings.friends.get, params).then(function(friends){
+				friendsStore.setItem(friendsKey, friends);
+				return friends;
+			});
+		}
+		else
+		{
+			return friendsStore.getItem(friendsKey).then(function(friends) {
+				return friends;
+			});
+		}
 	};
 
 	this.removeFriend = function(params) {
 		return ajaxResource.remove(settings.friends.delete, params).then(function(friends){
+			setFriends(friends);
 			return friends;
 		});
 	};
@@ -99,9 +122,19 @@ angular.module('homiefinder.userService', ['homiefinder.settings', 'homiefinder.
 
 	//gets notifications for a user given an id.
 	this.getNotifications = function(params) {
-	return ajaxResource.get(settings.notificationRoute.get, params).then(function(data){
-			return data
-		});
+		if(!!navigator.onLine)
+		{
+			return ajaxResource.get(settings.notificationRoute.get, params).then(function(data){
+				notificationStore.setItem(notificationKey, data);
+				return data
+			});
+		}
+		else
+		{
+			return notificationStore.getItem(notificationKey).then(function(notifications) {
+				return notifications;
+			});
+		}
 	};
 
 	//called after login or register to create a cookie under the "global" key value pair with dur of 7 days.

@@ -46,6 +46,9 @@ app.use("/css", express.static(__dirname + '/css'));
 app.use("/dependencies", express.static(__dirname + '/dependencies'));
 app.use("/app", express.static(__dirname + '/app'));
 app.use("/assets", express.static(__dirname + '/assets'));
+app.use("/service-worker.js", express.static(__dirname + '/service-worker.js'));
+app.use("/index.html", express.static(__dirname + '/index.html'));
+
 app.get('/', function(request, response) {
   response.sendFile(__dirname + "/index.html");
 });

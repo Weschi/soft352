@@ -44,7 +44,8 @@ angular.module('homiefinder.places', ['ui.router', 'homiefinder.googleService'])
   //note - check out venues call
   $scope.controls = {
     placeTypes : placeTypes,
-    places : places
+    places : places,
+    placesCopy: angular.copy(places)
   };
 
   $scope.getDirections = function(place) {
@@ -76,9 +77,18 @@ angular.module('homiefinder.places', ['ui.router', 'homiefinder.googleService'])
   googleService.setPlaces($scope.controls.places);
 
   $scope.nearbySearch = function(query) {
-    googleService.placesNearbySearch($scope.controls.position, query).then(function(places){
-      $scope.controls.venues = places;
-    });
+    if(!!navigator.onLine)
+    {      
+      googleService.placesNearbySearch($scope.controls.position, query).then(function(places){
+        $scope.controls.venues = places;
+      });
+    }
+    else
+    {
+      $scope.controls.places = _.filter(angular.copy($scope.controls.placesCopy), function(place){
+        return _.includes(place.name.toLowerCase(), query.toLowerCase());
+      });
+    }
   };
 
 
