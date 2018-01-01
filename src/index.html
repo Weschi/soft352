@@ -2,12 +2,9 @@
 <head>
   <title>FindN</title>
   <!-- Libraries and dependencies -->
-
-
   <!-- CSS -->
   <link rel="stylesheet" type="text/css" href="css/app_styles.css">
   <link rel="stylesheet" type="text/css" href="css/materialize.min.css">
-
   <!-- for materialize to work, make sure you keep jquery at the top.. -->
   <!-- bower:js -->
   <script src="dependencies/jquery/dist/jquery.js"></script>
@@ -47,10 +44,8 @@
   <script src="https://use.fontawesome.com/e5a9084b3b.js"></script>
   <!-- test -->
   <!--<script type="text/javascript" src="./service-worker.js"></script>-->
-
   <!-- Materialize CSS -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.1/css/materialize.min.css">
-
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.1/css/materialize.min.css">
   <!-- JavaScript for: jQuery, angular, materialize, and angular-materialize. All of which are needed. -->
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
@@ -161,9 +156,15 @@
     padding-left: 10px;"><h5>{{controls.user.fullName}}</h5></div>
           </div>
         </li>
-
-        <li ng-if="token"><a ui-sref="homiefinder.map"><i class="material-icons">map</i></a></li>
+        <li ng-if="token">
+          <a class="dropdown-button full-height" data-target='demoModal' modal>
+            Notifications
+            <span class="badge" ng-class="notifications.length ? 'red' : 'green'" style="color:white;border-radius: 15px;border: 1px;margin-top: 10px;padding: 0px;min-width: 23px;position: relative;left: 10px;bottom: 4px;">{{ notifications.length ? notifications.length : '0' }}</span>
+          </a>
+        </li>
         <li ng-if="token"><a ui-sref="homiefinder.profile">Profile</a></li>
+        <li ng-if="token"><a ui-sref="homiefinder.map">Map</a></li>
+        <li ng-if="token"><a ui-sref="homiefinder.meetings">Meetings</a></li>
         <li ng-if="token"><a ui-sref="homiefinder.friends">Friends</a></li>
         <li ng-if="token"><a ui-sref="homiefinder.places">Places</a></li>
         <li ng-if="!token"><a ui-sref="homiefinder.users">Login</a></li>
@@ -183,6 +184,8 @@
 
 </div>
 <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyASUxeqNdgg8guQoIdNEwY9xFWQJU9ebCs&libraries=geometry,places,directions"></script>
+
+<!-- init ye olde service worker to cache the app shell! -->
 <script>
 if('serviceWorker' in navigator) {
   navigator.serviceWorker

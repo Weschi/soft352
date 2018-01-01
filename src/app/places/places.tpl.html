@@ -6,27 +6,11 @@
 		  <label for="search_for_a_place"></label>
 		</div>
     </div>
-    <div class="row">
-    	<div class="input-field col s6">
-			<div input-field>
-			    <select class="" ng-model="controls.selectedPlaceTypes" material-select multiple watch>
-			        <option ng-repeat="value in controls.placeTypes">{{value}}</option>
-			    </select>
-			</div>
-		</div>
-    </div>
     <ul class="collapsible popout" data-collapsible="accordion" watch>
 	    <li ng-repeat="venue in controls.places">
 	      <div class="collapsible-header">
 	      		<i class="material-icons"><img src="{{venue.icon}}" style="width:20px;"></i>
 		      	<div><p>{{venue.name}}</p></div>
-		      	<!--
-		      	<div ng-if="venue.rating" style="position:relative; right:0;">
-					<div ng-repeat="star in initArr(venue.rating)" style="float:left;">
-						<i class="material-icons left" style="color:#ffc107; margin:0px;">star</i>
-					</div>
-				</div>
-				-->
 	      </div>
 	      <div class="collapsible-body">
 	      	<div ng-if="venue.photos[0].raw_reference">
