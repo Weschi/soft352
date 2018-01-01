@@ -62,11 +62,12 @@ $stateProvider.state('homiefinder', {
 	
 	$rootScope.token = !!$cookies.get('globals');
 	$rootScope.notifications = notifications;
-
+	$rootScope.controls = {
+		user: user
+	};
 	$rootScope.logout = function() {
 		userService.logout();
 	};
-
 
 	if($rootScope.token)
 	{
