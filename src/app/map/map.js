@@ -98,7 +98,8 @@ angular.module('homiefinder.map', ['ui.router', 'homiefinder.googleService', 'ho
       position: uluru,
       map: map,
       userId : user._id,
-      icon: 'app/images/user.png'
+      icon: 'app/images/user.png',
+      name: 'Me'
     });
 
     $scope.controls.markers.push(marker);
@@ -120,7 +121,8 @@ angular.module('homiefinder.map', ['ui.router', 'homiefinder.googleService', 'ho
           userId: friend._id,
           position:{lat: friend.location.latitude, lng : friend.location.longitude},
           map: map,
-          icon: 'app/images/friend.png'
+          icon: 'app/images/friend.png',
+          name : 'Friend:' + friend.email
         });
         $scope.controls.markers.push(marker);
     
@@ -140,7 +142,8 @@ angular.module('homiefinder.map', ['ui.router', 'homiefinder.googleService', 'ho
         var marker = new google.maps.Marker({
           position:{lat: meeting.place.latitude, lng : meeting.place.longitude},
           map: map,
-          icon: 'app/images/meeting.png'
+          icon: 'app/images/meeting.png',
+          name: 'Meeting: ' + meeting.name
         });
 
         //calculateAndDisplayRoute(directionsService, directionsDisplay, uluru, {lat: meeting.place.latitude, lng : meeting.place.longitude});
@@ -165,6 +168,14 @@ angular.module('homiefinder.map', ['ui.router', 'homiefinder.googleService', 'ho
     });
   }
 
+  $scope.center = function(marker) {
+    var map = marker.getMap();
+    var t = marker.getPosition();
+      var map = new google.maps.Map(document.getElementById('map'), {
+        zoom: 14,
+        center: location
+      });
+  };
 
 }]);
 

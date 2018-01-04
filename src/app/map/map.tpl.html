@@ -1,4 +1,12 @@
 <div class="row bta" style="margin:0px !important;">
 	<div id="map" style="height:90%;"></div>
-	<div class="col s12 bta" style="position:absolute; bottom:1px; height:150px;"><span class="flow-text"></span></div>
+	<div class="col s12 bta" style="position:absolute; bottom:1px; height:150px;"><span class="flow-text">
+		
+		<div class="input-field col s12">
+			<div input-field placeholder="Center">
+				<select placeholder="Center" material-select watch ng-model="controls.selectedMarker" ng-options="marker as marker.name for marker in controls.markers" ng-change="center(controls.selectedMarker)">
+				</select>
+			</div>
+		</div>
+	</span></div>
 </div>
