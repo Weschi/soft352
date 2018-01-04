@@ -7,13 +7,16 @@ angular.module('homiefinder.places', ['ui.router', 'homiefinder.googleService'])
     templateUrl: 'app/places/places.tpl.html',
     controller: 'placesCtrl',
     resolve: {
+      position: function(googleService) {
+        return googleService.getLocation(true);
+      },
       places: function(googleService) {
         return googleService.getPlaces() ? googleService.getPlaces() : googleService.initialisePlaces(google, map);
       }     
     }
   });
 })
-.controller('placesCtrl', ['$scope', '$state', 'googleService', 'places', function($scope, $state, googleService, places){
+.controller('placesCtrl', ['$scope', '$state', 'googleService', 'places', 'position', function($scope, $state, googleService, places, position){
 
   var placeTypes = [
     'default',
@@ -45,7 +48,8 @@ angular.module('homiefinder.places', ['ui.router', 'homiefinder.googleService'])
   $scope.controls = {
     placeTypes : placeTypes,
     places : places,
-    placesCopy: angular.copy(places)
+    placesCopy: angular.copy(places),
+    position : position
   };
 
   $scope.getDirections = function(place) {
@@ -80,7 +84,7 @@ angular.module('homiefinder.places', ['ui.router', 'homiefinder.googleService'])
     if(!!navigator.onLine)
     {      
       googleService.placesNearbySearch($scope.controls.position, query).then(function(places){
-        $scope.controls.venues = places;
+        $scope.controls.places = places;
       });
     }
     else

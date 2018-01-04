@@ -111,21 +111,6 @@ var service = angular.module('homiefinder.googleService', ['homiefinder.settings
 		return defer.promise;
 	}
 
-	this.addMapMarker = function() {
-
-	}
-
-	this.removeMapMarker = function() {
-
-	}
-
-	this.updateMapMarker = function() {
-
-	}
-
-	this.setMapMarkers = function() {
-
-	}
 
 	this.initialisePlaces = function(google, map) {
 		if(!this.google || !this.map)
@@ -141,7 +126,7 @@ var service = angular.module('homiefinder.googleService', ['homiefinder.settings
 
 	this.placesNearbySearch = function(location, query, type, radius) {
 		var defer = $q.defer();
-		this.places.nearbySearch({
+		new google.maps.places.PlacesService(document.createElement('gplaces')).nearbySearch({
           location: location,
           radius: !!radius ? radius : 500,
           type: !!type ? type : null,
