@@ -67,7 +67,6 @@ angular.module('homiefinder.userService', ['homiefinder.settings', 'homiefinder.
 
 	this.removeFriend = function(params) {
 		return ajaxResource.remove(settings.friends.delete, params).then(function(friends){
-			setFriends(friends);
 			return friends;
 		});
 	};

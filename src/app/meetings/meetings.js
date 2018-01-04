@@ -143,8 +143,8 @@ angular.module('homiefinder.meetings', ['ui.router', 'homiefinder.googleService'
     meeting.place = {
       id : place.place_id,
       name : place.name,
-      latitude : place.geometry.location.lat,
-      longitude : place.geometry.location.lng
+      latitude : place.geometry.location.lat(),
+      longitude : place.geometry.location.lng()
     };
     meetingService.post(meeting).then(function(response){
       Materialize.toast('Meeting ' + meeting.name + ' scheduled at ' + moment(response.date).format("MMMM Do YYYY HH:mm"), 4000);

@@ -75,8 +75,16 @@ module.exports = function(app, passport, _, io) {
 	//get friends
 	app.get('/user/:userId/friends', function(request, response){
 		User.findById(request.params.userId, function(error, user){
-			response.status(200);
-			response.json(user.friends);
+			if(!!user)
+			{
+				response.status(200);
+				response.json(user.friends);
+			}
+			else
+			{
+				response.status(200);
+				response.json([]);
+			}
 		}).populate('friends');
 	});
 
