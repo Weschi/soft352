@@ -3,11 +3,11 @@ angular.module('homiefinder.settings', [])
 
 	//root variable is responsible for uri requests. eg localhost or aws server
 	var root = "";
-	var environment = false;
+	var environment = true;
 	if(!!environment)
 	{
 		//server domain
-		root = "http://192.168.43.3:8080/"; 
+		root = ""; 
 	}
 	else
 	{
