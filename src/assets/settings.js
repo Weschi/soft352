@@ -16,7 +16,7 @@ angular.module('homiefinder.settings', [])
 	}
 
 
-	//when adding a new endpoint, a developer should amend these sections
+	//when adding a new endpoint, a developer should amend these sections testtesttesttesttest
 	var userRoute = {
 		login : root + 'login',
 		register : root + 'register',
